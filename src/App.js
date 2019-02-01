@@ -6,10 +6,10 @@ const AnyReactComponent = ({ text }) => <div>{text}</div>;
 class App extends Component {
   static defaultProps = {
     center: {
-      lat: 59.95,
-      lng: 30.33
+      lat: 37.773972,
+      lng: -122.431297
     },
-    zoom: 11
+    zoom: 13
   };
   render() {
     return (
@@ -21,11 +21,6 @@ class App extends Component {
               defaultCenter={this.props.center}
               defaultZoom={this.props.zoom}
           >
-            <AnyReactComponent
-                lat={59.955413}
-                lng={30.337844}
-                text={'Kreyser Avrora'}
-            />
           </GoogleMapReact>
         </div>
 
