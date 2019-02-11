@@ -14,7 +14,7 @@ import db.DBConnection;
 /**
  * Servlet implementation class Tracking
  */
-@WebServlet("/Tracking")
+@WebServlet("/tracking")
 public class Tracking extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
