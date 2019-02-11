@@ -5,6 +5,7 @@
 @import 'styles/TopBar.css';
 @import 'styles/UserInformation.css';
 @import 'styles/Map.css';
+@import 'styles/Register.css';
 @import url('https://fonts.googleapis.com/css?family=Gloria+Hallelujah|Hanalei+Fill|Indie+Flower|Lato|Mukta');
 
 body {
