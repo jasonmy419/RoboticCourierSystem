@@ -1,7 +1,7 @@
-@import '~antd/dist/antd.css';
-@import './PaymentApp.css';
-@import './UserInformation.css';
-@import './CardInformation.css';
+@import '../../node_modules/antd/dist/antd.css';
+@import 'PaymentApp.css';
+@import 'UserInformation.css';
+@import 'CardInformation.css';
 @import 'PaymentMain.css';
 body {
   margin: 0;
