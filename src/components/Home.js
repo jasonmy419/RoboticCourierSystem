@@ -1,10 +1,15 @@
 import React from 'react';
+import { Map } from './Map';
+import { UserInformation} from "./UserInformation";
+import { OrderInfo } from "./OrderInfo";
 
 export class Home extends React.Component{
     render(){
         return(
-            <div>
-                This is Home!
+            <div className="maps">
+               <Map/>
+               <OrderInfo/>
+               <UserInformation/>
             </div>
         )
     }

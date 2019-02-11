@@ -109,7 +109,7 @@ class OrderInfoForm extends React.Component {
                     <p>$100.00</p>
                 </Form.Item>
                 <Form.Item {...tailFormItemLayout}>
-                    <Button type="primary" htmlType="submit">Buy</Button>
+                    <Button type="primary" htmlType="submit">Place Order</Button>
                 </Form.Item>
             </Form>
             </Card>
