@@ -6,7 +6,7 @@ export class TopBar extends React.Component {
         return (
             <header className="App-header">
                 <img src={logo} className="App-logo" alt="logo" />
-                <div className="App-title">Around</div>
+                <div className="App-title">Naming is Hard</div>
             </header>
         );
     }
