@@ -9,7 +9,6 @@ export class Main extends React.Component {
         return (
             <div className="main">
                 <Register/>
-                <Login/>
             </div>
         );
     }

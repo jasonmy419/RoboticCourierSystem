@@ -7,18 +7,31 @@ import { Main } from "./Main";
 
 import 'rc-steps/assets/index.css';
 import 'rc-steps/assets/iconfont.css';
+import { TOKEN_KEY } from '../constants';
 // import Steps, { Step } from 'rc-steps';
 
 // const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
 class App extends Component {
+  state = {
+    isLoggedIn: Boolean(localStorage.getItem(TOKEN_KEY)),
+  }
+
+  handleSuccessfulLogin = (token) => {
+    localStorage.setItem(TOKEN_KEY, token);
+    this.setState({ isLoggedIn: true });
+  }
+
+  handleLogout = () => {
+    localStorage.removeItem(TOKEN_KEY);
+    this.setState({ isLoggedIn: false });
+  }
 
   render() {
     return (
-
-        <div>
-            <TopBar/>
-            <Main/>
+        <div className="App">
+          <TopBar handleLogout={this.handleLogout} isLoggedIn={this.state.isLoggedIn} />
+          <Main handleSuccessfulLogin={this.handleSuccessfulLogin} isLoggedIn={this.state.isLoggedIn} />
         </div>
     );
   }
