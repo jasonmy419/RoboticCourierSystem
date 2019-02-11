@@ -1,15 +1,18 @@
 import React from 'react';
 import { Map } from './Map';
-import { UserInformation} from "./UserInformation";
-import { OrderInfo } from "./OrderInfo";
+import { OrderInfo } from "./OrderInfo"
+import { Col } from 'antd';
 
 export class Home extends React.Component{
     render(){
         return(
             <div className="maps">
-               <Map/>
-               <OrderInfo/>
-               <UserInformation/>
+                <Col span={14}>
+                   <Map/>
+                </Col>
+                <Col span={10}>
+                    <OrderInfo/>
+                </Col>
             </div>
         )
     }

@@ -1,41 +1,47 @@
 import React from 'react';
-import { Form, Input, Button, Select, Card } from 'antd';
+import { Form, Input, Button, Select, Card, message } from 'antd';
+import { API_ROOT } from "../constants";
 
 class OrderInfoForm extends React.Component {
-    state = {
-        confirmDirty: false,
-        autoCompleteResult: [],
-    };
 
+    // handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     this.props.form.validateFieldsAndScroll((err, values) => {
+    //         if (!err) {
+    //             console.log('Received values of form: ', values);
+    //             this.props.history.push('/');
+    //         }
+    //     });
+    // }
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
+                // send request
+                fetch(`${API_ROOT}/signup`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        username: values.pickingUpAddress,
+                        password: values.deliveryAddress,
+                    }),
+                }).then((response) => {
+                    if (response.ok) {
+                        return response.text();
+                    }
+                    throw new Error(response.statusText);
+                })
+                    .then((data) => {
+                        console.log(data);
+                        message.success('Sending Succeed!');
+                        this.props.history.push('/user');
+                    })
+                    .catch((e) => {
+                        console.log(e);
+                        message.error('Sending Failed.');
+                    });
             }
         });
-    }
-
-    handleConfirmBlur = (e) => {
-        const value = e.target.value;
-        this.setState({ confirmDirty: this.state.confirmDirty || !!value });
-    }
-
-    compareToFirstPassword = (rule, value, callback) => {
-        const form = this.props.form;
-        if (value && value !== form.getFieldValue('password')) {
-            callback('Two passwords that you enter is inconsistent!');
-        } else {
-            callback();
-        }
-    }
-
-    validateToNextPassword = (rule, value, callback) => {
-        const form = this.props.form;
-        if (value && this.state.confirmDirty) {
-            form.validateFields(['confirm'], { force: true });
-        }
-        callback();
     }
 
     render() {
@@ -71,7 +77,7 @@ class OrderInfoForm extends React.Component {
         }
 
         return (
-            <Card style={{ width: 520 }} className="order">
+            <Card className="order">
             <Form onSubmit={this.handleSubmit}>
                 <Form.Item
                     {...formItemLayout}
