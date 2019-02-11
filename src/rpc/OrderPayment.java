@@ -18,7 +18,7 @@ import entity.PaymentInfo;
 /**
  * Servlet implementation class OrderPayment
  */
-@WebServlet("/order")
+@WebServlet("/checkout")
 public class OrderPayment extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -77,7 +77,7 @@ public class OrderPayment extends HttpServlet {
 			String str = pi.toJSONObject().toString();
 			System.out.println(str);
 		} catch(JSONException e) {
-			System.out.println("error from /rpc/OrderPayment/doPost: " + e.getMessage());
+			System.out.println("error from /rpc/OrderPayment/POSt -> " + e.getMessage());
 	   		e.printStackTrace();
 		}
 	}
