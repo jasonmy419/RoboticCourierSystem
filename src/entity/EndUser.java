@@ -1,22 +1,20 @@
 package entity;
 
-public class User {
+public class EndUser {
 
-	private String userId;
+	private String endUserId;
 	private String firstName;
 	private String lastName;
-	private String password;
 	private String address;
 	private String zipCode;
 	private String email;
-	private String phoneNumber; // not pretty sure with the data type
+	private String phoneNumber; 
 	
 	
-	private User(UserBuilder builder) {
-		this.userId = builder.userId;
+	private EndUser(EndUserBuilder builder) {
+		this.endUserId = builder.endUserId;
 		this.firstName = builder.firstName;
 		this.lastName = builder.lastName;
-		this.password = builder.password;
 		this.address = builder.address;
 		this.zipCode = builder.zipCode;
 		this.email = builder.email;
@@ -24,7 +22,7 @@ public class User {
 	}
 	
 	public String getUserId() {
-		return userId;
+		return endUserId;
 	}
 
 	public String getFirstName() {
@@ -33,10 +31,6 @@ public class User {
 
 	public String getLastName() {
 		return lastName;
-	}
-	
-	public String getPasword() {
-		return password;
 	}
 
 	public String getAddress() {
@@ -54,56 +48,48 @@ public class User {
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
-
-
 	
-	public static class UserBuilder{
+	public static class EndUserBuilder{
 		
-		private String userId;
+		private String endUserId;
 		private String firstName;
 		private String lastName;
-		private String password;
 		private String address;
 		private String zipCode;
 		private String email;
 		private String phoneNumber; 
 		
-		public UserBuilder userId(String userId) {
-			this.userId = userId;
+		public EndUserBuilder userId(String endUserId) {
+			this.endUserId = endUserId;
 			return this;
 		}
-		public UserBuilder firstName(String firstName) {
+		public EndUserBuilder firstName(String firstName) {
 			this.firstName = firstName;
 			return this;
 		}
-		public UserBuilder lastName(String lastName) {
+		public EndUserBuilder lastName(String lastName) {
 			this.lastName = lastName;
 			return this;
 		}
-		public UserBuilder address(String address) {
+		public EndUserBuilder address(String address) {
 			this.address = address;
 			return this;
 		}
-		public UserBuilder zipCode(String zipCode) {
+		public EndUserBuilder zipCode(String zipCode) {
 			this.zipCode = zipCode;
 			return this;
 		}
-		public UserBuilder email(String email) {
+		public EndUserBuilder email(String email) {
 			this.email = email;
 			return this;
 		}
-		public UserBuilder phoneNumber(String phoneNumber) {
+		public EndUserBuilder phoneNumber(String phoneNumber) {
 			this.phoneNumber = phoneNumber;
 			return this;
 		}
-		public UserBuilder password(String password) {
-			this.password = password;
-			return this;
-		}
-		public User build() {
-			return new User(this);
+
+		public EndUser build() {
+			return new EndUser(this);
 		}
 	}
-	
-	
 }
