@@ -11,9 +11,7 @@ export class TopBar extends React.Component {
                {this.props.isLoggedIn ?
                   <a className="logout" onClick={this.props.handleLogout}>
                     <Icon type="logout" />{' '}Logout
-                  </a> : <a className="logout">
-                     <Icon type="login" />
-                  </a>}
+                  </a> : null}
             </header>
         );
     }

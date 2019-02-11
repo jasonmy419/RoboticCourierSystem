@@ -13,30 +13,33 @@ class RegistrationForm extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
-        //send request
-        // fetch(`${API_ROOT}/signup`, {
-        //   method: 'POST',
-        //   body: JSON.stringify({
-        //     username: values.username,
-        //     password: values.password,
-        //   })
-        // }).then((response) => {
-        //   if(response){
-        //     return response.text();
-        //   }
-        //   throw new Error(response.statusText);
-        // }).then((data) => {
-        //   console.log(data);
-        //   message.success('Registration Success');
-        // }).catch((err) => {
-        //   console.log(err);
-        //   message.error('Registration Fail');
-        // });
-      }
-    });
+    message.success('Registration Succeed!');
+    this.props.history.push('/login');
+
+    // this.props.form.validateFieldsAndScroll((err, values) => {
+    //   if (!err) {
+    //     console.log('Received values of form: ', values);
+    //     //send request
+    //     // fetch(`${API_ROOT}/signup`, {
+    //     //   method: 'POST',
+    //     //   body: JSON.stringify({
+    //     //     username: values.username,
+    //     //     password: values.password,
+    //     //   })
+    //     // }).then((response) => {
+    //     //   if(response){
+    //     //     return response.text();
+    //     //   }
+    //     //   throw new Error(response.statusText);
+    //     // }).then((data) => {
+    //     //   console.log(data);
+    //     //   message.success('Registration Success');
+    //     // }).catch((err) => {
+    //     //   console.log(err);
+    //     //   message.error('Registration Fail');
+    //     // });
+    //   }
+    // });
   }
 
   handleConfirmBlur = (e) => {
