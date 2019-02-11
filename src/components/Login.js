@@ -1,11 +1,13 @@
 import React from 'react';
-//import {API_ROOT} from "./constants";
+import {API_ROOT} from "./constants";
 import { Form, Icon, Input, Button, message,} from 'antd';
+import { Link } from 'react-router-dom';
 
 class NormalLoginForm extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    this.props.handleSuccessfulLogin("123");
+    // this.props.form.validateFields((err, values) => {
       // if (!err) {
       //   console.log('Received values of form: ', values);
       //   //send request
@@ -27,7 +29,7 @@ class NormalLoginForm extends React.Component {
       //     message.error('Registration Fail');
       //   });
       // }
-    });
+    // });
   }
 
   render() {
