@@ -1,8 +1,7 @@
 import React from 'react';
 import { Switch, Route, Redirect } from "react-router-dom";
 import {Home} from "./Home";
-import { UserInformation} from "./UserInformation";
-import { PaymentMain } from "./PaymentMain";
+import { ConfirmationPage} from "./ConfirmationPage";
 
 export class Main extends React.Component {
     render() {
@@ -14,9 +13,7 @@ export class Main extends React.Component {
                     {/*<Route path="/register" component={Register}/>*/}
                     {/*<Route path="/" component={Home}/>*/}
                     <Route path="/home" component={Home}/>
-                    {/*<Route render={this.getLogin}/>*/}
-                    <Route path="/user" component={UserInformation}/>
-                    <Route path="/paymentMain" component={PaymentMain}/>
+                    <Route path="/confirmation" component={ConfirmationPage}/>
                     <Route component={Home}/>
                 </Switch>
             </div>

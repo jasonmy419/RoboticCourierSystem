@@ -34,7 +34,7 @@ class OrderInfoForm extends React.Component {
                     .then((data) => {
                         console.log(data);
                         message.success('Sending Succeed!');
-                        this.props.history.push('/user');
+                        this.props.history.push('/payment');
                     })
                     .catch((e) => {
                         console.log(e);
