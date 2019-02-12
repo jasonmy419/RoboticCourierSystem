@@ -7,7 +7,7 @@ import { Main } from "./Main";
 
 import 'rc-steps/assets/index.css';
 import 'rc-steps/assets/iconfont.css';
-import { TOKEN_KEY } from '../constants';
+import { TOKEN_KEY } from './constants';
 // import Steps, { Step } from 'rc-steps';
 
 // const AnyReactComponent = ({ text }) => <div>{text}</div>;
