@@ -4,7 +4,9 @@ import { Map} from './Map';
 import { Register } from "./Register"
 import { Login } from "./Login"
 import { Home } from './Home';
+import { Payment } from './Payment';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import {ConfirmationPage} from "./ConfirmationPage";
 
 
 export class Main extends React.Component {
@@ -25,6 +27,8 @@ export class Main extends React.Component {
                         <Route path="/login" render={this.getLogin}/>
                         <Route path="/register" component={Register}/>
                         <Route path="/home" render={this.getHome}/>
+                        <Route path="/payment" component={Payment}/>
+                        <Route path="/confirmation" component={ConfirmationPage}/>
                         <Route render={this.getLogin}/>
                     </Switch>
                 </BrowserRouter>

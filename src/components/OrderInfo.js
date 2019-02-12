@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Input, Button, Select, Card, message } from 'antd';
 import { API_ROOT } from "../constants";
+import { Link } from 'react-router-dom';
 
 class OrderInfoForm extends React.Component {
 
@@ -34,7 +35,7 @@ class OrderInfoForm extends React.Component {
                     .then((data) => {
                         console.log(data);
                         message.success('Sending Succeed!');
-                        this.props.history.push('/payment');
+                        // this.props.history.push('/payment');
                     })
                     .catch((e) => {
                         console.log(e);
@@ -115,7 +116,7 @@ class OrderInfoForm extends React.Component {
                     <p>$100.00</p>
                 </Form.Item>
                 <Form.Item {...tailFormItemLayout}>
-                    <Button type="primary" htmlType="submit">Place Order</Button>
+                    <Button type="primary" htmlType="submit"><Link to="/payment">Place Order</Link></Button>
                 </Form.Item>
             </Form>
             </Card>
