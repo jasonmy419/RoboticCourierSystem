@@ -1,4 +1,6 @@
-/*.map{*/
-    /*height: 80%;*/
-    /*width:80%;*/
-/*}*/
+.container{
+    height: 600px;
+    width: 900px;
+    margin-left: 20px;
+    margin-right: auto;
+}
