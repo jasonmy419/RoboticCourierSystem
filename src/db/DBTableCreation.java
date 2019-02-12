@@ -112,6 +112,8 @@ public class DBTableCreation {
 			// TODO
 			sql = "INSERT INTO orders VALUES('123k11','Delivered')";
 			statement.executeUpdate(sql);
+			sql = "INSERT INTO orders VALUES('123k1','In Transit')";
+			statement.executeUpdate(sql);
 			
 			conn.close();
 			System.out.println("Import done successfully");
