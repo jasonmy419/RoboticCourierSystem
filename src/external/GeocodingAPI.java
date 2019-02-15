@@ -10,24 +10,20 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import entity.Address;
-import entity.Address.AddressBuilder;
 import entity.Address.GeoResponseType;
-import entity.Address.State;
 
 public class GeocodingAPI {
 
 	private static final String METHOD = "/geocode";
 
-	public Address geocoding(Address address) {
+	public void geocoding(Address address) {
 
 		if(address == null) {
-			return null;
+			return;
 		}
 		
-		String addr = parseAddress(address);
-
-		String query = String.format("address=%s&key=%s", addr, GoogleMapAPIUtil.API_KEY);
-		String url = GoogleMapAPIUtil.PREFIX + METHOD + GoogleMapAPIUtil.OUTPUT_FORMAT + "?" + query;
+		System.out.println(address.getGeoQuery());
+		String url = GoogleMapAPIUtil.PREFIX + METHOD + GoogleMapAPIUtil.OUTPUT_FORMAT + "?" + address.getGeoQuery();
 
 		try {
 			HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
@@ -51,23 +47,25 @@ public class GeocodingAPI {
 			reader.close();
 
 			JSONObject obj = new JSONObject(response.toString());
-
-			System.out.println(obj.toString(4));
+			// System.out.println(obj.toString(4));
 
 			if (obj.get("status").equals("OK") && !obj.isNull("results")) {
 				JSONArray results = obj.getJSONArray("results");
 				if(!results.isNull(0)) {
 					JSONObject result = results.getJSONObject(0);
 					if(!result.isNull("formatted_address")) {
-						System.out.println(result.get("formatted_address"));
+						System.out.println("formatted_address: " + result.get("formatted_address"));
 					}
+					
 					switch(address.getResponseType()){
 					case PLACE_ID:
-						return responseWithID(result);
+						responseWithID(result, address);
+						break;
 					case COORDINATE:
-						return responseWithCoordinate(result);
+						responseWithCoordinate(result, address);
+						break;
 					default:
-						System.out.println("in default");
+						System.out.println("Cannot find right response type");
 						break;
 					}	
 				}	
@@ -77,81 +75,24 @@ public class GeocodingAPI {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
 	}
 	
-	private Address responseWithID(JSONObject object) throws JSONException {
+	private void responseWithID(JSONObject object, Address address) throws JSONException {
 		if(!object.isNull("place_id")) {
-			
-			Address addr = new AddressBuilder()
-					.setPlaceID(object.getString("place_id"))
-					.setResponseType(GeoResponseType.PLACE_ID)
-					.build();
-			
-			return addr;
+			address.setPlaceID(object.getString("place_id"));
+			address.setResponseType(GeoResponseType.PLACE_ID);
 		}
-		return null;
 	}
 	
-	private Address responseWithCoordinate(JSONObject object) throws JSONException {
+	private void responseWithCoordinate(JSONObject object, Address address) throws JSONException {
 		if(!object.isNull("geometry")) {
-			
 			JSONObject geometry = object.getJSONObject("geometry");
 			if(!geometry.isNull("location")) {
 				JSONObject location = geometry.getJSONObject("location");
-				Address addr = new AddressBuilder()
-						.setLatitude(location.getDouble("lat"))
-						.setLongitide(location.getDouble("lng"))
-						.setResponseType(GeoResponseType.COORDINATE)
-						.build();
-				return addr;
+				address.setLatitude(location.getDouble("lat"));
+				address.setLongitude(location.getDouble("lng"));
+				address.setResponseType(GeoResponseType.COORDINATE);
 			}
 		}
-		return null;
-	}
-	
-	private String parseAddress(Address address) {
-		// String template = "1600+Amphitheatre+Parkway,+Mountain+View,+CA";
-		StringBuilder sb = new StringBuilder();
-		sb.append(address.getStreetNum());
-		
-		String[] street = address.getStreetName().split(" ");
-		
-		for(String s: street) {
-			sb.append('+');
-			sb.append(s);
-		}
-		sb.append(',');
-		
-		String[] city = address.getCity().split(" ");
-		
-		for(String s: city) {
-			sb.append('+');
-			sb.append(s);
-		}
-		
-		sb.append(',');
-		sb.append('+');
-		
-		sb.append(address.getState().name());
-		return sb.toString();
-	}
-	
-	public static void main(String args[]) {
-		GeocodingAPI api = new GeocodingAPI();
-		Address ad = new AddressBuilder()
-				.setStreetNum("717")
-				.setStreetName("EastGate Ave")
-				.setCity("St. Louis")
-				.setState(State.MO)
-				.setResponseType(GeoResponseType.PLACE_ID)
-				.build();
-		
-		Address temp = api.geocoding(ad);
-		System.out.println(temp.getPlaceID() 
-				+ temp.getLatitude()
-				+ temp.getLongitude()
-				+ temp.getResponseType().name());
-		
 	}
 }
