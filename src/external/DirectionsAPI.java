@@ -33,7 +33,7 @@ public class DirectionsAPI {
 
 		List<Route> routes = new ArrayList<>();
 
-		if (origin == null || destination == null) {
+		if (origin == null || destination == null || waypoint == null) {
 			return routes;
 		}
 

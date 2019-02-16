@@ -3,11 +3,8 @@ package entity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import entity.Address.AddressBuilder;
-import entity.Address.GeoResponseType;
-import entity.Address.InputType;
 import external.GoogleMapAPIUtil;
-import rpc.RpcHelper;
+
 
 public class Address {
 
@@ -209,32 +206,43 @@ public class Address {
 			return new Address(this);
 		}
 
-		public Address parseJson(JSONObject object) {
-			Address address = null;
+		public Address parseJson(JSONObject object, int input) {
 			
+			AddressBuilder address = new AddressBuilder();
 			try {
-				address = new AddressBuilder()
-						.setStreetNum(object.getString("street_number"))
-						.setStreetName(object.getString("street_name"))
-						.setCity(object.getString("city"))
-						.setState(State.CA)
-						.setInputType(InputType.ADDRESS_STRING)
-						.setResponseType(GeoResponseType.PLACE_ID)
-						.build();
+				address.setStreetNum(object.getString("street_number"))
+				.setStreetName(object.getString("street_name"))
+				.setCity(object.getString("city"))
+				.setState(State.CA)
+				.setInputType(InputType.ADDRESS_STRING);
+				
+				switch(input) {
+				case 1:
+					address.setResponseType(GeoResponseType.COORDINATE);
+					break;
+				case 2:
+					address.setResponseType(GeoResponseType.PLACE_ID);
+					break;
+				default:
+					break;
+				}
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
-			return address;
+			return address.build();
 		}
 	}
 
 	public enum InputType {
-		ADDRESS_STRING, PLACE_ID, COORDINATE
+		ADDRESS_STRING, 
+		PLACE_ID, 
+		COORDINATE
 	}
 
 	public enum GeoResponseType {
-		PLACE_ID, COORDINATE
+		PLACE_ID, 
+		COORDINATE
 	}
 }
