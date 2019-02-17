@@ -5,7 +5,6 @@ const AnyReactComponent = ({ text }) => <div>{text}</div>;
 export class Map extends React.Component{
     constructor(props){
         super(props);
-       // this._onClick = this._onClick.bind(this);
     }
     static defaultProps = {
       center: {
@@ -45,30 +44,46 @@ export class Map extends React.Component{
             title: 'Hello World!'
         });
     }
+    // _onClick = ({x, y, lat, lng, event}) => new maps.Marker({
+    //     position: this.props.firstStation,
+    //     this,
+    //     title: 'Hello World!'
+    // });
+    // componentDidMount(map, maps) {
+    //     var myLatlng = new maps.LatLng(51.65905179951626, 7.3835928124999555);
+    //     var myOptions = {
+    //         zoom: 8,
+    //         center: myLatlng,
+    //         mapTypeId: maps.MapTypeId.ROADMAP
+    //     }
+    //     var map = new maps.Map(document.getElementById("map"), myOptions);
+    //
+    //     var decodedPath = maps.geometry.encoding.decodePath('}~kvHmzrr@ba\\hnc@jiu@r{Zqx~@hjp@pwEhnc@zhu@zflAbxn@fhjBvqHroaAgcnAp}gAeahAtqGkngAinc@_h|@r{Zad\\y|_D}_y@swg@ysg@}llBpoZqa{@xrw@~eBaaX}{uAero@uqGadY}nr@`dYs_NquNgbjAf{l@|yh@bfc@}nr@z}q@i|i@zgz@r{ZhjFr}gApob@ff}@laIsen@dgYhdPvbIren@');
+    //     var decodedLevels = decodeLevels("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
+    //
+    //     var setRegion = new maps.Polyline({
+    //         path: decodedPath,
+    //         levels: decodedLevels,
+    //         strokeColor: "#FF0000",
+    //         strokeOpacity: 1.0,
+    //         strokeWeight: 2,
+    //         map: map
+    //     });
+    //
+    // }
+
     render() {
-        const greatPlaceStyle = {
-            position: 'absolute',
-        }
         return (
             <div className="container" >
                 <GoogleMapReact
                 bootstrapURLKeys={{ key: "" }}
                 defaultCenter={this.props.center}
                 defaultZoom={this.props.zoom}
-                                 onGoogleApiLoaded={({map, maps}) => this.renderMarkers(map, maps)}
+                onGoogleApiLoaded={({map, maps}) => this.renderMarkers(map, maps)}
+                onClick={this._onClick}
                 >
-                    <AnyReactComponent
-                        lat={59.955413}
-                        lng={30.337844}
-                        text={'Kreyser Avrora'}
-                    />
-
-                        {/*{this.props.text}*/}
-
                 </GoogleMapReact>
-
             </div>
-
         );
     }
 }
