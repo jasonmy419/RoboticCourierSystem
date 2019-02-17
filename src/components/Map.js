@@ -52,7 +52,7 @@ export class Map extends React.Component{
         return (
             <div className="container" >
                 <GoogleMapReact
-                bootstrapURLKeys={{ key: "AIzaSyBwKSMNZMNhNAhiIcZUlHBsUv0vkbT_EkQ" }}
+                bootstrapURLKeys={{ key: "AIzaSyB43agit7BDYyF6z6CdRuupfdeUMshOmbg" }}
                 defaultCenter={this.props.center}
                 defaultZoom={this.props.zoom}
                                  onGoogleApiLoaded={({map, maps}) => this.renderMarkers(map, maps)}
