@@ -4,3 +4,8 @@
     width: 600px;
     height: 600px;
 }
+
+.radio {
+    height: 30px;
+    lineHeight: 30px;
+}
