@@ -156,7 +156,7 @@ public class DBTableCreation {
 //			statement.executeUpdate(sql);
 //			sql = "INSERT INTO stations VALUES('33','1929','Menalto Ave','Menlo Park')";
 //			statement.executeUpdate(sql);
-			
+	
 			conn.close();
 			System.out.println("Import done successfully");
 		} catch (Exception e) {
