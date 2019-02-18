@@ -49,19 +49,21 @@ public class DBConnection {
 
 		try {
 			
-			 String sql = "SELECT address_line1 FROM payment WHERE user_id = ? AND card_number = ? ";
+			 String sql = "SELECT address_line1, zipcode FROM payment WHERE user_id = ? AND card_number = ? ";
 			 PreparedStatement stmt = conn.prepareStatement(sql);
 			 stmt.setString(1,userID);
 			 stmt.setString(2,input.getString("card_number"));
 			 ResultSet rs = stmt.executeQuery();
 			 
-			 String cardAddress = "";
+			 String cardAddress = null;
+			 int zipcode = -1;
 			 
 			 while (rs.next()) {
 				 cardAddress = rs.getString("address_line1");
+				 zipcode = rs.getInt("zipcode");
 			 }
 			 
-			 if (cardAddress == null || cardAddress.length() == 0) {
+			 if (cardAddress == null || cardAddress.length() == 0 && zipcode == -1) {
 				 sql = "INSERT IGNORE INTO payment VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		   		 PreparedStatement ps = conn.prepareStatement(sql);
 		   		 ps.setString(1, userID);
@@ -79,14 +81,17 @@ public class DBConnection {
 		   		 ps.execute();
 		   		 
 		   		 return true;
-			 }  else if (!cardAddress.equals(input.getString("address_line1"))) {
+			 }  else if (!cardAddress.equals(input.getString("address_line1")) || zipcode != input.getInt("zipcode")) {
 				 
-				 sql = "UPDATE payment SET address_line1 = ? WHERE user_id = ? AND card_number = ?";
+				 sql = "UPDATE payment SET address_line1 = ?, zipcode = ?, address_line2 = ? , city = ?, state = ? WHERE user_id = ? AND card_number = ?";
 				 PreparedStatement ps = conn.prepareStatement(sql);
 				 ps.setString(1, input.getString("address_line1"));
-				 ps.setString(2, userID);
-				 ps.setString(3, input.getString("card_number"));
-				 System.out.println(sql);
+				 ps.setInt(2, input.getInt("zipcode"));
+				 ps.setString(3, input.getString("address_line2"));
+				 ps.setString(4, input.getString("city"));
+				 ps.setString(5, input.getString("state"));
+				 ps.setString(6, userID);
+				 ps.setString(7, input.getString("card_number"));
 				 int rowsUpdated = ps.executeUpdate();
 				 if (rowsUpdated > 0) {
 				     System.out.println("An existing user was updated successfully!");
