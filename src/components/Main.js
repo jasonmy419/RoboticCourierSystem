@@ -32,7 +32,7 @@ export class Main extends React.Component {
                         <Route path="/register" component={Register}/>
                         <Route path="/home" render={this.getHome}/>
                         <Route path="/payment" component={Payment}/>
-                        <Route path="/confirmation" component={this.getConfirmation()}/>
+                        <Route path="/confirmation" component={this.getConfirmation}/>
                         <Route render={this.getLogin}/>
                     </Switch>
                 </BrowserRouter>
