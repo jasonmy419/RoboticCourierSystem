@@ -49,10 +49,8 @@ public class Confirmation extends HttpServlet {
 			if (cardNumber == null || cardNumber.length() == 0) {
 				output.put("failed","Cannot Generate Confirmation number");
 			}  else {
-				StringBuilder sb = new StringBuilder();
 		        UUID uuid = UUID.randomUUID();
 		        String str = uuid.toString();
-		        sb.append(userId.hashCode()).append(str);
 		        output.put("sucess",str);
 			}
 			
