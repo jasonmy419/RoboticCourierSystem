@@ -48,15 +48,17 @@ public class DBConnection {
 		}
 		try {
 			
-			 String sql = "INSERT IGNORE INTO reservations VALUES (?, ?, ?, ?, ?, ?, ?)";
+			 String sql = "INSERT IGNORE INTO reservations VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	   		 PreparedStatement ps = conn.prepareStatement(sql);
 	   		 ps.setString(1, userId);
-	   		 ps.setString(2, routeId);
-	   		 ps.setString(3, input.getString("type"));
-	   		 ps.setDouble(4, input.getDouble("route_duration"));
-	   		 ps.setDouble(5, input.getDouble("route_distance"));
-	   		 ps.setDouble(6, input.getDouble("route_price"));
-	   		 ps.setString(7, input.getString("route_path"));
+	   		 ps.setString(2, input.getString("courier_id"));
+	   		 ps.setString(3, input.getString("item_id"));
+	   		 ps.setString(4, input.getString("type"));
+	   		 ps.setString(5, routeId);
+	   		 ps.setDouble(6, input.getDouble("route_duration"));
+	   		 ps.setDouble(7, input.getDouble("route_distance"));
+	   		 ps.setDouble(8, input.getDouble("route_price"));
+	   		 ps.setString(9, input.getString("route_path"));
 	   		 ps.execute();
 			
 		}  catch(Exception e) {

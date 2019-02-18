@@ -157,7 +157,9 @@ public class DBTableCreation {
 			sql = "CREATE TABLE	reservations (" 
 					 +"user_id VARCHAR(255) NOT NULL,"
 					 +"courier_id VARCHAR(255) NOT NULL,"
+					 +"item_id VARCHAR(255) NOT NULL,"
 					 +"type VARCHAR(255) NOT NULL,"
+					 +"route_id VARCHAR(255) NOT NULL,"
 					 +"route_duration DOUBLE NOT NULL,"
 					 +"route_distance DOUBLE NOT NULL,"
 					 +"route_price DOUBLE NOT NULL,"
@@ -165,7 +167,7 @@ public class DBTableCreation {
 					 +")";
 			statement.executeUpdate(sql);
 			
-			sql = "INSERT INTO reservations VALUES('123','111','D', 996.0, 11.25, 29.83, 'k}qcFjushVf@QFABABAF?D?D@RBB@D?J?N?B?n@JLJJ@LDTDNDNDFBFBDBDBFBFBHB')";
+			sql = "INSERT INTO reservations VALUES('123','xxa','111','D', 'ahdjbbkvksd',996.0, 11.25, 29.83, 'k}qcFjushVf@QFABABAF?D?D@RBB@D?J?N?B?n@JLJJ@LDTDNDNDFBFBDBDBFBFBHB')";
 			statement.executeUpdate(sql);
 			
 //			sql = "INSERT INTO stations VALUES('11','68','Willow Road','Menlo Park')";
