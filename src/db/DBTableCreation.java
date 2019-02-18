@@ -150,12 +150,12 @@ public class DBTableCreation {
 					+ " '3001 S. Michigan Ave', '', 'Chicago', 60616, 'IL', 04, 2018, 907)";
 			statement.executeUpdate(sql);
 			
-			sql = "INSERT INTO stations VALUES('11','68','Willow Road','Menlo Park')";
-			statement.executeUpdate(sql);
-			sql = "INSERT INTO stations VALUES('22','383','University Ave','Palo Alto')";
-			statement.executeUpdate(sql);
-			sql = "INSERT INTO stations VALUES('33','1929','Menalto Ave','Menlo Park')";
-			statement.executeUpdate(sql);
+// 			sql = "INSERT INTO stations VALUES('11','68','Willow Road','Menlo Park')";
+// 			statement.executeUpdate(sql);
+// 			sql = "INSERT INTO stations VALUES('22','383','University Ave','Palo Alto')";
+// 			statement.executeUpdate(sql);
+// 			sql = "INSERT INTO stations VALUES('33','1929','Menalto Ave','Menlo Park')";
+// 			statement.executeUpdate(sql);
 			
 			conn.close();
 			System.out.println("Import done successfully");
