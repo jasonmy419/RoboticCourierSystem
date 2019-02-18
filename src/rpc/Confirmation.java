@@ -61,9 +61,6 @@ public class Confirmation extends HttpServlet {
 			conn.close();
 		}
 			
-		
-		
-
 		RpcHelper.writeJsonObject(response, output);	
 	}
 

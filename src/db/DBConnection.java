@@ -40,7 +40,32 @@ public class DBConnection {
 		}
 	}
 	
-	public boolean setPaymentInfo(String userID, JSONObject input) {
+	public void setReservation(String userId, String routeId, JSONObject input) {
+		
+		if (conn == null) {
+			System.err.println("DB connection failed from src/db/DBConnection -> setReservation");
+			return;
+		}
+		try {
+			
+			 String sql = "INSERT IGNORE INTO reservations VALUES (?, ?, ?, ?, ?, ?, ?)";
+	   		 PreparedStatement ps = conn.prepareStatement(sql);
+	   		 ps.setString(1, userId);
+	   		 ps.setString(2, routeId);
+	   		 ps.setString(3, input.getString("type"));
+	   		 ps.setDouble(4, input.getDouble("route_duration"));
+	   		 ps.setDouble(5, input.getDouble("route_distance"));
+	   		 ps.setDouble(6, input.getDouble("route_price"));
+	   		 ps.setString(7, input.getString("route_path"));
+	   		 ps.execute();
+			
+		}  catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("error from src/db/DBConnection -> setReservation: " + e.getMessage());
+		}
+	}
+	
+	public boolean setPaymentInfo(String userId, JSONObject input) {
 	
 		if (conn == null) {
 			System.err.println("DB connection failed from src/db/DBConnection -> setPaymentInfo");
@@ -51,7 +76,7 @@ public class DBConnection {
 			
 			 String sql = "SELECT address_line1, zipcode FROM payment WHERE user_id = ? AND card_number = ? ";
 			 PreparedStatement stmt = conn.prepareStatement(sql);
-			 stmt.setString(1,userID);
+			 stmt.setString(1,userId);
 			 stmt.setString(2,input.getString("card_number"));
 			 ResultSet rs = stmt.executeQuery();
 			 
@@ -66,7 +91,7 @@ public class DBConnection {
 			 if (cardAddress == null || cardAddress.length() == 0 && zipcode == -1) {
 				 sql = "INSERT IGNORE INTO payment VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		   		 PreparedStatement ps = conn.prepareStatement(sql);
-		   		 ps.setString(1, userID);
+		   		 ps.setString(1, userId);
 		   		 ps.setString(2, input.getString("last_name"));
 		   		 ps.setString(3, input.getString("first_name"));
 		   		 ps.setString(4, input.getString("card_number"));
@@ -90,7 +115,7 @@ public class DBConnection {
 				 ps.setString(3, input.getString("address_line2"));
 				 ps.setString(4, input.getString("city"));
 				 ps.setString(5, input.getString("state"));
-				 ps.setString(6, userID);
+				 ps.setString(6, userId);
 				 ps.setString(7, input.getString("card_number"));
 				 int rowsUpdated = ps.executeUpdate();
 				 if (rowsUpdated > 0) {

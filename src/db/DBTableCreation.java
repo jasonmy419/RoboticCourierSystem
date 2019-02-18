@@ -45,6 +45,9 @@ public class DBTableCreation {
 			sql = "DROP TABLE IF EXISTS payment";
 			statement.executeUpdate(sql);
 			
+			sql= "DROP TABLE IF EXISTS reservations";
+			statement.executeUpdate(sql);
+			
 //			// Create new tables
 //			sql = "CREATE TABLE users ("
 //					+ "user_id VARCHAR(255) NOT NULL,"
@@ -148,6 +151,21 @@ public class DBTableCreation {
 			
 			sql = "INSERT INTO payment VALUES('2233', 'wu', 'sicheng','xxxx-xxxx-xxxx-xxxx',"
 					+ " '3001 S. Michigan Ave', '', 'Chicago', 60616, 'IL', 04, 2018, 907)";
+			statement.executeUpdate(sql);
+			
+			
+			sql = "CREATE TABLE	reservations (" 
+					 +"user_id VARCHAR(255) NOT NULL,"
+					 +"courier_id VARCHAR(255) NOT NULL,"
+					 +"type VARCHAR(255) NOT NULL,"
+					 +"route_duration DOUBLE NOT NULL,"
+					 +"route_distance DOUBLE NOT NULL,"
+					 +"route_price DOUBLE NOT NULL,"
+					 +"route_path VARCHAR(255) NOT NULL"
+					 +")";
+			statement.executeUpdate(sql);
+			
+			sql = "INSERT INTO reservations VALUES('123','111','D', 996.0, 11.25, 29.83, 'k}qcFjushVf@QFABABAF?D?D@RBB@D?J?N?B?n@JLJJ@LDTDNDNDFBFBDBDBFBFBHB')";
 			statement.executeUpdate(sql);
 			
 //			sql = "INSERT INTO stations VALUES('11','68','Willow Road','Menlo Park')";

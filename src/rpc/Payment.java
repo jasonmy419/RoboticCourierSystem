@@ -14,19 +14,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import db.DBConnection;
-import entity.Payment;
 
 /**
  * Servlet implementation class OrderPayment
  */
 @WebServlet("/checkout")
-public class OrderPayment extends HttpServlet {
+public class Payment extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public OrderPayment() {
+    public Payment() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -64,7 +63,7 @@ public class OrderPayment extends HttpServlet {
 				boolean flag = conn.setPaymentInfo(userId,input);
 							
 				if (flag) {
-					RpcHelper.writeJsonObject(response, new JSONObject().put("payment status:", "SUCCESS"));
+					RpcHelper.writeJsonObject(response, new JSONObject().put("payment status:", "success"));
 				}  else {
 					RpcHelper.writeJsonObject(response, new JSONObject().put("payment status:", "failed"));
 				}
