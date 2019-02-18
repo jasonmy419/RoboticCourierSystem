@@ -66,15 +66,18 @@ public class DBTableCreation {
 //					+ ")";
 //			statement.executeUpdate(sql);
 //			
-//			sql = "CREATE TABLE stations ("
-//					+ "station_id VARCHAR(255) NOT NULL,"
+			sql = "CREATE TABLE stations ("
+					+ "station_id VARCHAR(255) NOT NULL,"
 //					+ "courier_num_air INT,"
 //					+ "courier_num_bot INT,"
 //					+ "coord VARCHAR(255) NOT NULL,"
-//					// FIXME
-////					+ "PRIMARY KEY (station_id)"
-//					+ ")";
-//			statement.executeUpdate(sql);
+					+ "street_number INT(255),"
+					+ "street_name VARCHAR(255),"
+					+ "city VARCHAR(255),"
+					// FIXME
+					+ "PRIMARY KEY (station_id)"
+					+ ")";
+			statement.executeUpdate(sql);
 //
 //			sql = "CREATE TABLE couriers ("
 //					+ "courier_id VARCHAR(255) NOT NULL,"
@@ -113,6 +116,13 @@ public class DBTableCreation {
 			sql = "INSERT INTO orders VALUES('123k11','Delivered')";
 			statement.executeUpdate(sql);
 			sql = "INSERT INTO orders VALUES('123k1','In Transit')";
+			statement.executeUpdate(sql);
+			
+			sql = "INSERT INTO stations VALUES('11','68','Willow Road','Menlo Park')";
+			statement.executeUpdate(sql);
+			sql = "INSERT INTO stations VALUES('22','383','University Ave','Palo Alto')";
+			statement.executeUpdate(sql);
+			sql = "INSERT INTO stations VALUES('33','1929','Menalto Ave','Menlo Park')";
 			statement.executeUpdate(sql);
 			
 			conn.close();
