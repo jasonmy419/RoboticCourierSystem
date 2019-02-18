@@ -124,11 +124,12 @@ const MapWithADirectionsRenderer = compose(
                     console.error(`error fetching directions ${result}`);
                 }
             });
+
         }
     })
 )(props =>
     <GoogleMap
-        defaultZoom={7}
+        defaultZoom={13}
         defaultCenter={new window.google.maps.LatLng(37.773972, -122.431297 )}
     >
         {props.directions && <DirectionsRenderer directions={props.directions} />}
@@ -136,24 +137,24 @@ const MapWithADirectionsRenderer = compose(
 );
 
 
-const MyMapComponent = compose(
-    withProps({
-        googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyB43agit7BDYyF6z6CdRuupfdeUMshOmbg&v=3.exp&libraries=geometry,drawing,places",
-        loadingElement: <div style={{ height: `100%` }} />,
-        containerElement: <div style={{ height: `600px` }} />,
-        mapElement: <div style={{ height: `100%` }} />,
-    }),
-    withScriptjs,
-    withGoogleMap
-)((props) =>
-    <GoogleMap
-        defaultZoom={13}
-        defaultCenter={{ lat: 37.773972, lng: -122.431297 }}
-        onClick={props.onMapClick}
-    >
-        {props.isMarkerShown && <Marker position={{ lat: 37.793321, lng: -122.422794 }} onClick={props.onMarkerClick} />}
-    </GoogleMap>
-)
+// const MyMapComponent = compose(
+//     withProps({
+//         googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyB43agit7BDYyF6z6CdRuupfdeUMshOmbg&v=3.exp&libraries=geometry,drawing,places",
+//         loadingElement: <div style={{ height: `100%` }} />,
+//         containerElement: <div style={{ height: `600px` }} />,
+//         mapElement: <div style={{ height: `100%` }} />,
+//     }),
+//     withScriptjs,
+//     withGoogleMap
+// )((props) =>
+//     <GoogleMap
+//         defaultZoom={13}
+//         defaultCenter={{ lat: 37.773972, lng: -122.431297 }}
+//         onClick={props.onMapClick}
+//     >
+//         {props.isMarkerShown && <Marker position={{ lat: 37.793321, lng: -122.422794 }} onClick={props.onMarkerClick} />}
+//     </GoogleMap>
+// )
 
 export class Map extends React.PureComponent {
     state = {
@@ -185,7 +186,7 @@ export class Map extends React.PureComponent {
                     {/*isMarkerShown={this.state.isMarkerShown}*/}
                     {/*onMarkerClick={this.handleMarkerClick}*/}
                 {/*/>*/}
-                <MapWithADirectionsRenderer />
+                <MapWithADirectionsRenderer  />
             </div>
         )
     }
