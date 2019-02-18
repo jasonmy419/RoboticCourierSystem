@@ -41,8 +41,8 @@ public class CalculateFlightDistance {
 		LatLng way = new LatLng(waypoint.getLatitude(), waypoint.getLongitude());
 		
 		list.add(ori);
-		list.add(des);
 		list.add(way);
+		list.add(des);
 		
 		List<Polyline> polylines = new ArrayList<>();
 		Polyline first = getPolyline(ori, way);

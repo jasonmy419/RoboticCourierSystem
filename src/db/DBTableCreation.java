@@ -45,14 +45,88 @@ public class DBTableCreation {
 			sql = "DROP TABLE IF EXISTS payment";
 			statement.executeUpdate(sql);
 			
-//			sql = "CREATE TABLE	users (" 
-//				 +"user_id VARCHAR(255) NOT NULL,"
-//				 +"password VARCHAR(255) NOT NULL,"
-//				 +"first_name VARCHAR(255),"
-//				 +"last_name VARCHAR(255),"
-//				 + "address VARCHAR(255),"
-//				 + "zipcode VARCHAR(255)"
-//				 +")";
+//			// Create new tables
+//			sql = "CREATE TABLE users ("
+//					+ "user_id VARCHAR(255) NOT NULL,"
+//					+ "password VARCHAR(255) NOT NULL" 
+//					+ "last_name VARCHAR(255),"
+//					+ "first_name VARCHAR(255),"
+//					+ "address VARCHAR(255),"
+//					+ "zipcode VARCHAR(255),"
+//					// FIXME
+////					+ "PRIMARY KEY (user_id)"
+//					+ ")";
+//			statement.executeUpdate(sql);
+//
+//			sql = "CREATE TABLE users_end ("
+//					+ "user_id VARCHAR(255) NOT NULL,"
+//					+ "last_name VARCHAR(255),"
+//					+ "first_name VARCHAR(255),"
+//					+ "address VARCHAR(255),"
+//					+ "zipcode VARCHAR(255),"
+//					// FIXME
+////					+ "PRIMARY KEY (user_id)"
+//					+ ")";
+//			statement.executeUpdate(sql);
+//			
+			sql = "CREATE TABLE stations ("
+					+ "station_id VARCHAR(255) NOT NULL,"
+//					+ "courier_num_air INT,"
+//					+ "courier_num_bot INT,"
+//					+ "coord VARCHAR(255) NOT NULL,"
+					+ "street_number INT(255),"
+					+ "street_name VARCHAR(255),"
+					+ "city VARCHAR(255),"
+					// FIXME
+					+ "PRIMARY KEY (station_id)"
+					+ ")";
+			statement.executeUpdate(sql);
+//
+//			sql = "CREATE TABLE couriers ("
+//					+ "courier_id VARCHAR(255) NOT NULL,"
+//					+ "type VARCHAR(255) NOT NULL,"
+//					+ "price FLOAT,"
+//					+ "station VARCHAR(255) NOT NULL,"
+//					+ "order VARCHAR(255) NOT NULL,"
+//					// FIXME
+////					+ "PRIMARY KEY (courier_id, station),"
+////					+ "FOREIGN KEY (station_id) REFERENCES items(station_id)"
+//					+ ")";
+//			statement.executeUpdate(sql);
+			
+			sql = "CREATE TABLE orders ("
+					+ "order_id VARCHAR(255) NOT NULL,"
+//					+ "item_id VARCHAR(255) NOT NULL,"
+//					+ "courier_id VARCHAR(255) NOT NULL,"
+//					+ "user_id VARCHAR(255) NOT NULL,"
+//					+ "user_id_end VARCHAR(255) NOT NULL,"
+					+ "status VARCHAR(255) NOT NULL,"
+					// TODO
+					+ "PRIMARY KEY (order_id)"
+//					+ "FOREIGN KEY (station_id) REFERENCES items(station_id)"
+					+ ")";
+			statement.executeUpdate(sql);
+			
+//			sql = "CREATE TABLE items ("
+//					+ "item_id VARCHAR(255) NOT NULL,"
+//					+ "weight FLOAT,"
+//					// FIXME
+////					+ "PRIMARY KEY (item_id)"
+//					+ ")";
+//			statement.executeUpdate(sql);
+
+			// TODO
+			sql = "INSERT INTO orders VALUES('123k11','Delivered')";
+			statement.executeUpdate(sql);
+			sql = "INSERT INTO orders VALUES('123k1','In Transit')";
+			statement.executeUpdate(sql);
+			
+			sql = "INSERT INTO stations VALUES('11','68','Willow Road','Menlo Park')";
+			statement.executeUpdate(sql);
+			sql = "INSERT INTO stations VALUES('22','383','University Ave','Palo Alto')";
+			statement.executeUpdate(sql);
+			sql = "INSERT INTO stations VALUES('33','1929','Menalto Ave','Menlo Park')";
+			statement.executeUpdate(sql);
 			
 			sql = "CREATE TABLE	payment (" 
 					 +"user_id VARCHAR(255) NOT NULL,"
@@ -76,9 +150,15 @@ public class DBTableCreation {
 					+ " '3001 S. Michigan Ave', '', 'Chicago', 60616, 'IL', 04, 2018, 907)";
 			statement.executeUpdate(sql);
 			
+			sql = "INSERT INTO stations VALUES('11','68','Willow Road','Menlo Park')";
+			statement.executeUpdate(sql);
+			sql = "INSERT INTO stations VALUES('22','383','University Ave','Palo Alto')";
+			statement.executeUpdate(sql);
+			sql = "INSERT INTO stations VALUES('33','1929','Menalto Ave','Menlo Park')";
+			statement.executeUpdate(sql);
+			
 			conn.close();
 			System.out.println("Import done successfully");
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
