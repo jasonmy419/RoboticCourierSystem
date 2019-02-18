@@ -8,6 +8,10 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class DBConnection {
 
 	private Connection conn;	
@@ -51,6 +55,30 @@ public class DBConnection {
 			e.printStackTrace();
 		}
 		return status;
+	}
+	
+	public JSONArray getStationAddress() {
+		if (conn == null) {
+			return null;
+		}
+		JSONArray array =  new JSONArray();
+		try {
+			String sql = "SELECT street_number, street_name, city FROM stations";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				JSONObject obj = new JSONObject();
+				obj.put("street_number", rs.getString("street_number"));
+				obj.put("street_name", rs.getString("street_name"));
+				obj.put("city", rs.getString("city"));
+				System.out.println(obj);
+				array.put(obj);
+			}
+			
+		} catch (SQLException | JSONException e) {
+			e.printStackTrace();
+		}
+		return array;
 	}
 
 	public boolean signup(String userId, String password, String firstname, String lastname) {
@@ -122,5 +150,6 @@ public class DBConnection {
 		return false;
 
 	}
+	
 	
 }
