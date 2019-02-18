@@ -11,12 +11,14 @@ public class DBConnection {
 	private Connection conn;	
 
 	public DBConnection() {
+		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver").getConstructor().newInstance();
 			conn = DriverManager.getConnection(DBUtility.URL);
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.out.println("error from /src/db/DBConnection -> " + e.getMessage());
 		}
 	}
 
