@@ -33,14 +33,15 @@ public class RpcHelper {
 		}
 
 		public static JSONObject readJSONObject(HttpServletRequest request) {
-			StringBuilder sBuilder = new StringBuilder();
+			
+			StringBuilder sb = new StringBuilder();
 			
 			try (BufferedReader reader = request.getReader()) {
 				String line = null;
 				while ((line = reader.readLine()) != null) {
-					sBuilder.append(line);
+					sb.append(line);
 				}
-				return new JSONObject(sBuilder.toString());
+				return new JSONObject(sb.toString());
 
 			} catch (Exception e) {
 				e.printStackTrace();

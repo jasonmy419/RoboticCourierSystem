@@ -42,19 +42,38 @@ public class DBTableCreation {
 			sql = "DROP TABLE IF EXISTS items";
 			statement.executeUpdate(sql);
 			
-			sql = "CREATE TABLE	users (" 
-				 +"user_id VARCHAR(255) NOT NULL,"
-				 +"password VARCHAR(255) NOT NULL,"
-				 +"first_name VARCHAR(255),"
-				 +"last_name VARCHAR(255),"
-				 + "address VARCHAR(255),"
-				 + "zipcode VARCHAR(255)"
-				 +")";
+			sql = "DROP TABLE IF EXISTS payment";
+			statement.executeUpdate(sql);
+			
+//			sql = "CREATE TABLE	users (" 
+//				 +"user_id VARCHAR(255) NOT NULL,"
+//				 +"password VARCHAR(255) NOT NULL,"
+//				 +"first_name VARCHAR(255),"
+//				 +"last_name VARCHAR(255),"
+//				 + "address VARCHAR(255),"
+//				 + "zipcode VARCHAR(255)"
+//				 +")";
+			
+			sql = "CREATE TABLE	payment (" 
+					 +"user_id VARCHAR(255) NOT NULL,"
+					 +"last_name VARCHAR(255) NOT NULL,"
+					 +"first_name VARCHAR(255) NOT NULL,"
+					 +"card_number VARCHAR(255) NOT NULL,"
+					 +"address_line1 VARCHAR(255) NOT NULL,"
+					 +"address_line2 VARCHAR(255),"
+					 +"city VARCHAR(255) NOT NULL,"
+					 +"zipcode INT NOT NULL,"
+					 +"state VARCHAR(255) NOT NULL,"
+					 +"month INT NOT NULL,"
+					 +"year INT NOT NULL,"
+					 +"cvv INT NOT NULL"
+					 +")";
+			
 			
 			statement.executeUpdate(sql);
 			
-			sql = "INSERT INTO users VALUES('1111', '3229c1097c00d497a0fd282d586be050', 'John', 'Smith', '3001 S. Michigan Ave',"
-					+ "60616)";
+			sql = "INSERT INTO payment VALUES('2233', 'wu', 'sicheng','xxxx-xxxx-xxxx-xxxx',"
+					+ " '3001 S. Michigan Ave', '', 'Chicago', 60616, 'IL', 04, 2018, 907)";
 			statement.executeUpdate(sql);
 			
 			conn.close();
