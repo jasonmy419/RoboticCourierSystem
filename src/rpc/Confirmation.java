@@ -53,7 +53,6 @@ public class Confirmation extends HttpServlet {
 		        UUID uuid = UUID.randomUUID();
 		        String str = uuid.toString();
 		        sb.append(userId.hashCode()).append(str);
-//		        output.put("sucess",sb.toString());
 		        output.put("sucess",str);
 			}
 			
