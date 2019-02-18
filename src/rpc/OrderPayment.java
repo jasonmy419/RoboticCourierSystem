@@ -61,9 +61,14 @@ public class OrderPayment extends HttpServlet {
 				JSONObject input = RpcHelper.readJSONObject(request);
 				String userId = request.getParameter("user_id");
 				
-				conn.setPaymentInfo(userId,input);
+				boolean flag = conn.setPaymentInfo(userId,input);
 							
-				RpcHelper.writeJsonObject(response, new JSONObject().put("result", "SUCCESS"));
+				if (flag) {
+					RpcHelper.writeJsonObject(response, new JSONObject().put("payment status:", "SUCCESS"));
+				}  else {
+					RpcHelper.writeJsonObject(response, new JSONObject().put("payment status:", "failed"));
+				}
+				
 		} catch(Exception e) {
 			System.out.println("error from /rpc/OrderPayment/Post -> " + e.getMessage());
 	   		e.printStackTrace();

@@ -40,10 +40,11 @@ public class DBConnection {
 		}
 	}
 	
-	public void setPaymentInfo(String userID, JSONObject input) {
+	public boolean setPaymentInfo(String userID, JSONObject input) {
 	
 		if (conn == null) {
 			System.err.println("DB connection failed from src/db/DBConnection -> setPaymentInfo");
+			return false;
 		}
 
 		try {
@@ -76,6 +77,8 @@ public class DBConnection {
 		   		 ps.setInt(11, input.getInt("year"));
 		   		 ps.setInt(12, input.getInt("cvv"));
 		   		 ps.execute();
+		   		 
+		   		 return true;
 			 }  else if (!cardAddress.equals(input.getString("address_line1"))) {
 				 
 				 sql = "UPDATE payment SET address_line1 = ? WHERE user_id = ? AND card_number = ?";
@@ -88,14 +91,16 @@ public class DBConnection {
 				 if (rowsUpdated > 0) {
 				     System.out.println("An existing user was updated successfully!");
 				 }
+				 return true;
 			 }  else {
-				 return;
+				 return true;
 			 }
 			
 		} catch(Exception e) {
 			e.printStackTrace();
 			System.out.println("error from src/db/DBConnection -> setPaymentInfo: " + e.getMessage());
 		}
+		return false;
 	}
 	
 	public String getPaymentInfo(String userId) {
