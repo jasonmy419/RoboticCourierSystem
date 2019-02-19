@@ -41,7 +41,14 @@ public class DBTableCreation {
 
 			sql = "DROP TABLE IF EXISTS items";
 			statement.executeUpdate(sql);
+
+			sql = "DROP TABLE IF EXISTS payment";
+			statement.executeUpdate(sql);
 			
+			sql= "DROP TABLE IF EXISTS reservations";
+			statement.executeUpdate(sql);
+			
+<<<<<<< HEAD
 			// Create new tables
 			sql = "CREATE TABLE users ("
 					+ "user_id VARCHAR(255) NOT NULL,"
@@ -65,12 +72,15 @@ public class DBTableCreation {
 					+ "PRIMARY KEY (user_id)"
 					+ ")";
 			statement.executeUpdate(sql);
-			
+	
 			sql = "CREATE TABLE stations ("
 					+ "station_id VARCHAR(255) NOT NULL,"
-					+ "courier_num_air INT,"
-					+ "courier_num_bot INT,"
-					+ "coord VARCHAR(255) NOT NULL,"
+//					+ "courier_num_air INT,"
+//					+ "courier_num_bot INT,"
+//					+ "coord VARCHAR(255) NOT NULL,"
+					+ "street_number INT(255),"
+					+ "street_name VARCHAR(255),"
+					+ "city VARCHAR(255),"
 					// FIXME
 					+ "PRIMARY KEY (station_id)"
 					+ ")";
@@ -115,9 +125,61 @@ public class DBTableCreation {
 			sql = "INSERT INTO orders VALUES('123k1','In Transit')";
 			statement.executeUpdate(sql);
 			
+			sql = "INSERT INTO stations VALUES('11', 68,'Willow Road','Menlo Park')";
+			statement.executeUpdate(sql);
+			sql = "INSERT INTO stations VALUES('22', 383,'University Ave','Palo Alto')";
+			statement.executeUpdate(sql);
+			sql = "INSERT INTO stations VALUES('33', 1929,'Menalto Ave','Menlo Park')";
+			statement.executeUpdate(sql);
+			
+			sql = "CREATE TABLE	payment (" 
+					 +"user_id VARCHAR(255) NOT NULL,"
+					 +"last_name VARCHAR(255) NOT NULL,"
+					 +"first_name VARCHAR(255) NOT NULL,"
+					 +"card_number VARCHAR(255) NOT NULL,"
+					 +"address_line1 VARCHAR(255) NOT NULL,"
+					 +"address_line2 VARCHAR(255),"
+					 +"city VARCHAR(255) NOT NULL,"
+					 +"zipcode INT NOT NULL,"
+					 +"state VARCHAR(255) NOT NULL,"
+					 +"month INT NOT NULL,"
+					 +"year INT NOT NULL,"
+					 +"cvv INT NOT NULL"
+					 +")";
+			
+			
+			statement.executeUpdate(sql);
+			
+			sql = "INSERT INTO payment VALUES('2233', 'wu', 'sicheng','xxxx-xxxx-xxxx-xxxx',"
+					+ " '3001 S. Michigan Ave', '', 'Chicago', 60616, 'IL', 04, 2018, 907)";
+			statement.executeUpdate(sql);
+			
+			
+			sql = "CREATE TABLE	reservations (" 
+					 +"user_id VARCHAR(255) NOT NULL,"
+					 +"courier_id VARCHAR(255) NOT NULL,"
+					 +"item_id VARCHAR(255) NOT NULL,"
+					 +"type VARCHAR(255) NOT NULL,"
+					 +"route_id VARCHAR(255) NOT NULL,"
+					 +"route_duration DOUBLE NOT NULL,"
+					 +"route_distance DOUBLE NOT NULL,"
+					 +"route_price DOUBLE NOT NULL,"
+					 +"route_path VARCHAR(255) NOT NULL"
+					 +")";
+			statement.executeUpdate(sql);
+			
+			sql = "INSERT INTO reservations VALUES('123','xxa','111','D', 'ahdjbbkvksd',996.0, 11.25, 29.83, 'k}qcFjushVf@QFABABAF?D?D@RBB@D?J?N?B?n@JLJJ@LDTDNDNDFBFBDBDBFBFBHB')";
+			statement.executeUpdate(sql);
+			
+//			sql = "INSERT INTO stations VALUES('11','68','Willow Road','Menlo Park')";
+//			statement.executeUpdate(sql);
+//			sql = "INSERT INTO stations VALUES('22','383','University Ave','Palo Alto')";
+//			statement.executeUpdate(sql);
+//			sql = "INSERT INTO stations VALUES('33','1929','Menalto Ave','Menlo Park')";
+//			statement.executeUpdate(sql);
+	
 			conn.close();
 			System.out.println("Import done successfully");
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
