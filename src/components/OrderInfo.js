@@ -78,8 +78,9 @@ class OrderInfoForm extends React.Component {
                     throw new Error(response.statusText);
                 })
                     .then((data) => {
-                        console.log(data);
+                        // console.log(data);
                         message.success('Sending Succeed!');
+                        this.props.handleResponse(data);
                         // this.props.history.push('/payment');
                     })
                     .catch((e) => {
@@ -184,8 +185,10 @@ class OrderInfoForm extends React.Component {
                     </Form.Item>
                     <Form.Item {...tailFormItemLayout}>
                         <Button type="primary" htmlType="submit">
-                            {/*<Link to="/payment">Place Order</Link>*/}
-                            Place Order
+                            Show Route
+                        </Button>
+                        <Button type="primary" className="button">
+                            <Link to="/payment">Place Order</Link>
                         </Button>
                     </Form.Item>
                 </Form>
