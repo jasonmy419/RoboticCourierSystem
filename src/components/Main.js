@@ -18,6 +18,9 @@ export class Main extends React.Component {
     getHome = () => {
         return this.props.isLoggedIn ? <Home/> : <Redirect to="/login"/>;
     }
+    getOrders = () => {
+        return this.props.isLoggedIn ? <Orders/> : <Redirect to="/login"/>;
+    }
 
     getConfirmation = () => {
         return <ConfirmationPage orderID = '123abc'/>
@@ -34,7 +37,7 @@ export class Main extends React.Component {
                         <Route path="/home" render={this.getHome}/>
                         <Route path="/payment" component={Payment}/>
                         <Route path="/confirmation" render={this.getConfirmation}/>
-                        <Route path="/orders" component={Orders}/>
+                        <Route path="/orders" render={this.getOrders}/>
                         <Route render={this.getLogin}/>
                     </Switch>
                 </BrowserRouter>
