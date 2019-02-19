@@ -124,11 +124,11 @@ public class DBTableCreation {
 			sql = "INSERT INTO orders VALUES('123k1','In Transit')";
 			statement.executeUpdate(sql);
 			
-			sql = "INSERT INTO stations VALUES('11', 68,'Willow Road','Menlo Park')";
+			sql = "INSERT INTO stations VALUES('11', 7373,'Concoy Ct','San Diego')";
 			statement.executeUpdate(sql);
-			sql = "INSERT INTO stations VALUES('22', 383,'University Ave','Palo Alto')";
+			sql = "INSERT INTO stations VALUES('22', 5716,'Miramar Rd','San Diego')";
 			statement.executeUpdate(sql);
-			sql = "INSERT INTO stations VALUES('33', 1929,'Menalto Ave','Menlo Park')";
+			sql = "INSERT INTO stations VALUES('33', 4605,'Morena Blvd','San Diego')";
 			statement.executeUpdate(sql);
 			
 			sql = "CREATE TABLE	payment (" 
@@ -169,13 +169,7 @@ public class DBTableCreation {
 			
 			sql = "INSERT INTO reservations VALUES('123','xxa','111','D', 'ahdjbbkvksd',996.0, 11.25, 29.83, 'k}qcFjushVf@QFABABAF?D?D@RBB@D?J?N?B?n@JLJJ@LDTDNDNDFBFBDBDBFBFBHB')";
 			statement.executeUpdate(sql);
-			
-//			sql = "INSERT INTO stations VALUES('11','68','Willow Road','Menlo Park')";
-//			statement.executeUpdate(sql);
-//			sql = "INSERT INTO stations VALUES('22','383','University Ave','Palo Alto')";
-//			statement.executeUpdate(sql);
-//			sql = "INSERT INTO stations VALUES('33','1929','Menalto Ave','Menlo Park')";
-//			statement.executeUpdate(sql);
+
 	
 			conn.close();
 			System.out.println("Import done successfully");
