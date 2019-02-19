@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import Steps, { Step } from 'rc-steps';
 import { API_ROOT } from "../constants";
-import 'rc-steps/assets/index.css';
-import 'rc-steps/assets/iconfont.css';
+import { Steps } from 'antd';
+
+const Step = Steps.Step;
+
 
 export class ConfirmationPage extends Component {
 
@@ -20,30 +21,36 @@ export class ConfirmationPage extends Component {
         //     }
         //     throw new Error(response.statusText);
         // }).then((data) => {
-        //     message.success('Registration Success');
+        //     setState()
         // }).catch((err) => {
         //     console.log(err);
         //     message.error('Registration Fail');
         // });
     }
 
-    description = "这里可以添加描述";
+    description0 = "Your order have been placed, wait for the next available robot";
+    description1 = "We have sent our nearest robot to pick up the item";
+    description2 = "Your item has been picked up, delivering to destination";
+    description3 = "Your item has arrived the destination";
 
     render() {
         console.log('render');
         return (
-            <div>
-                <h1>
-                    Success! Your order have been placed
-                </h1>
-                <h2>
-                    Tracking number: 123
-                </h2>
-                <Steps progressDot size="big" current={this.state.step}>
-                    <Step title="Order Received" description={this.description} />
-                    <Step title="Picked up" description={this.description} />
-                    <Step title="Delivering" description={this.description} />
-                    <Step title="Arrived" description={this.description} />
+            <div className="Confirmation">
+                <div className="text">
+                    <h1>
+                        Success! Your order have been placed
+                    </h1>
+                    <h2>
+                        Tracking number: {this.props.orderID}
+                    </h2>
+                </div>
+
+                <Steps current={this.state.step} className="steps">
+                    <Step title="Order Received" description={this.description0} />
+                    <Step title="Picking up" description={this.description1} />
+                    <Step title="Delivering" description={this.description2} />
+                    <Step title="Arrived" description={this.description3} />
                 </Steps>
             </div>
         );

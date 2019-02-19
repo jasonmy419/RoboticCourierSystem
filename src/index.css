@@ -10,6 +10,7 @@
 @import url('https://fonts.googleapis.com/css?family=Gloria+Hallelujah|Hanalei+Fill|Indie+Flower|Lato|Mukta');
 @import "styles/Home.css";
 @import "styles/Payment.css";
+@import "styles/ConfirmationPage.css";
 
 body {
   margin: 0;
