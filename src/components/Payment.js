@@ -19,7 +19,7 @@ class PaymentFrom extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, fieldsValue) => {if (!err) {
-
+            console.log(fieldsValue.month);
             const rangeValue = fieldsValue['range-picker'];
             const rangeTimeValue = fieldsValue['range-time-picker'];
             const values = {
@@ -39,17 +39,16 @@ class PaymentFrom extends React.Component {
             fetch(`${API_ROOT}/checkout`, {
                 method: 'POST',
                 body: JSON.stringify({
-                    lastname: values.lastname,
-                    firstname: values.firstname,
-                    email: values.email,
-                    phone: values.phone,
-                    address: values.address,
+                    last_name: values.last_name,
+                    first_name: values.first_name,
+                    card_number: values.card_number,
+                    address1: values.address1,
+                    address2: values.address2,
+                    city: values.city,
+                    zipcode: values.zipcode,
                     state: values.state,
-                    zip: values.zip,
-                    cardnumber: values.cardnumber,
-                    cardaddress: values.cardaddress,
                     month: values.month,
-                    date: values.date,
+                    year: values.year,
                     cvv: values.cvv,
                 }),
             }).then((response) => {
@@ -67,7 +66,7 @@ class PaymentFrom extends React.Component {
                 message.error('Check Failed.');
             });
 
-         }
+        }
         });
     }
 
@@ -110,26 +109,26 @@ class PaymentFrom extends React.Component {
 
                 <Form.Item
                     {...formItemLayout}
-                    label="Last Name"
+                    label="Last_Name"
                 >
-                    {getFieldDecorator('lastname', {
+                    {getFieldDecorator('last_name', {
                         rules: [{
-                            required: true, message: 'Please input your lastname!',
+                            required: true, message: 'Please input your last_name!',
                         }],
                     })(
-                        <Input type="lastname" onBlur={this.handleConfirmBlur}/>
+                        <Input type="last_name" onBlur={this.handleConfirmBlur}/>
                     )}
                 </Form.Item>
                 <Form.Item
                     {...formItemLayout}
-                    label="First Name"
+                    label="First_Name"
                 >
-                    {getFieldDecorator('firstname', {
+                    {getFieldDecorator('first_name', {
                         rules: [{
-                            required: true, message: 'Please input your firstname!',
+                            required: true, message: 'Please input your first_name!',
                         }],
                     })(
-                        <Input type="firstname" onBlur={this.handleConfirmBlur} />
+                        <Input type="first_name" onBlur={this.handleConfirmBlur} />
                     )}
                 </Form.Item>
                 <Form.Item
@@ -160,7 +159,7 @@ class PaymentFrom extends React.Component {
 
                 <Form.Item
                     {...formItemLayout}
-                    label="Address"
+                    label="AddressLine1"
                 >
                     {getFieldDecorator('address', {
                         rules: [{
@@ -168,6 +167,30 @@ class PaymentFrom extends React.Component {
                         }],
                     })(
                         <Input type="address" />
+                    )}
+                </Form.Item>
+
+                <Form.Item
+                    {...formItemLayout}
+                    label="AddressLine2"
+                >
+                    {getFieldDecorator('address', {
+
+                    })(
+                        <Input type="address" />
+                    )}
+                </Form.Item>
+
+                <Form.Item
+                    {...formItemLayout}
+                    label="City"
+                >
+                    {getFieldDecorator('city', {
+                        rules: [{
+                            required: true, message: 'Please input your city!',
+                        }],
+                    })(
+                        <Input type="state" />
                     )}
                 </Form.Item>
 
@@ -186,7 +209,7 @@ class PaymentFrom extends React.Component {
 
                 <Form.Item
                     {...formItemLayout}
-                    label="Zip"
+                    label="Zipcode"
                 >
                     {getFieldDecorator('zipcode', {
                         rules: [{
@@ -213,31 +236,9 @@ class PaymentFrom extends React.Component {
 
                 <Form.Item
                     {...formItemLayout}
-                    label="Card Address"
+                    label="expiration date"
                 >
-                    {getFieldDecorator('cardaddress', {
-                        rules: [{
-                            required: true, message: 'Please input your cardaddress!',
-                        }],
-                    })(
-                        <Input type="cardaddress" />
-                    )}
-                </Form.Item>
-
-                <Form.Item
-                    {...formItemLayout}
-                    label="Month"
-                >
-                    {getFieldDecorator('month', config)(
-                        <MonthPicker />
-                    )}
-                </Form.Item>
-
-                <Form.Item
-                    {...formItemLayout}
-                    label="Date"
-                >
-                    {getFieldDecorator('date', config)(
+                    {getFieldDecorator('expiration date', config)(
                         <DatePicker />
                     )}
                 </Form.Item>
