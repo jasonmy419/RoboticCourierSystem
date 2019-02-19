@@ -131,21 +131,21 @@ public class RouteRecommend extends HttpServlet {
 			res.put(fastestRoute.build().toJSONObject());
 			
 			// Sort the route based on distance
-			Collections.sort(routes, new Comparator<Route>() {
-				@Override
-				public int compare(Route r1, Route r2) {
-					return (r1.getDistance() < r2.getDistance()) ? -1 : 1;
-				}
-			});
-			
-			RouteBuilder shortestRoute = new RouteBuilder();
-			shortestRoute.setDistance(routes.get(0).getDistance());
-			shortestRoute.setDuration(routes.get(0).getDuration());
-			shortestRoute.setRoute(routes.get(0).getRoute());
-			shortestRoute.setTravelMode(routes.get(0).getMode());
-			
-			
-			res.put(shortestRoute.build().toJSONObject());
+//			Collections.sort(routes, new Comparator<Route>() {
+//				@Override
+//				public int compare(Route r1, Route r2) {
+//					return (r1.getDistance() < r2.getDistance()) ? -1 : 1;
+//				}
+//			});
+//			
+//			RouteBuilder shortestRoute = new RouteBuilder();
+//			shortestRoute.setDistance(routes.get(0).getDistance());
+//			shortestRoute.setDuration(routes.get(0).getDuration());
+//			shortestRoute.setRoute(routes.get(0).getRoute());
+//			shortestRoute.setTravelMode(routes.get(0).getMode());
+//			
+//			
+//			res.put(shortestRoute.build().toJSONObject());
 			
 			
 			System.out.println(res.length());
