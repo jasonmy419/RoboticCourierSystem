@@ -13,7 +13,7 @@ export class Home extends React.Component{
 
     render(){
         return(
-            <div className="maps">
+            <div className="home">
                 <Col span={14}>
                    <Map response={this.state.response}/>
                 </Col>

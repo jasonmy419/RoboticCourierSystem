@@ -5,8 +5,9 @@ import { Register } from "./Register"
 import { Login } from "./Login"
 import { Home } from './Home';
 import { Payment } from './Payment';
+import { Orders } from './Orders';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
-import {ConfirmationPage} from "./ConfirmationPage";
+import { ConfirmationPage } from "./ConfirmationPage";
 
 
 export class Main extends React.Component {
@@ -32,7 +33,8 @@ export class Main extends React.Component {
                         <Route path="/register" component={Register}/>
                         <Route path="/home" render={this.getHome}/>
                         <Route path="/payment" component={Payment}/>
-                        <Route path="/confirmation" component={this.getConfirmation}/>
+                        <Route path="/confirmation" render={this.getConfirmation}/>
+                        <Route path="/orders" component={Orders}/>
                         <Route render={this.getLogin}/>
                     </Switch>
                 </BrowserRouter>
