@@ -19,3 +19,6 @@
     margin-right: 8px;
     color: cornflowerblue;
 }
+a {
+    text-decoration: none !important;
+}

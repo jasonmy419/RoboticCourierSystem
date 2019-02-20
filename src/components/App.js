@@ -8,6 +8,9 @@ import { Main } from "./Main";
 import 'rc-steps/assets/index.css';
 import 'rc-steps/assets/iconfont.css';
 import { TOKEN_KEY } from './constants';
+import {BrowserRouter, Route, Switch} from "react-router-dom";
+import {Register} from "./Register";
+import {Payment} from "./Payment";
 // import Steps, { Step } from 'rc-steps';
 
 // const AnyReactComponent = ({ text }) => <div>{text}</div>;

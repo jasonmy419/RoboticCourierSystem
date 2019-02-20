@@ -81,9 +81,10 @@ class OrderInfoForm extends React.Component {
                         // console.log(data);
                         message.success('Sending Succeed!');
                         this.props.handleResponse(data);
-                        // this.props.history.push('/payment');
+                        //this.props.history.push('/payment');
                     })
                     .catch((e) => {
+
                         console.log(e);
                         message.error('Sending Failed.');
                     });
@@ -188,7 +189,7 @@ class OrderInfoForm extends React.Component {
                             Show Route
                         </Button>
                         <Button type="primary" className="button">
-                            <Link to="/payment">Place Order</Link>
+                            Place Order
                         </Button>
                     </Form.Item>
                 </Form>
