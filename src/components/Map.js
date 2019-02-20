@@ -41,26 +41,24 @@ class NormalAroundMap extends React.Component {
     //
     //
     // }
-    toggleRoute = () => {
-        this.setState((prevState) => ({
-            isRouteGiven: !prevState.isRouteGiven
-        }));
-    }
+    // toggleRoute = () => {
+    //     this.setState((prevState) => ({
+    //         isRouteGiven: !prevState.isRouteGiven
+    //     }));
+    // }
     getMapRef = (instance) => {
         this.map = instance;
     }
-    state ={
-        isRouteGiven: true
-    }
+    // state ={
+    //     isRouteGiven: true
+    // }
 
     render() {
         // const { lat, lon: lng } = JSON.parse(localStorage.getItem(POS_KEY));
-        console.log(this.props.response[0].overview_polyline.points);
-        const decodedPath = new window.google.maps.geometry.encoding.decodePath(
+
+        const decodedPath = this.props.response ? new window.google.maps.geometry.encoding.decodePath(
              this.props.response[0].overview_polyline.points
-            // '}~kvHmzrr@ba\\hnc@jiu@r{Zqx~@hjp@pwEhnc@zhu@zflAbxn@fhjBvqHroaAgcnAp}gAeahAtqGkngAinc@_h|@r{Zad\\y|_D}_y@swg' +
-            // '@ysg@}llBpoZqa{@xrw@~eBaaX}{uAero@uqGadY}nr@`dYs_NquNgbjAf{l@|yh@bfc@}nr@z}q@i|i@zgz@r{ZhjFr}gApob@ff}@laIsen@dgYhdPvbIren@'
-            );
+            ):null;
         return (
             <GoogleMap
                 ref={this.getMapRef}
@@ -69,7 +67,7 @@ class NormalAroundMap extends React.Component {
                 //onClick={this.toggleRoute}
             >
                 {
-                    this.state.isRouteGiven ? <Polyline
+                    <Polyline
                     path={decodedPath}
                     geodesic={true}
                     options={{
@@ -77,7 +75,7 @@ class NormalAroundMap extends React.Component {
                         strokeOpacity: 0.75,
                         strokeWeight: 4,
 
-                    }}/> : null
+                    }}/>
                 }
 
             </GoogleMap>
