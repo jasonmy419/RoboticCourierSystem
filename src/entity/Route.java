@@ -14,6 +14,7 @@ public class Route {
 	private TravelMode mode;
 	private List<Polyline> route;
 	private JSONObject polyline;
+	private double price;
 	
 	private Route (RouteBuilder builder) {
 		this.duration = builder.duration;
@@ -21,6 +22,10 @@ public class Route {
 		this.mode = builder.mode;
 		this.route = builder.route;
 		this.polyline = builder.polyline;
+		this.price = builder.price;
+	}
+	public double getPrice() {
+		return this.price;
 	}
 	
 	public int getDuration() {
@@ -52,7 +57,7 @@ public class Route {
 			obj.put("mode", mode.name());
 			obj.put("route", this.toJSONArray());
 			obj.put("overview_polyline", polyline);
-			
+			obj.put("price", price);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -76,6 +81,12 @@ public class Route {
 		private TravelMode mode;
 		private List<Polyline> route;
 		private JSONObject polyline;
+		private double price;
+		
+		public RouteBuilder setPrice(double price) {
+			this.price = price;
+			return this;
+		}
 		
 		public RouteBuilder setDuration(int time) {
 			this.duration = time;
