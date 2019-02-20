@@ -21,6 +21,7 @@ import entity.Address;
 import entity.Route;
 import entity.Route.RouteBuilder;
 import entity.Address.AddressBuilder;
+import entity.ItemSize;
 import external.CalculateFlightDistance;
 import external.DirectionsAPI;
 import internal.StationAddress;
@@ -68,7 +69,7 @@ public class RouteRecommend extends HttpServlet {
 		
 		try {
 			Address origin, waypoint, destination;
-			
+			ItemSize size;
 			
 			StationAddress address = new StationAddress();
 			JSONArray array = address.getAddress();
@@ -105,11 +106,12 @@ public class RouteRecommend extends HttpServlet {
 				List<Route> newList = directionsAPI.directions(originArray[i], destination, waypoint);
 				routes.addAll(newList);
 			}
-			
+			// Parse item size
+			size = ItemSize.valueOf(input.getString("size"));
 			
 			for (int i = 0; i < routes.size();i++) {
 				System.out.println("Price is"+ CalculatePrice.getPrice(routes.get(i).getDuration(), 
-						routes.get(i).getDistance(), routes.get(i).getMode()));
+						routes.get(i).getDistance(), routes.get(i).getMode(), size));
 			}
 			
 			JSONArray res = new JSONArray();
@@ -125,10 +127,12 @@ public class RouteRecommend extends HttpServlet {
 			RouteBuilder fastestRoute = new RouteBuilder();
 			fastestRoute.setDistance(routes.get(0).getDistance());
 			fastestRoute.setDuration(routes.get(0).getDuration());
-			fastestRoute.setRoute(routes.get(0).getRoute());
+			fastestRoute.setPolylineOverview(routes.get(0).getPolyline());
 			fastestRoute.setTravelMode(routes.get(0).getMode());
+			fastestRoute.setRoute(routes.get(0).getRoute());
+			JSONObject obj = fastestRoute.build().toJSONObject();
 			
-			res.put(fastestRoute.build().toJSONObject());
+			res.put(obj);
 			
 			// Sort the route based on distance
 //			Collections.sort(routes, new Comparator<Route>() {
