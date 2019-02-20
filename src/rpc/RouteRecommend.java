@@ -87,15 +87,17 @@ public class RouteRecommend extends HttpServlet {
 			
 			System.out.println(originArray[0].getStreetName() + originArray[0].getStreetNum() + originArray[0].getCity());
 			
-			// choose the transfer mode
-			List<Route> routes = new ArrayList<>();
+			// Parse item size
+			size = ItemSize.valueOf(input.getString("size"));
 			
+			// choose the transfer mode
+			List<Route> routes = new ArrayList<>();	
 			
 			waypoint = new AddressBuilder().parseJson(input.getJSONObject("waypoint"), 1);
 			destination = new AddressBuilder().parseJson(input.getJSONObject("destination"), 1);
 			for (int i = 0; i < originArray.length / 2; i++) {
 				CalculateFlightDistance distanceAPI = new CalculateFlightDistance();
-				List<Route> retList = distanceAPI.calculateDistance(originArray[i], destination, waypoint);
+				List<Route> retList = distanceAPI.calculateDistance(originArray[i], destination, waypoint, size);
 				routes.addAll(retList);
 			}
 			
@@ -103,15 +105,15 @@ public class RouteRecommend extends HttpServlet {
 			destination = new AddressBuilder().parseJson(input.getJSONObject("destination"), 2);
 			for (int i = originArray.length / 2; i < originArray.length; i++) {
 				DirectionsAPI directionsAPI = new DirectionsAPI();
-				List<Route> newList = directionsAPI.directions(originArray[i], destination, waypoint);
+				List<Route> newList = directionsAPI.directions(originArray[i], destination, waypoint, size);
 				routes.addAll(newList);
 			}
-			// Parse item size
-			size = ItemSize.valueOf(input.getString("size"));
+			
 			
 			for (int i = 0; i < routes.size();i++) {
-				System.out.println("Price is"+ CalculatePrice.getPrice(routes.get(i).getDuration(), 
-						routes.get(i).getDistance(), routes.get(i).getMode(), size));
+				double price = CalculatePrice.getPrice(routes.get(i).getDuration(), 
+						routes.get(i).getDistance(), routes.get(i).getMode(), size);
+				System.out.println("Price should be "+ price + ", but it is now " + routes.get(i).getPrice());
 			}
 			
 			JSONArray res = new JSONArray();
@@ -130,26 +132,33 @@ public class RouteRecommend extends HttpServlet {
 			fastestRoute.setPolylineOverview(routes.get(0).getPolyline());
 			fastestRoute.setTravelMode(routes.get(0).getMode());
 			fastestRoute.setRoute(routes.get(0).getRoute());
-			JSONObject obj = fastestRoute.build().toJSONObject();
+			fastestRoute.setPrice(routes.get(0).getPrice());
 			
-			res.put(obj);
+			JSONObject fastRoute = fastestRoute.build().toJSONObject();
+			fastRoute.put("size", size);
+			
+			res.put(fastRoute);
 			
 			// Sort the route based on distance
-//			Collections.sort(routes, new Comparator<Route>() {
-//				@Override
-//				public int compare(Route r1, Route r2) {
-//					return (r1.getDistance() < r2.getDistance()) ? -1 : 1;
-//				}
-//			});
-//			
-//			RouteBuilder shortestRoute = new RouteBuilder();
-//			shortestRoute.setDistance(routes.get(0).getDistance());
-//			shortestRoute.setDuration(routes.get(0).getDuration());
-//			shortestRoute.setRoute(routes.get(0).getRoute());
-//			shortestRoute.setTravelMode(routes.get(0).getMode());
-//			
-//			
-//			res.put(shortestRoute.build().toJSONObject());
+			Collections.sort(routes, new Comparator<Route>() {
+				@Override
+				public int compare(Route r1, Route r2) {
+					return (r1.getPrice() < r2.getPrice()) ? -1 : 1;
+				}
+			});
+			
+			RouteBuilder cheapestRoute = new RouteBuilder();
+			cheapestRoute.setDistance(routes.get(0).getDistance());
+			cheapestRoute.setDuration(routes.get(0).getDuration());
+			cheapestRoute.setRoute(routes.get(0).getRoute());
+			cheapestRoute.setTravelMode(routes.get(0).getMode());
+			cheapestRoute.setPolylineOverview(routes.get(0).getPolyline());
+			cheapestRoute.setPrice(routes.get(0).getPrice());
+			
+			JSONObject cheapRoute = cheapestRoute.build().toJSONObject();
+			cheapRoute.put("size", size);
+			
+			res.put(cheapRoute);
 			
 			
 			System.out.println(res.length());
