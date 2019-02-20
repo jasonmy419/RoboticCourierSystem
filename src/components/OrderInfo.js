@@ -1,13 +1,15 @@
 import React from 'react';
 import { Form, Input, Button, Select, Card, message, Radio } from 'antd';
-import { API_ROOT, proxyurl, NUMBER, WORD } from "../constants";
+import { API_ROOT, proxyurl, NUMBER, WORD, PRICE } from "../constants";
 import { Link } from 'react-router-dom';
+import { RouteInfo } from "./RouteInfo";
 
 class OrderInfoForm extends React.Component {
     state = {
         pickUpAddr: [],
         deliveryAddr: [],
-        value: 1,
+        routes: [],
+        price: 0.00,
     }
     // handleSubmit = (e) => {
     //     e.preventDefault();
@@ -18,12 +20,12 @@ class OrderInfoForm extends React.Component {
     //         }
     //     });
     // }
-    onChange = (e) => {
-        console.log('radio checked', e.target.value);
-        this.setState({
-            value: e.target.value,
-        });
-    }
+    // onChange = (e) => {
+    //     console.log('radio checked', e.target.value);
+    //     this.setState({
+    //         value: e.target.value,
+    //     });
+    // }
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -53,11 +55,6 @@ class OrderInfoForm extends React.Component {
                     //     password: values.deliveryAddress,
                     // }),
                     body: JSON.stringify({
-                            'origin': {
-                                "street_number": "68",
-                                "street_name": "Willow Road",
-                                "city": "Menlo Park",
-                            },
                             'waypoint': {
                                 street_number: this.state.pickUpAddr[0],
                                 street_name: this.state.pickUpAddr[1],
@@ -68,19 +65,21 @@ class OrderInfoForm extends React.Component {
                                 street_name: this.state.deliveryAddr[1],
                                 city: this.state.deliveryAddr[2],
                             },
-                            'mode': this.state.value,
+                            'size': values.itemSize,
                         }
                     ),
                 }).then((response) => {
                     if (response.ok) {
-                        return response.text();
+                        return response.json();
                     }
                     throw new Error(response.statusText);
                 })
                     .then((data) => {
-                        // console.log(data);
+                        console.log(data);
                         message.success('Sending Succeed!');
-                        this.props.handleResponse(data);
+                        this.setState({ routes : data ? data : [] });
+                        console.log(this.state.routes);
+                        // this.props.handleResponse(data);
                         //this.props.history.push('/payment');
                     })
                     .catch((e) => {
@@ -114,6 +113,16 @@ class OrderInfoForm extends React.Component {
         else { return [street[0], street[1]]; }
     }
 
+    // getPrice = (price) => {
+    //     return price.match(PRICE);
+    // }
+
+    onChange = (e) => {
+        console.log(`radio checked:${e.target.value}`);
+        this.setState({price : e.target.value});
+        this.props.handleResponse(this.state.routes.filter((route) => route.price === e.target.value));
+    }
+
     render() {
         const { getFieldDecorator } = this.props.form;
 
@@ -140,8 +149,6 @@ class OrderInfoForm extends React.Component {
             },
         };
 
-        const RadioGroup = Radio.Group;
-
         return (
             <Card className="order">
                 <Form onSubmit={this.handleSubmit}>
@@ -167,22 +174,33 @@ class OrderInfoForm extends React.Component {
                     </Form.Item>
                     <Form.Item
                         {...formItemLayout}
-                        label="Recommanded By"
+                        label="Item Size"
                     >
-                        <RadioGroup onChange={this.onChange} value={this.state.value}>
-                            <Radio className="radio" value={1}>Shortest Time</Radio>
-                            <Radio className="radio" value={2}>Lowest Price</Radio>
-                            <Radio className="radio" value={3}>
-                                More...
-                                {this.state.value === 4 ? <Input style={{ width: 100, marginLeft: 10 }} /> : null}
-                            </Radio>
-                        </RadioGroup>
+                        {getFieldDecorator('itemSize', {
+                            rules: [{ required: true, message: 'Please select your item size!'}],
+                        })(
+                            <Radio.Group>
+                                <Radio value="SMALL">Small</Radio>
+                                <Radio value="MEDIUM">Medium</Radio>
+                                <Radio value="LARGE">Large</Radio>
+                            </Radio.Group>
+                        )}
+                    </Form.Item>
+                    <Form.Item
+                        {...formItemLayout}
+                        label="Radio.Button"
+                    >
+                        {getFieldDecorator('radio-button')(
+                            <Radio.Group onChange={this.onChange}>
+                                {this.state.routes.map((route) => <RouteInfo route={route} key={route.price}/>)}
+                            </Radio.Group>
+                        )}
                     </Form.Item>
                     <Form.Item
                         {...formItemLayout}
                         label="Price: "
                     >
-                        <p>$100.00</p>
+                        <p>$ {this.state.price} </p>
                     </Form.Item>
                     <Form.Item {...tailFormItemLayout}>
                         <Button type="primary" htmlType="submit">
