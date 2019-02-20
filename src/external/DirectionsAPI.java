@@ -20,8 +20,10 @@ import entity.Polyline;
 import entity.Polyline.PolylineBuilder;
 import entity.Route;
 import entity.Route.RouteBuilder;
+import internal.CalculatePrice;
 import entity.State;
 import entity.TravelMode;
+import entity.ItemSize;
 
 public class DirectionsAPI {
 
@@ -29,7 +31,7 @@ public class DirectionsAPI {
 	private static final boolean ALTERNATIVES = true;
 	private static final String TRAVEL_MODE = "walking";
 
-	public List<Route> directions(Address origin, Address destination, Address waypoint) {
+	public List<Route> directions(Address origin, Address destination, Address waypoint, ItemSize size) {
 
 		List<Route> routes = new ArrayList<>();
 
@@ -41,6 +43,8 @@ public class DirectionsAPI {
 		api.geocoding(origin);
 		api.geocoding(waypoint);
 		api.geocoding(destination);
+		
+//		System.out.println("origin is here: "+waypoint.getStreetName());
 
 		String query = String.format(
 				"origin=place_id:%s&destination=place_id:%s&waypoints=place_id:%s&"
@@ -78,7 +82,7 @@ public class DirectionsAPI {
 				JSONArray array = obj.getJSONArray("routes");
 				System.out.println("Route numbers: " + array.length());
 				for (int i = 0; i < array.length(); i++) {
-					routes.add(routeParse(array.getJSONObject(i)));
+					routes.add(routeParse(array.getJSONObject(i), size));
 				}
 			}
 
@@ -89,7 +93,7 @@ public class DirectionsAPI {
 		return routes;
 	}
 
-	private Route routeParse(JSONObject object) throws JSONException, UnsupportedEncodingException {
+	private Route routeParse(JSONObject object, ItemSize size) throws JSONException, UnsupportedEncodingException {
 
 		RouteBuilder routeBuilder = new RouteBuilder();
 
@@ -136,11 +140,17 @@ public class DirectionsAPI {
 				routeBuilder.setRoute(Polylines);
 				routeBuilder.setTravelMode(TravelMode.WALKING);
 			}
+			double price = CalculatePrice.getPrice(leg.getJSONObject("duration").getInt("value"), 
+					leg.getJSONObject("distance").getInt("value"), TravelMode.WALKING, size);
+			
+			routeBuilder.setPrice(price);
 		}
 
 		if (!object.isNull("overview_polyline")) {
 			routeBuilder.setPolylineOverview(object.getJSONObject("overview_polyline"));
 		}
+		
+		
 
 		return routeBuilder.build();
 	}
@@ -163,7 +173,7 @@ public class DirectionsAPI {
 				.setCity("Menlo Park").setState(State.CA).setInputType(InputType.ADDRESS_STRING)
 				.setResponseType(GeoResponseType.PLACE_ID).build();
 
-		List<Route> routes = api.directions(origin, destination, wayPoint);
+		List<Route> routes = api.directions(origin, destination, wayPoint, ItemSize.SMALL);
 		for (Route r : routes) {
 			System.out.println(r.getPolyline());
 		}
