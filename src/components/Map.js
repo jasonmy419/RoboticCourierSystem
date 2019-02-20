@@ -35,9 +35,9 @@ class NormalAroundMap extends React.Component {
     //     path.push(latLng);
     //
     //     const decodedPath = new window.google.maps.geometry.encoding.decodePath(
-    //         '}~kvHmzrr@ba\\hnc@jiu@r{Zqx~@hjp@pwEhnc@zhu@zflAbxn@fhjBvqHroaAgcnAp}gAeahAtqGkngAinc@_h|@r{Zad\\y|_D}_y@swg' +
-    //         '@ysg@}llBpoZqa{@xrw@~eBaaX}{uAero@uqGadY}nr@`dYs_NquNgbjAf{l@|yh@bfc@}nr@z}q@i|i@zgz@r{ZhjFr}gApob@ff}@laIsen@dgYhdPvbIren@'
-    //     );
+    //     //         '}~kvHmzrr@ba\\hnc@jiu@r{Zqx~@hjp@pwEhnc@zhu@zflAbxn@fhjBvqHroaAgcnAp}gAeahAtqGkngAinc@_h|@r{Zad\\y|_D}_y@swg' +
+    //     //         '@ysg@}llBpoZqa{@xrw@~eBaaX}{uAero@uqGadY}nr@`dYs_NquNgbjAf{l@|yh@bfc@}nr@z}q@i|i@zgz@r{ZhjFr}gApob@ff}@laIsen@dgYhdPvbIren@'
+    //     //     );
     //
     //
     // }
@@ -55,9 +55,11 @@ class NormalAroundMap extends React.Component {
 
     render() {
         // const { lat, lon: lng } = JSON.parse(localStorage.getItem(POS_KEY));
-        console.log(this.props.response);
+        console.log(this.props.response[0].overview_polyline.points);
         const decodedPath = new window.google.maps.geometry.encoding.decodePath(
-            this.props.response[0].overview_polyline.points
+             this.props.response[0].overview_polyline.points
+            // '}~kvHmzrr@ba\\hnc@jiu@r{Zqx~@hjp@pwEhnc@zhu@zflAbxn@fhjBvqHroaAgcnAp}gAeahAtqGkngAinc@_h|@r{Zad\\y|_D}_y@swg' +
+            // '@ysg@}llBpoZqa{@xrw@~eBaaX}{uAero@uqGadY}nr@`dYs_NquNgbjAf{l@|yh@bfc@}nr@z}q@i|i@zgz@r{ZhjFr}gApob@ff}@laIsen@dgYhdPvbIren@'
             );
         return (
             <GoogleMap
