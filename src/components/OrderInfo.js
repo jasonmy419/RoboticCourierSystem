@@ -46,7 +46,7 @@ class OrderInfoForm extends React.Component {
                     })
                 }
                 // send request
-                fetch(`${API_ROOT}/route`, {
+                fetch(`${API_ROOT}/routeRecommend`, {
                     method: 'POST',
                     // body: JSON.stringify({
                     //     username: values.pickingUpAddress,

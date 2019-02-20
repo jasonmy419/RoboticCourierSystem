@@ -30,43 +30,53 @@ class NormalAroundMap extends React.Component {
     //         return 0.001 * window.google.maps.geometry.spherical.computeDistanceBetween(center, right);
     //     }
     // }
-    addLatLngToPoly = (latLng, poly) =>{
-        const path = poly.getPath();
-        path.push(latLng);
-
-        const decodedPath = new window.google.maps.geometry.encoding.decodePath(
-            '}~kvHmzrr@ba\\hnc@jiu@r{Zqx~@hjp@pwEhnc@zhu@zflAbxn@fhjBvqHroaAgcnAp}gAeahAtqGkngAinc@_h|@r{Zad\\y|_D}_y@swg' +
-            '@ysg@}llBpoZqa{@xrw@~eBaaX}{uAero@uqGadY}nr@`dYs_NquNgbjAf{l@|yh@bfc@}nr@z}q@i|i@zgz@r{ZhjFr}gApob@ff}@laIsen@dgYhdPvbIren@'
-        );
-
-
+    // addLatLngToPoly = (latLng, poly) =>{
+    //     const path = poly.getPath();
+    //     path.push(latLng);
+    //
+    //     const decodedPath = new window.google.maps.geometry.encoding.decodePath(
+    //         '}~kvHmzrr@ba\\hnc@jiu@r{Zqx~@hjp@pwEhnc@zhu@zflAbxn@fhjBvqHroaAgcnAp}gAeahAtqGkngAinc@_h|@r{Zad\\y|_D}_y@swg' +
+    //         '@ysg@}llBpoZqa{@xrw@~eBaaX}{uAero@uqGadY}nr@`dYs_NquNgbjAf{l@|yh@bfc@}nr@z}q@i|i@zgz@r{ZhjFr}gApob@ff}@laIsen@dgYhdPvbIren@'
+    //     );
+    //
+    //
+    // }
+    toggleRoute = () => {
+        this.setState((prevState) => ({
+            isRouteGiven: !prevState.isRouteGiven
+        }));
     }
-
     getMapRef = (instance) => {
         this.map = instance;
+    }
+    state ={
+        isRouteGiven: true
     }
 
     render() {
         // const { lat, lon: lng } = JSON.parse(localStorage.getItem(POS_KEY));
+        console.log(this.props.response);
         const decodedPath = new window.google.maps.geometry.encoding.decodePath(
-            '}~kvHmzrr@ba\\hnc@jiu@r{Zqx~@hjp@pwEhnc@zhu@zflAbxn@fhjBvqHroaAgcnAp}gAeahAtqGkngAinc@_h|@r{Zad\\y|_D}_y@swg' +
-                '@ysg@}llBpoZqa{@xrw@~eBaaX}{uAero@uqGadY}nr@`dYs_NquNgbjAf{l@|yh@bfc@}nr@z}q@i|i@zgz@r{ZhjFr}gApob@ff}@laIsen@dgYhdPvbIren@'
+            this.props.response[0].overview_polyline.points
             );
         return (
             <GoogleMap
                 ref={this.getMapRef}
                 defaultZoom={13}
                 defaultCenter={SF_COORD}
+                //onClick={this.toggleRoute}
             >
-            <Polyline
-                path={decodedPath}
-                geodesic={true}
-                options={{
-                    strokeColor: "#42b9f4",
-                    strokeOpacity: 0.75,
-                    strokeWeight: 4,
+                {
+                    this.state.isRouteGiven ? <Polyline
+                    path={decodedPath}
+                    geodesic={true}
+                    options={{
+                        strokeColor: "#42b9f4",
+                        strokeOpacity: 0.75,
+                        strokeWeight: 4,
 
-                }}/>
+                    }}/> : null
+                }
 
             </GoogleMap>
         );
