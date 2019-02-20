@@ -14,14 +14,16 @@ import entity.Polyline;
 import entity.Polyline.PolylineBuilder;
 import entity.Route;
 import entity.Route.RouteBuilder;
+import internal.CalculatePrice;
 import entity.TravelMode;
+import entity.ItemSize;
 
 public class CalculateFlightDistance {
 	
 	private static final int FLYING_SPEED = 25; // 25m / s
 	private static final double R = 6371.01; // Radius of the earth
 	
-	public List<Route> calculateDistance(Address origin, Address destination, Address waypoint){
+	public List<Route> calculateDistance(Address origin, Address destination, Address waypoint, ItemSize size){
 		
 		List<Route> routes = new ArrayList<>();
 		
@@ -60,14 +62,24 @@ public class CalculateFlightDistance {
 			e.printStackTrace();
 		}
 		
+		double price = CalculatePrice.getPrice(first.getDuration() + second.getDuration(), 
+				first.getDistance() + second.getDistance(), TravelMode.FLYING, size);
+		
+		
+		
 		RouteBuilder builder = new RouteBuilder();
 		builder.setDistance(first.getDistance() + second.getDistance());
 		builder.setDuration(first.getDuration() + second.getDuration());
 		builder.setTravelMode(TravelMode.FLYING);
 		builder.setRoute(polylines);
 		builder.setPolylineOverview(object);
+		builder.setPrice(price);
 				
 		routes.add(builder.build());
+		
+//		System.out.println("Distance is" + routes.get(0).getDistance());
+//		System.out.println("Duration is" + routes.get(0).getDuration());
+//		System.out.println("Duration is" + routes.get(0).getDuration());
 		return routes;
 	}
 	
