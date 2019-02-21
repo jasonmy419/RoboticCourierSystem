@@ -54,9 +54,10 @@ class NormalAroundMap extends React.Component {
     // }
 
     render() {
+        // console.log(this.props.response.length > 0 ? this.props.response[0].mode : null);
         // const { lat, lon: lng } = JSON.parse(localStorage.getItem(POS_KEY));
 
-        const decodedPath = this.props.response ? new window.google.maps.geometry.encoding.decodePath(
+        const decodedPath = this.props.response.length > 0 ? new window.google.maps.geometry.encoding.decodePath(
              this.props.response[0].overview_polyline.points
             ):null;
         return (
