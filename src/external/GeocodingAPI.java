@@ -10,7 +10,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import entity.Address;
-import entity.Address.GeoResponseType;
 
 public class GeocodingAPI {
 
@@ -22,8 +21,7 @@ public class GeocodingAPI {
 			return;
 		}
 		
-		System.out.println(address.getGeoQuery());
-		String url = GoogleMapAPIUtil.PREFIX + METHOD + GoogleMapAPIUtil.OUTPUT_FORMAT + "?" + address.getGeoQuery();
+		String url = GoogleMapAPIUtil.PREFIX + METHOD + GoogleMapAPIUtil.OUTPUT_FORMAT + "?" + getGeoQuery(address);
 
 		try {
 			HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
@@ -80,7 +78,6 @@ public class GeocodingAPI {
 	private void responseWithID(JSONObject object, Address address) throws JSONException {
 		if(!object.isNull("place_id")) {
 			address.setPlaceID(object.getString("place_id"));
-			address.setResponseType(GeoResponseType.PLACE_ID);
 		}
 	}
 	
@@ -91,8 +88,26 @@ public class GeocodingAPI {
 				JSONObject location = geometry.getJSONObject("location");
 				address.setLatitude(location.getDouble("lat"));
 				address.setLongitude(location.getDouble("lng"));
-				address.setResponseType(GeoResponseType.COORDINATE);
 			}
 		}
+	}
+	
+	private String getGeoQuery(Address origin) {
+		String prefix = null;
+		String query = null;
+		switch (origin.getInputType()) {
+		case ADDRESS_STRING:
+			prefix = "address=%s&key=%s";
+			query = String.format(prefix, origin.getParsedString(), GoogleMapAPIUtil.API_KEY);
+			break;
+		case PLACE_ID:
+			break;
+		case COORDINATE:
+			prefix = "latlng=%s&key=%s";
+			query = String.format(prefix, origin.getCoordinate(), GoogleMapAPIUtil.API_KEY);
+			break;
+		}
+
+		return query;
 	}
 }

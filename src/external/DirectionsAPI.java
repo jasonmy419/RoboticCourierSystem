@@ -46,10 +46,10 @@ public class DirectionsAPI {
 		
 //		System.out.println("origin is here: "+waypoint.getStreetName());
 
-		String query = String.format(
-				"origin=place_id:%s&destination=place_id:%s&waypoints=place_id:%s&"
-						+ "mode=%s&alternatives=%s&key=%s&avoid=tolls|highways|ferries",
-				origin.getPlaceID(), destination.getPlaceID(), waypoint.getPlaceID(), TRAVEL_MODE, ALTERNATIVES,
+		String query = String.format("%s&mode=%s&alternatives=%s&key=%s&avoid=tolls|highways|ferries",
+				this.generateQuery(origin, waypoint, destination),
+				TRAVEL_MODE,
+				ALTERNATIVES,
 				GoogleMapAPIUtil.API_KEY);
 		String url = GoogleMapAPIUtil.PREFIX + METHOD + GoogleMapAPIUtil.OUTPUT_FORMAT + "?" + query;
 
@@ -154,24 +154,42 @@ public class DirectionsAPI {
 
 		return routeBuilder.build();
 	}
+	
+	private String generateQuery(Address origin, Address waypoint, Address destination) {
+		// all 3 input should follow same format
+		String prefix = null;
+		String query = null;
+		
+		switch(origin.getResponseType()) {
+		case PLACE_ID:
+			prefix = "origin=place_id:%s&destination=place_id:%s&waypoints=place_id:%s";
+			query = String.format(prefix, origin.getPlaceID(), destination.getPlaceID(), waypoint.getPlaceID());
+			break;
+		case COORDINATE:
+			prefix = "origin=%s&destination=%s&waypoints=%s";
+			query = String.format(prefix, origin.getCoordinate(), destination.getCoordinate(), waypoint.getCoordinate());
+			break;
+		}
+		return query;
+	}
 
 	public static void main(String args[]) throws JSONException {
 		DirectionsAPI api = new DirectionsAPI();
 
 		// 68 Willow Road, Menlo Park, CA
 		Address origin = new AddressBuilder().setStreetNum("68").setStreetName("Willow Road").setCity("Menlo Park")
-				.setState(State.CA).setInputType(InputType.ADDRESS_STRING).setResponseType(GeoResponseType.PLACE_ID)
+				.setState(State.CA).setInputType(InputType.ADDRESS_STRING).setResponseType(GeoResponseType.COORDINATE)
 				.build();
 
 		// 383 University Ave, Palo Alto, CA
 		Address wayPoint = new AddressBuilder().setStreetNum("383").setStreetName("University Ave").setCity("Palo Alto")
-				.setState(State.CA).setInputType(InputType.ADDRESS_STRING).setResponseType(GeoResponseType.PLACE_ID)
+				.setState(State.CA).setInputType(InputType.ADDRESS_STRING).setResponseType(GeoResponseType.COORDINATE)
 				.build();
 
 		// 1929 Menalto Ave, Menlo Park, CA
 		Address destination = new AddressBuilder().setStreetNum("1929").setStreetName("Menalto Ave")
 				.setCity("Menlo Park").setState(State.CA).setInputType(InputType.ADDRESS_STRING)
-				.setResponseType(GeoResponseType.PLACE_ID).build();
+				.setResponseType(GeoResponseType.COORDINATE).build();
 
 		List<Route> routes = api.directions(origin, destination, wayPoint, ItemSize.SMALL);
 		for (Route r : routes) {
