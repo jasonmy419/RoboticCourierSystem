@@ -52,6 +52,13 @@ class NormalAroundMap extends React.Component {
     // state ={
     //     isRouteGiven: true
     // }
+    getCenter = () => {
+        const center = this.props.response.length > 0 ? {SF_COORD} : {SF_COORD};
+        return{
+          lat: center.lat(),
+            lng: center.lng()
+        };
+    }
 
     render() {
         // console.log(this.props.response.length > 0 ? this.props.response[0].mode : null);
@@ -64,7 +71,7 @@ class NormalAroundMap extends React.Component {
             <GoogleMap
                 ref={this.getMapRef}
                 defaultZoom={13}
-                defaultCenter={SF_COORD}
+                defaultCenter={this.getCenter}
                 //onClick={this.toggleRoute}
             >
                 {

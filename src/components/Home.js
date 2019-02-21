@@ -4,7 +4,33 @@ import { OrderInfo } from "./OrderInfo"
 import { Col } from 'antd';
 
 export class Home extends React.Component{
-    state = { response : [] }
+    state = { response : [    {
+            "duration": 477,
+            "mode": "FLYING",
+            "route": [
+                {
+                    "duration": 136,
+                    "distance": 3413,
+                    "polyline": {
+                        "points": "cmtgE`{fjUvNtbF"
+                    }
+                },
+                {
+                    "duration": 341,
+                    "distance": 8540,
+                    "polyline": {
+                        "points": "k}sgEv~mjUz`I_gL"
+                    }
+                }
+            ],
+            "distance": 11953,
+            "size": "SMALL",
+            "price": 18.444499721625707,
+            "overview_polyline": {
+                "points": "cmtgE`{fjUvNtbFz`I_gL"
+            }
+        }
+        ] }
 
 handleResponse = (responseValue) => {
         this.setState({response: responseValue});
