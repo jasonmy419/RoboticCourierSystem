@@ -34,34 +34,6 @@ public class Confirmation extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-
-		response.setContentType("application/json");
-		
-		DBConnection conn = new DBConnection();
-		JSONObject output = new JSONObject();
-		
-		String cardNumber = null;
-		try {
-			
-			String userId = request.getParameter("user_id");
-			cardNumber = conn.getPaymentInfo(userId);
-			
-			if (cardNumber == null || cardNumber.length() == 0) {
-				output.put("failed","Cannot Generate Confirmation number");
-			}  else {
-		        UUID uuid = UUID.randomUUID();
-		        String str = uuid.toString();
-		        output.put("sucess",str);
-			}
-			
-		} catch (Exception e) {
-			System.out.println("Error in rpc/Confirmation/GET -> " + e.getMessage());
-			e.printStackTrace();
-		} finally {
-			conn.close();
-		}
-			
-		RpcHelper.writeJsonObject(response, output);	
 	}
 
 	/**

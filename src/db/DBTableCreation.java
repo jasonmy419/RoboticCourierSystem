@@ -45,8 +45,6 @@ public class DBTableCreation {
 			sql = "DROP TABLE IF EXISTS payment";
 			statement.executeUpdate(sql);
 			
-			sql= "DROP TABLE IF EXISTS reservations";
-			statement.executeUpdate(sql);
 			
 //			// Create new tables
 //			sql = "CREATE TABLE users ("
@@ -97,18 +95,18 @@ public class DBTableCreation {
 //					+ ")";
 //			statement.executeUpdate(sql);
 			
-			sql = "CREATE TABLE orders ("
-					+ "order_id VARCHAR(255) NOT NULL,"
+//			sql = "CREATE TABLE orders ("
+//					+ "order_id VARCHAR(255) NOT NULL,"
 //					+ "item_id VARCHAR(255) NOT NULL,"
 //					+ "courier_id VARCHAR(255) NOT NULL,"
 //					+ "user_id VARCHAR(255) NOT NULL,"
 //					+ "user_id_end VARCHAR(255) NOT NULL,"
-					+ "status VARCHAR(255) NOT NULL,"
-					// TODO
-					+ "PRIMARY KEY (order_id)"
+//					+ "status VARCHAR(255) NOT NULL,"
+//					// TODO
+//					+ "PRIMARY KEY (order_id)"
 //					+ "FOREIGN KEY (station_id) REFERENCES items(station_id)"
-					+ ")";
-			statement.executeUpdate(sql);
+//					+ ")";
+//			statement.executeUpdate(sql);
 			
 //			sql = "CREATE TABLE items ("
 //					+ "item_id VARCHAR(255) NOT NULL,"
@@ -119,10 +117,10 @@ public class DBTableCreation {
 //			statement.executeUpdate(sql);
 
 			// TODO
-			sql = "INSERT INTO orders VALUES('123k11','Delivered')";
-			statement.executeUpdate(sql);
-			sql = "INSERT INTO orders VALUES('123k1','In Transit')";
-			statement.executeUpdate(sql);
+//			sql = "INSERT INTO orders VALUES('123k11','Delivered')";
+//			statement.executeUpdate(sql);
+//			sql = "INSERT INTO orders VALUES('123k1','In Transit')";
+//			statement.executeUpdate(sql);
 			
 			sql = "INSERT INTO stations VALUES('11', 7373,'Concoy Ct','San Diego')";
 			statement.executeUpdate(sql);
@@ -154,12 +152,19 @@ public class DBTableCreation {
 			statement.executeUpdate(sql);
 			
 			
-			sql = "CREATE TABLE	reservations (" 
+			sql = "CREATE TABLE	orders (" 
 					 +"user_id VARCHAR(255) NOT NULL,"
 					 +"courier_id VARCHAR(255) NOT NULL,"
 					 +"item_id VARCHAR(255) NOT NULL,"
 					 +"type VARCHAR(255) NOT NULL,"
+					 +"start_street_number VARCHAR(255) NOT NULL,"
+					 +"start_street_name VARCHAR(255) NOT NULL,"
+					 +"start_city VARCHAR(255) NOT NULL,"
+					 +"end_street_number VARCHAR(255) NOT NULL,"
+					 +"end_street_name VARCHAR(255) NOT NULL,"
+					 +"end_city VARCHAR(255) NOT NULL,"
 					 +"route_id VARCHAR(255) NOT NULL,"
+					 +"status VARCHAR(255) NOT NULL,"
 					 +"route_duration DOUBLE NOT NULL,"
 					 +"route_distance DOUBLE NOT NULL,"
 					 +"route_price DOUBLE NOT NULL,"
@@ -167,7 +172,10 @@ public class DBTableCreation {
 					 +")";
 			statement.executeUpdate(sql);
 			
-			sql = "INSERT INTO reservations VALUES('123','xxa','111','D', 'ahdjbbkvksd',996.0, 11.25, 29.83, 'k}qcFjushVf@QFABABAF?D?D@RBB@D?J?N?B?n@JLJJ@LDTDNDNDFBFBDBDBFBFBHB')";
+			sql = "INSERT INTO orders VALUES('123','xyz','111','D', '3869', 'Miramar St',"
+					+ " 'La Jolla', '4609', 'Convoy St', 'San Diego',"
+					+ "'ahdjbbkvksd','TRANSIT',"
+				+ "996.0, 11.25, 29.83, 'k}qcFjushVf@QFABABAF?D?D@RBB@D?J?N?B?n@JLJJ@LDTDNDNDFBFBDBDBFBFBHB')";
 			statement.executeUpdate(sql);
 
 	

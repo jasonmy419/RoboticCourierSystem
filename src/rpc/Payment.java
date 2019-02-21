@@ -1,6 +1,7 @@
 package rpc;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -58,12 +59,16 @@ public class Payment extends HttpServlet {
 		DBConnection conn = new DBConnection();
 		try {
 				JSONObject input = RpcHelper.readJSONObject(request);
-				String userId = request.getParameter("user_id");
 				
-				boolean flag = conn.setPaymentInfo(userId,input);
-							
+				conn.setPaymentInfo(input);
+				
+				String userId = input.getString("user_id");
+				boolean flag = conn.getPaymentInfo(userId);
+				
 				if (flag) {
-					RpcHelper.writeJsonObject(response, new JSONObject().put("payment status:", "success"));
+					UUID uuid = UUID.randomUUID();
+			        String str = uuid.toString();
+					RpcHelper.writeJsonObject(response, new JSONObject().put("Confirmation number:", str));
 				}  else {
 					RpcHelper.writeJsonObject(response, new JSONObject().put("payment status:", "failed"));
 				}

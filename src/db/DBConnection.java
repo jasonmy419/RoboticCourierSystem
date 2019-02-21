@@ -67,18 +67,18 @@ public class DBConnection {
 		}
 	}
 	
-	public boolean setPaymentInfo(String userId, JSONObject input) {
+	public void setPaymentInfo(JSONObject input) {
 	
 		if (conn == null) {
 			System.err.println("DB connection failed from src/db/DBConnection -> setPaymentInfo");
-			return false;
+			return;
 		}
 
 		try {
 			
 			 String sql = "SELECT address_line1, zipcode FROM payment WHERE user_id = ? AND card_number = ? ";
 			 PreparedStatement stmt = conn.prepareStatement(sql);
-			 stmt.setString(1,userId);
+			 stmt.setString(1,input.getString("user_id"));
 			 stmt.setString(2,input.getString("card_number"));
 			 ResultSet rs = stmt.executeQuery();
 			 
@@ -93,7 +93,7 @@ public class DBConnection {
 			 if (cardAddress == null || cardAddress.length() == 0 && zipcode == -1) {
 				 sql = "INSERT IGNORE INTO payment VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		   		 PreparedStatement ps = conn.prepareStatement(sql);
-		   		 ps.setString(1, userId);
+		   		 ps.setString(1, input.getString("user_id"));
 		   		 ps.setString(2, input.getString("last_name"));
 		   		 ps.setString(3, input.getString("first_name"));
 		   		 ps.setString(4, input.getString("card_number"));
@@ -107,7 +107,7 @@ public class DBConnection {
 		   		 ps.setInt(12, input.getInt("cvv"));
 		   		 ps.execute();
 		   		 
-		   		 return true;
+		   		 return;
 			 }  else if (!cardAddress.equals(input.getString("address_line1")) || zipcode != input.getInt("zipcode")) {
 				 
 				 sql = "UPDATE payment SET address_line1 = ?, zipcode = ?, address_line2 = ? , city = ?, state = ? WHERE user_id = ? AND card_number = ?";
@@ -117,25 +117,24 @@ public class DBConnection {
 				 ps.setString(3, input.getString("address_line2"));
 				 ps.setString(4, input.getString("city"));
 				 ps.setString(5, input.getString("state"));
-				 ps.setString(6, userId);
+				 ps.setString(6, input.getString("user_id"));
 				 ps.setString(7, input.getString("card_number"));
 				 int rowsUpdated = ps.executeUpdate();
 				 if (rowsUpdated > 0) {
 				     System.out.println("An existing user was updated successfully!");
 				 }
-				 return true;
+				 return;
 			 }  else {
-				 return true;
+				 return;
 			 }
 			
 		} catch(Exception e) {
 			e.printStackTrace();
 			System.out.println("error from src/db/DBConnection -> setPaymentInfo: " + e.getMessage());
 		}
-		return false;
 	}
 	
-	public String getPaymentInfo(String userId) {
+	public boolean getPaymentInfo(String userId) {
 		
 		if (conn == null) {
 			System.err.println("DB connection failed from src/db/DBConnection -> getPaymentInfo");
@@ -154,7 +153,8 @@ public class DBConnection {
 			e.printStackTrace();
 			System.out.println("error from src/db/DBConnection -> getPaymentInfo " + e.getMessage());
 		}
-		return str;
+		
+		return str != null;
 	}
 
 	public String getStatus(String orderID) {
