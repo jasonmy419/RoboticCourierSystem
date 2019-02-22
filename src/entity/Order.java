@@ -16,7 +16,7 @@ public class Order {
 	private double routeDuration;
 	private double routeDistance;
 	private double routePrice;
-	private double routePath;
+	private String routePath;
 	private boolean complete;
 	
 	public String getStatus() {
@@ -63,7 +63,7 @@ public class Order {
 		return routePrice;
 	}
 
-	public double getRoutePath() {
+	public String getRoutePath() {
 		return routePath;
 	}
 
@@ -100,6 +100,30 @@ public class Order {
 	public String getCourierId() {
 		return courierId;
 	}
+	
+	@Override
+	public String toString() {
+		
+		String entire = "{" 
+					  + " OrderId:" + this.getOrderId() 
+					  + ", ItemId: "  + this.getItemId()
+					  + ", CourierId: " + this.getCourierId()
+					  + ", Status: " + this.getStatus()
+					  + ", Type: "   + this.getType() 
+					  + ", StartStreeNumber: " + this.getStartStreeNumber()
+					  + ", StartStreeName: "+ this.getStartStreeName()
+					  + ", StartCity: "+ this.getStartCity()
+					  + ", EndStreeNumber: "+ this.getEndStreeNumber()
+					  + ", EndStreeName: " + this.getEndStreeName()
+					  + ", EndCity: "+ this.getEndCity()
+					  + ", RouteDuration: " + this.getRouteDuration()
+					  + ", Distance: " + this.getRouteDistance() 
+					  + ", RoutePrice: " + this.getRoutePrice()    
+					  + ", RoutePath: " + this.getRoutePath() 
+					  + ", Complete: " + this.isComplete() 		
+					  + "}";
+		return entire;
+	}
 
 	
 	public static class OrderBuilder {
@@ -118,7 +142,7 @@ public class Order {
 		private double routeDuration;
 		private double routeDistance;
 		private double routePrice;
-		private double routePath;
+		private String routePath;
 		private boolean complete;
 
 		
@@ -192,7 +216,7 @@ public class Order {
 			return this;
 		}
 		
-		public OrderBuilder routePath(double routePath) {
+		public OrderBuilder routePath(String routePath) {
 			this.routePath = routePath;
 			return this;
 		}
@@ -205,5 +229,28 @@ public class Order {
 		public Order build() {
 			return new Order(this);
 		}
+	}
+	
+	public static void main(String [] args) {
+		Order ord = new Order.OrderBuilder()
+							 .orderId("111")
+							 .courierId("aaa")
+							 .itemId("zzz")
+							 .status("TRANSIT")
+							 .type("D")
+							 .startStreeNumber("3869")
+							 .startStreeName("Miramar St")
+							 .startCity("La Jolla")
+							 .endStreeNumber("4609")
+							 .endStreeName("Convoy St")
+							 .endCity("San Diego")
+							 .routeDuration(476)
+							 .routeDistance(11932)
+							 .routePrice(18.415068798218403)
+							 .routePath("cmtgE`{fjUvNtbFb`I}eL")
+							 .complete(false)
+							 .build();
+			
+		System.out.println(ord.toString());
 	}
 }
