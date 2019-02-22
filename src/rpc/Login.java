@@ -35,7 +35,27 @@ public class Login extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		DBConnection connection = new DBConnection();
+		try {
+			HttpSession session = request.getSession(false);
+
+			JSONObject obj = new JSONObject();
+			if (session != null) {
+				String userId = session.getAttribute("user_id").toString();
+				obj.put("status", "OK").put("user_id", userId).put("name", connection.getFullname(userId));
+			} else {
+				response.setStatus(403);
+				obj.put("status", "Session expired");
+			}
+
+			RpcHelper.writeJsonObject(response, obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (connection != null) {
+				connection.close();
+			}
+		}
 	}
 
 	/**
@@ -52,11 +72,9 @@ public class Login extends HttpServlet {
 
 			JSONObject obj = new JSONObject();
 			if (connection.verifyLogin(userId, password)) {
-				/* 
 				HttpSession session = request.getSession();
 				session.setAttribute("user_id", userId);
 				session.setMaxInactiveInterval(6000);
-				*/
 				obj.put("status", "OK").put("user_id", userId).put("name", connection.getFullname(userId));
 			} else {
 				response.setStatus(401);
