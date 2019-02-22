@@ -2,7 +2,7 @@ import React from 'react';
 import { Map } from './Map';
 import { OrderInfo } from "./OrderInfo"
 import { Col } from 'antd';
-
+import {MAP_API_KEY} from '../constants';
 export class Home extends React.Component{
     state = { response : [    {
             "duration": 477,
@@ -28,7 +28,8 @@ export class Home extends React.Component{
             "price": 18.444499721625707,
             "overview_polyline": {
                 "points": "cmtgE`{fjUvNtbFz`I_gL"
-            }
+            },
+            "center": {"lat": 32.715736, "lng": -117.161087}
         }
         ] }
 
@@ -43,7 +44,7 @@ handleResponse = (responseValue) => {
                 <Col span={14}>
                    {/*<Map response={this.state.response}/>*/}
                     <Map
-                        googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3CEh9DXuyjozqptVB5LA-dN7MxWWkr9s&v=3.exp&libraries=geometry,drawing,places"
+                        googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${MAP_API_KEY}&libraries=geometry,drawing,places`}
                         loadingElement={<div style={{ height: `100%` }} />}
                         containerElement={<div style={{ height: `600px` }} />}
                         mapElement={<div style={{ height: `100%` }} />}
