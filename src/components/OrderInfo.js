@@ -113,6 +113,10 @@ class OrderInfoForm extends React.Component {
         else { return [street[0], street[1]]; }
     }
 
+    onClick = () => {
+        this.props.history.push('/payment');
+    }
+
     // getPrice = (price) => {
     //     return price.match(PRICE);
     // }
@@ -206,7 +210,7 @@ class OrderInfoForm extends React.Component {
                         <Button type="primary" htmlType="submit">
                             Show Route
                         </Button>
-                        <Button type="primary" className="button">
+                        <Button type="primary" className="button" onClick={this.onClick}>
                             Place Order
                         </Button>
                     </Form.Item>

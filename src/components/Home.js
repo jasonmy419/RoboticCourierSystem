@@ -27,7 +27,7 @@ handleResponse = (responseValue) => {
                     />
                 </Col>
                 <Col span={10}>
-                    <OrderInfo handleResponse={this.handleResponse}/>
+                    <OrderInfo handleResponse={this.handleResponse} history={this.props.history}/>
                 </Col>
             </div>
         )
