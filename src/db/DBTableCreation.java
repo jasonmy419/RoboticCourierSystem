@@ -163,19 +163,20 @@ public class DBTableCreation {
 					 +"end_street_number VARCHAR(255) NOT NULL,"
 					 +"end_street_name VARCHAR(255) NOT NULL,"
 					 +"end_city VARCHAR(255) NOT NULL,"
-					 +"route_id VARCHAR(255) NOT NULL,"
 					 +"status VARCHAR(255) NOT NULL,"
 					 +"route_duration DOUBLE NOT NULL,"
 					 +"route_distance DOUBLE NOT NULL,"
 					 +"route_price DOUBLE NOT NULL,"
-					 +"route_path VARCHAR(255) NOT NULL"
+					 +"route_path VARCHAR(255) NOT NULL,"
+					 +"complete BOOLEAN"
 					 +")";
 			statement.executeUpdate(sql);
 			
 			sql = "INSERT INTO orders VALUES('123','xyz','111','D', '3869', 'Miramar St',"
 					+ " 'La Jolla', '4609', 'Convoy St', 'San Diego',"
-					+ "'ahdjbbkvksd','TRANSIT',"
-				+ "996.0, 11.25, 29.83, 'k}qcFjushVf@QFABABAF?D?D@RBB@D?J?N?B?n@JLJJ@LDTDNDNDFBFBDBDBFBFBHB')";
+					+ "'TRANSIT',"
+				+ "996.0, 11.25, 29.83, 'k}qcFjushVf@QFABABAF?D?D@RBB@D?J?N?B?n@JLJJ@LDTDNDNDFBFBDBDBFBFBHB',"
+				+ "TRUE)";
 			statement.executeUpdate(sql);
 
 	
