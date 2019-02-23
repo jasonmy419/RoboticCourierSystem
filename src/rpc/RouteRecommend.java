@@ -92,14 +92,14 @@ public class RouteRecommend extends HttpServlet {
 			size = ItemSize.valueOf(input.getString("size"));
 			
 			// choose the transfer mode
-			List<Route> routes = new ArrayList<>();	
+			List<Route> buffer_routes = new ArrayList<>();	
 			
 			waypoint = new AddressBuilder().parseJson(input.getJSONObject("waypoint"), 1);
 			destination = new AddressBuilder().parseJson(input.getJSONObject("destination"), 1);
 			for (int i = 0; i < originArray.length / 2; i++) {
 				CalculateFlightDistance distanceAPI = new CalculateFlightDistance();
 				List<Route> retList = distanceAPI.calculateDistance(originArray[i], destination, waypoint, size);
-				routes.addAll(retList);
+				buffer_routes.addAll(retList);
 			}
 			
 			waypoint_place = new AddressBuilder().parseJson(input.getJSONObject("waypoint"), 2);
@@ -107,9 +107,17 @@ public class RouteRecommend extends HttpServlet {
 			for (int i = originArray.length / 2; i < originArray.length; i++) {
 				DirectionsAPI directionsAPI = new DirectionsAPI();
 				List<Route> newList = directionsAPI.directions(originArray[i], destination_place, waypoint_place, size);
-				routes.addAll(newList);
+				buffer_routes.addAll(newList);
 			}
 			
+			List<Route> routes = new ArrayList<>();	
+			for (Route r : buffer_routes) {
+				if (r.getCourierID() != null) {
+					routes.add(r);
+					System.out.println("ID is" + r.getCourierID());
+				}
+			}
+			System.out.println("The size of routes is "+ routes.size());
 			
 			for (int i = 0; i < routes.size();i++) {
 				double price = CalculatePrice.getPrice(routes.get(i).getDuration(), 
@@ -141,6 +149,7 @@ public class RouteRecommend extends HttpServlet {
 				}
 			});
 			
+			
 			RouteBuilder fastestRoute = new RouteBuilder();
 			fastestRoute.setDistance(routes.get(0).getDistance());
 			fastestRoute.setDuration(routes.get(0).getDuration());
@@ -148,6 +157,7 @@ public class RouteRecommend extends HttpServlet {
 			fastestRoute.setTravelMode(routes.get(0).getMode());
 			fastestRoute.setRoute(routes.get(0).getRoute());
 			fastestRoute.setPrice(routes.get(0).getPrice());
+			fastestRoute.setCourier(routes.get(0).getCourierID());
 			
 			JSONObject fastRoute = fastestRoute.build().toJSONObject();
 			fastRoute.put("size", size);
@@ -170,6 +180,7 @@ public class RouteRecommend extends HttpServlet {
 			cheapestRoute.setTravelMode(routes.get(0).getMode());
 			cheapestRoute.setPolylineOverview(routes.get(0).getPolyline());
 			cheapestRoute.setPrice(routes.get(0).getPrice());
+			cheapestRoute.setCourier(routes.get(0).getCourierID());
 			
 			JSONObject cheapRoute = cheapestRoute.build().toJSONObject();
 			cheapRoute.put("size", size);
