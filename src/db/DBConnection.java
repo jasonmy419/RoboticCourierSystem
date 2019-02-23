@@ -47,6 +47,49 @@ public class DBConnection {
 		}
 	}
 	
+	public String getParticularStationByCoordinate(double lat, double lon) {
+		if (conn == null) {
+			return null;
+		}
+		String s = "";
+		try {
+			String sql = "SELECT station_id FROM stations WHERE station_lat = ? AND station_lon = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setDouble(1, lat);
+			stmt.setDouble(2, lon);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				s = rs.getString("station_id");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return s;
+	}
+	
+	public String getParticularStationByPlace(String street_num, String street_name, String city) {
+		if (conn == null) {
+			return null;
+		}
+		String s = "";
+		try {
+//			System.out.println("num is "+ street_num+", name is "+street_name+", city is " + city);
+			String sql = "SELECT station_id FROM stations WHERE street_number = ? AND street_name = ? AND city = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			
+			stmt.setString(1, street_num);
+			stmt.setString(2, street_name);
+			stmt.setString(3, city);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				s = rs.getString("station_id");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return s;
+	}
+	
 	public String getAvailableCourier(String station, String type) {
 		if (conn == null) {
 			return null;
