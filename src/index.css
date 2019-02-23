@@ -11,6 +11,7 @@
 @import "styles/Home.css";
 @import "styles/Payment.css";
 @import "styles/ConfirmationPage.css";
+@import "styles/History.css";
 
 body {
   margin: 0;
