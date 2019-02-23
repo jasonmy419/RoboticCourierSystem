@@ -2,6 +2,7 @@ package entity;
 
 public class Order {
 
+	private String userId;
 	private String orderId;
 	private String itemId;
 	private String courierId;
@@ -18,6 +19,10 @@ public class Order {
 	private double routePrice;
 	private String routePath;
 	private boolean complete;
+	
+	public String getUserId() {
+		return userId;
+	}
 	
 	public String getStatus() {
 		return status;
@@ -71,7 +76,18 @@ public class Order {
 		return complete;
 	}
 	
+	public String getOrderId() {
+		return orderId;
+	}
+	public String getItemId() {
+		return itemId;
+	}
+	public String getCourierId() {
+		return courierId;
+	}
+	
 	private Order(OrderBuilder builder) {
+		this.userId = builder.userId;
 		this.orderId = builder.orderId;
 		this.itemId = builder.itemId;
 		this.courierId = builder.courierId;
@@ -90,22 +106,13 @@ public class Order {
 		this.complete = builder.complete;
 	
 	}
-	
-	public String getOrderId() {
-		return orderId;
-	}
-	public String getItemId() {
-		return itemId;
-	}
-	public String getCourierId() {
-		return courierId;
-	}
-	
+		
 	@Override
 	public String toString() {
 		
 		String entire = "{" 
-					  + " OrderId:" + this.getOrderId() 
+				 	  + "UserId: " + this.getUserId() 
+					  + ", OrderId: " + this.getOrderId() 
 					  + ", ItemId: "  + this.getItemId()
 					  + ", CourierId: " + this.getCourierId()
 					  + ", Status: " + this.getStatus()
@@ -128,6 +135,7 @@ public class Order {
 	
 	public static class OrderBuilder {
 		
+		private String userId;
 		private String orderId;
 		private String itemId;
 		private String courierId;
@@ -145,7 +153,10 @@ public class Order {
 		private String routePath;
 		private boolean complete;
 
-		
+		public OrderBuilder userId(String userId) {
+			this.userId = userId;
+			return this;
+		}
 		public OrderBuilder orderId(String orderId) {
 			this.orderId = orderId;
 			return this;
@@ -233,6 +244,7 @@ public class Order {
 	
 	public static void main(String [] args) {
 		Order ord = new Order.OrderBuilder()
+							 .userId("dwya")
 							 .orderId("111")
 							 .courierId("aaa")
 							 .itemId("zzz")
