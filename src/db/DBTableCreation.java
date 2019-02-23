@@ -2,6 +2,7 @@ package db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -90,17 +91,35 @@ public class DBTableCreation {
 					+ "courier_id VARCHAR(255) NOT NULL,"
 //					+ "type VARCHAR(255) NOT NULL,"
 //					+ "price FLOAT,"
-//					+ "station VARCHAR(255) NOT NULL,"
+					+ "station_id VARCHAR(255) NOT NULL,"
 //					+ "order VARCHAR(255) NOT NULL,"
-					+ "time TIMESTAMP,"
+					+ "time TIMESTAMP NOT NULL,"
 					// FIXME
 					+ "PRIMARY KEY (courier_id)"
 //					+ "FOREIGN KEY (station_id) REFERENCES items(station_id)"
 					+ ")";
+			
+			statement.executeUpdate(sql);
+			sql = "INSERT INTO couriers VALUES('111', '11', CURRENT_TIMESTAMP)";
+			statement.executeUpdate(sql);
+			sql = "INSERT INTO couriers VALUES('222', '11', CURRENT_TIMESTAMP)";
+			statement.executeUpdate(sql);
+			sql = "INSERT INTO couriers VALUES('211', '22', CURRENT_TIMESTAMP)";
 			statement.executeUpdate(sql);
 			
-			sql = "INSERT INTO couriers VALUES('111', CURRENT_TIMESTAMP)";
-			statement.executeUpdate(sql);
+			// insert a future timestamp
+			Timestamp s = new Timestamp((new Date()).getTime() + 300000);
+			sql = "INSERT INTO couriers VALUES('321', '33', ?)";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setTimestamp(1, s);
+			stmt.executeUpdate();
+			
+			sql = "INSERT INTO couriers VALUES('311', '33', ?)";
+			stmt = conn.prepareStatement(sql);
+			stmt.setTimestamp(1, s);
+			stmt.executeUpdate();
+			
+
 			
 //			sql = "CREATE TABLE orders ("
 //					+ "order_id VARCHAR(255) NOT NULL,"
