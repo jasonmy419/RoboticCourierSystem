@@ -79,13 +79,26 @@ public class DBTableCreation {
 //					+ "courier_num_air INT,"
 //					+ "courier_num_bot INT,"
 //					+ "coord VARCHAR(255) NOT NULL,"
-					+ "street_number INT(255),"
+					+ "station_lat	DOUBLE NOT NULL,"
+					+ "station_lon	DOUBLE NOT NULL,"
+					+ "street_number VARCHAR(255),"
 					+ "street_name VARCHAR(255),"
 					+ "city VARCHAR(255),"
 					// FIXME
 					+ "PRIMARY KEY (station_id)"
 					+ ")";
 			statement.executeUpdate(sql);
+			
+//			sql = "INSERT INTO stations VALUES('11', 32.2, 7373, 'Convoy Ct','San Diego')";
+//			statement.executeUpdate(sql);
+			
+			sql = "INSERT INTO stations VALUES('11', 32.834517, -117.1623357, 7373, 'Convoy Ct','San Diego')";
+			statement.executeUpdate(sql);
+			sql = "INSERT INTO stations VALUES('22', 32.8777831, -117.188114, 5716,'Miramar Rd','San Diego')";
+			statement.executeUpdate(sql);
+			sql = "INSERT INTO stations VALUES('33', 32.871732, -117.2527216, 4605,'Morena Blvd','San Diego')";
+			statement.executeUpdate(sql);
+			
 //
 			sql = "CREATE TABLE couriers ("
 					+ "courier_id VARCHAR(255) NOT NULL,"
@@ -148,12 +161,7 @@ public class DBTableCreation {
 //			sql = "INSERT INTO orders VALUES('123k1','In Transit')";
 //			statement.executeUpdate(sql);
 			
-			sql = "INSERT INTO stations VALUES('11', 7373,'Concoy Ct','San Diego')";
-			statement.executeUpdate(sql);
-			sql = "INSERT INTO stations VALUES('22', 5716,'Miramar Rd','San Diego')";
-			statement.executeUpdate(sql);
-			sql = "INSERT INTO stations VALUES('33', 4605,'Morena Blvd','San Diego')";
-			statement.executeUpdate(sql);
+			
 			
 //			sql = "CREATE TABLE	payment (" 
 //					 +"user_id VARCHAR(255) NOT NULL,"
