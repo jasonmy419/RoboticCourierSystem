@@ -35,12 +35,24 @@ public class Address {
 		return this.streetNum;
 	}
 
+	public void setStreetNum(String streetNum) {
+		this.streetNum = streetNum;
+	}
+	
 	public String getStreetName() {
 		return this.streetName;
+	}
+	
+	public void setStreetName(String streetName) {
+		this.streetName = streetName;
 	}
 
 	public String getCity() {
 		return this.city;
+	}
+	
+	public void setCity(String city) {
+		this.city = city;
 	}
 
 	public State getState() {
@@ -219,6 +231,6 @@ public class Address {
 	// coordinate
 	// this is the required input type in logistic
 	public enum GeoResponseType {
-		PLACE_ID, COORDINATE
+		PLACE_ID, COORDINATE, ADDRESS_STRING
 	}
 }

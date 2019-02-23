@@ -10,17 +10,35 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import entity.Address;
+import entity.Address.AddressBuilder;
+import entity.Address.GeoResponseType;
+import entity.Address.InputType;
 
 public class GeocodingAPI {
 
 	private static final String METHOD = "/geocode";
 
+	public String[] reverseGeocoding(double lat, double lon) {
+		String[] response = new String[3];
+
+		Address address = new AddressBuilder().setLatitude(lat).setLongitide(lon).setInputType(InputType.COORDINATE)
+				.setResponseType(GeoResponseType.ADDRESS_STRING).build();
+		
+		geocoding(address);
+		
+		response[0] = address.getStreetNum();
+		response[1] = address.getStreetName();
+		response[2] = address.getCity();
+		
+		return response;
+	}
+
 	public void geocoding(Address address) {
 
-		if(address == null) {
+		if (address == null) {
 			return;
 		}
-		
+
 		String url = GoogleMapAPIUtil.PREFIX + METHOD + GoogleMapAPIUtil.OUTPUT_FORMAT + "?" + getGeoQuery(address);
 
 		try {
@@ -49,24 +67,27 @@ public class GeocodingAPI {
 
 			if (obj.get("status").equals("OK") && !obj.isNull("results")) {
 				JSONArray results = obj.getJSONArray("results");
-				if(!results.isNull(0)) {
+				if (!results.isNull(0)) {
 					JSONObject result = results.getJSONObject(0);
-					if(!result.isNull("formatted_address")) {
+					if (!result.isNull("formatted_address")) {
 						System.out.println("formatted_address: " + result.get("formatted_address"));
 					}
-					
-					switch(address.getResponseType()){
+
+					switch (address.getResponseType()) {
 					case PLACE_ID:
 						responseWithID(result, address);
 						break;
 					case COORDINATE:
 						responseWithCoordinate(result, address);
 						break;
+					case ADDRESS_STRING:
+						responseWithString(result, address);
+						break;
 					default:
 						System.out.println("Cannot find right response type");
 						break;
-					}	
-				}	
+					}
+				}
 			}
 
 		} catch (Exception e) {
@@ -74,24 +95,50 @@ public class GeocodingAPI {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void responseWithID(JSONObject object, Address address) throws JSONException {
-		if(!object.isNull("place_id")) {
+		if (!object.isNull("place_id")) {
 			address.setPlaceID(object.getString("place_id"));
 		}
 	}
-	
+
 	private void responseWithCoordinate(JSONObject object, Address address) throws JSONException {
-		if(!object.isNull("geometry")) {
+		if (!object.isNull("geometry")) {
 			JSONObject geometry = object.getJSONObject("geometry");
-			if(!geometry.isNull("location")) {
+			if (!geometry.isNull("location")) {
 				JSONObject location = geometry.getJSONObject("location");
 				address.setLatitude(location.getDouble("lat"));
 				address.setLongitude(location.getDouble("lng"));
 			}
 		}
 	}
-	
+
+	private void responseWithString(JSONObject object, Address address) throws JSONException {
+		if(!object.isNull("address_components")) {
+			JSONArray components = object.getJSONArray("address_components");
+			for(int i = 0; i < components.length(); i++) {
+				JSONObject component = components.getJSONObject(i);
+				if(!component.isNull("types")) {
+					JSONArray types = component.getJSONArray("types");
+					for(int j = 0; j < types.length(); j++) {
+						if(types.getString(j).equals("street_number")) {
+							address.setStreetNum(component.getString("long_name"));
+							break;
+						}
+						if(types.getString(j).equals("route")) {
+							address.setStreetName(component.getString("long_name"));
+							break;
+						}
+						if(types.getString(j).equals("administrative_area_level_2")) {
+							address.setCity(component.getString("long_name"));
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+
 	private String getGeoQuery(Address origin) {
 		String prefix = null;
 		String query = null;
@@ -109,5 +156,13 @@ public class GeocodingAPI {
 		}
 
 		return query;
+	}
+
+	public static void main(String[] args) {
+		double lat = 37.369708;
+		double lon = -121.9294888;
+		
+		GeocodingAPI api = new GeocodingAPI();
+		api.reverseGeocoding(lat, lon);
 	}
 }

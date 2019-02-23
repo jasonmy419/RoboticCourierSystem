@@ -184,27 +184,27 @@ public class DirectionsAPI {
 		return query;
 	}
 
-	public static void main(String args[]) throws JSONException {
-		DirectionsAPI api = new DirectionsAPI();
-
-		// 68 Willow Road, Menlo Park, CA
-		Address origin = new AddressBuilder().setStreetNum("68").setStreetName("Willow Road").setCity("Menlo Park")
-				.setState(State.CA).setInputType(InputType.ADDRESS_STRING).setResponseType(GeoResponseType.COORDINATE)
-				.build();
-
-		// 383 University Ave, Palo Alto, CA
-		Address wayPoint = new AddressBuilder().setStreetNum("383").setStreetName("University Ave").setCity("Palo Alto")
-				.setState(State.CA).setInputType(InputType.ADDRESS_STRING).setResponseType(GeoResponseType.COORDINATE)
-				.build();
-
-		// 1929 Menalto Ave, Menlo Park, CA
-		Address destination = new AddressBuilder().setStreetNum("1929").setStreetName("Menalto Ave")
-				.setCity("Menlo Park").setState(State.CA).setInputType(InputType.ADDRESS_STRING)
-				.setResponseType(GeoResponseType.COORDINATE).build();
-
-		List<Route> routes = api.directions(origin, destination, wayPoint, ItemSize.SMALL);
-		for (Route r : routes) {
-			System.out.println(r.getPolyline());
-		}
-	}
+//	public static void main(String args[]) throws JSONException {
+//		DirectionsAPI api = new DirectionsAPI();
+//
+//		// 68 Willow Road, Menlo Park, CA
+//		Address origin = new AddressBuilder().setStreetNum("68").setStreetName("Willow Road").setCity("Menlo Park")
+//				.setState(State.CA).setInputType(InputType.ADDRESS_STRING).setResponseType(GeoResponseType.COORDINATE)
+//				.build();
+//
+//		// 383 University Ave, Palo Alto, CA
+//		Address wayPoint = new AddressBuilder().setStreetNum("383").setStreetName("University Ave").setCity("Palo Alto")
+//				.setState(State.CA).setInputType(InputType.ADDRESS_STRING).setResponseType(GeoResponseType.COORDINATE)
+//				.build();
+//
+//		// 1929 Menalto Ave, Menlo Park, CA
+//		Address destination = new AddressBuilder().setStreetNum("1929").setStreetName("Menalto Ave")
+//				.setCity("Menlo Park").setState(State.CA).setInputType(InputType.ADDRESS_STRING)
+//				.setResponseType(GeoResponseType.COORDINATE).build();
+//
+//		List<Route> routes = api.directions(origin, destination, wayPoint, ItemSize.SMALL);
+//		for (Route r : routes) {
+//			System.out.println(r.getPolyline());
+//		}
+//	}
 }
