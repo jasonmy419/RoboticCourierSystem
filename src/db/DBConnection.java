@@ -47,15 +47,16 @@ public class DBConnection {
 		}
 	}
 	
-	public String getAvailableCourier(String station) {
+	public String getAvailableCourier(String station, String type) {
 		if (conn == null) {
 			return null;
 		}
 		
 		try {
-			String sql = "SELECT courier_id, time FROM couriers WHERE station_id = ?";
+			String sql = "SELECT courier_id, time FROM couriers WHERE station_id = ? AND type = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, station);
+			stmt.setString(2, type);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				String courierId = rs.getString("courier_id");
