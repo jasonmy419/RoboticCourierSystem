@@ -68,7 +68,8 @@ public class RouteRecommend extends HttpServlet {
 		}
 		
 		try {
-			Address origin, waypoint, destination;
+			Address waypoint, destination;
+			Address waypoint_place, destination_place;
 			ItemSize size;
 			
 			StationAddress address = new StationAddress();
@@ -101,11 +102,11 @@ public class RouteRecommend extends HttpServlet {
 				routes.addAll(retList);
 			}
 			
-			waypoint = new AddressBuilder().parseJson(input.getJSONObject("waypoint"), 2);
-			destination = new AddressBuilder().parseJson(input.getJSONObject("destination"), 2);
+			waypoint_place = new AddressBuilder().parseJson(input.getJSONObject("waypoint"), 2);
+			destination_place = new AddressBuilder().parseJson(input.getJSONObject("destination"), 2);
 			for (int i = originArray.length / 2; i < originArray.length; i++) {
 				DirectionsAPI directionsAPI = new DirectionsAPI();
-				List<Route> newList = directionsAPI.directions(originArray[i], destination, waypoint, size);
+				List<Route> newList = directionsAPI.directions(originArray[i], destination_place, waypoint_place, size);
 				routes.addAll(newList);
 			}
 			
@@ -117,6 +118,20 @@ public class RouteRecommend extends HttpServlet {
 			}
 			
 			JSONArray res = new JSONArray();
+			
+			JSONObject waypointInfo = new JSONObject();
+			waypointInfo.put("way_point_lat", waypoint.getLatitude());
+			waypointInfo.put("way_point_lon", waypoint.getLongitude());
+			waypointInfo.put("street_number", waypoint_place.getStreetNum());
+			waypointInfo.put("street_name", waypoint_place.getStreetName());
+			waypointInfo.put("city", waypoint_place.getCity());
+			
+			JSONObject destPointInfo = new JSONObject();
+			destPointInfo.put("destination_point_lat", destination.getLatitude());
+			destPointInfo.put("destination_point_lon", destination.getLongitude());
+			destPointInfo.put("street_number", destination_place.getStreetNum());
+			destPointInfo.put("street_name", destination_place.getStreetName());
+			destPointInfo.put("city", destination_place.getCity());
 			
 			// Sort the route based on duration
 			Collections.sort(routes, new Comparator<Route>() {
@@ -136,7 +151,8 @@ public class RouteRecommend extends HttpServlet {
 			
 			JSONObject fastRoute = fastestRoute.build().toJSONObject();
 			fastRoute.put("size", size);
-			
+			fastRoute.put("way_point", waypointInfo);
+			fastRoute.put("destination_point", destPointInfo);
 			res.put(fastRoute);
 			
 			// Sort the route based on distance
@@ -157,6 +173,9 @@ public class RouteRecommend extends HttpServlet {
 			
 			JSONObject cheapRoute = cheapestRoute.build().toJSONObject();
 			cheapRoute.put("size", size);
+			
+			cheapRoute.put("way_point", waypointInfo);
+			cheapRoute.put("destination_point", destPointInfo);
 			
 			res.put(cheapRoute);
 			
