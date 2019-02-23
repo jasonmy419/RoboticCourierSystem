@@ -8,25 +8,34 @@ import db.DBConnection;
 
 public class GetAvailableCourier {
 
-	public List<String> getAvailableCourier() {
+	public static String getAvailableCourierByCoordinate(double lat, double lon, String type) {
 		DBConnection conn = new DBConnection();
-		List<String> list = new ArrayList<>();
-		List<String> stationList;
+		String s = "";
+		String station = "";
 		try {
-			stationList = conn.getStation();
-			for (String station : stationList) {
-				list.add(conn.getAvailableCourier(station, "Robot"));
-				list.add(conn.getAvailableCourier(station, "Air"));
-			}
-			
+			station = conn.getParticularStationByCoordinate(lat, lon);
+			s = conn.getAvailableCourier(station, type);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			conn.close();
 		}
-		for (String s : list) {
-			System.out.println(s);
+		
+		return s;
+	}
+	
+	public static String getAvailableCourierByPlace(String street_num, String street_name, String city, String type) {
+		DBConnection conn = new DBConnection();
+		String s = "";
+		String station = "";
+		try {
+			station = conn.getParticularStationByPlace(street_num, street_name, city);
+			s = conn.getAvailableCourier(station, type);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			conn.close();
 		}
-		return list;
+		return s;
 	}
 }
