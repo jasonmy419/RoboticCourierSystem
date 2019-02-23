@@ -5,7 +5,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.json.JSONArray;
@@ -40,6 +45,49 @@ public class DBConnection {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public String getAvailableCourier(String station) {
+		if (conn == null) {
+			return null;
+		}
+		
+		try {
+			String sql = "SELECT courier_id, time FROM couriers WHERE station_id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, station);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				String courierId = rs.getString("courier_id");
+				Timestamp time = rs.getTimestamp("time");				
+				Timestamp curTime = new Timestamp((new Date()).getTime());
+				if (curTime.after(time)) {
+					return courierId;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
+	public List<String> getStation() {
+		if (conn == null) {
+			return null;
+		}
+		List<String> stationList = new ArrayList<>();
+		try {
+			String sql = "SELECT DISTINCT station_id FROM stations";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				stationList.add(rs.getString("station_id"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return stationList;
 	}
 	
 	
