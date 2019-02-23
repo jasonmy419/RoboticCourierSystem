@@ -99,7 +99,7 @@ public class Reservation extends HttpServlet {
 	
 			System.out.println(ord.toString());
 			
-			
+			conn.setReservation(ord);
 			RpcHelper.writeJsonObject(response, new JSONObject().put("reservation status:", "success"));
 		}  catch(Exception e) {
 			e.printStackTrace();

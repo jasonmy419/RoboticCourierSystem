@@ -153,6 +153,7 @@ public class DBTableCreation {
 			
 			
 			sql = "CREATE TABLE	orders (" 
+					 +"order_id VARCHAR(255) NOT NULL,"
 					 +"user_id VARCHAR(255) NOT NULL,"
 					 +"courier_id VARCHAR(255) NOT NULL,"
 					 +"item_id VARCHAR(255) NOT NULL,"
@@ -172,7 +173,7 @@ public class DBTableCreation {
 					 +")";
 			statement.executeUpdate(sql);
 			
-			sql = "INSERT INTO orders VALUES('123','xyz','111','D', '3869', 'Miramar St',"
+			sql = "INSERT INTO orders VALUES('sfogbwklskansbbvncs012e','123','xyz','111','D', '3869', 'Miramar St',"
 					+ " 'La Jolla', '4609', 'Convoy St', 'San Diego',"
 					+ "'TRANSIT',"
 				+ "996.0, 11.25, 29.83, 'k}qcFjushVf@QFABABAF?D?D@RBB@D?J?N?B?n@JLJJ@LDTDNDNDFBFBDBDBFBFBHB',"

@@ -12,6 +12,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import entity.Order;
+
 import org.json.JSONObject;
 
 public class DBConnection {
@@ -40,31 +42,70 @@ public class DBConnection {
 		}
 	}
 	
-	public void setReservation(String userId, String routeId, JSONObject input) {
+	
+	public void setReservation(Order ord) {
 		
 		if (conn == null) {
 			System.err.println("DB connection failed from src/db/DBConnection -> setReservation");
 			return;
 		}
+		
 		try {
 			
-			 String sql = "INSERT IGNORE INTO reservations VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			 String sql = "INSERT IGNORE INTO orders VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	   		 PreparedStatement ps = conn.prepareStatement(sql);
-	   		 ps.setString(1, userId);
-	   		 ps.setString(2, input.getString("courier_id"));
-	   		 ps.setString(3, input.getString("item_id"));
-	   		 ps.setString(4, input.getString("type"));
-	   		 ps.setString(5, routeId);
-	   		 ps.setDouble(6, input.getDouble("route_duration"));
-	   		 ps.setDouble(7, input.getDouble("route_distance"));
-	   		 ps.setDouble(8, input.getDouble("route_price"));
-	   		 ps.setString(9, input.getString("route_path"));
+	   		 ps.setString(1,  ord.getOrderId());
+	   		 ps.setString(2, ord.getUserId());
+	   		 ps.setString(3, ord.getCourierId());
+	   		 ps.setString(4, ord.getItemId());
+	   		 ps.setString(5, ord.getType());
+	   		 ps.setString(6,  ord.getStartStreeNumber());
+	   		 ps.setString(7,  ord.getStartStreeName());
+	   		 ps.setString(8,  ord.getStartCity());
+	   		 ps.setString(9,  ord.getEndStreeNumber());
+	   		 ps.setString(10,  ord.getEndStreeName());
+	   		 ps.setString(11, ord.getEndCity());
+	   		 ps.setString(12, ord.getStatus());
+	   		 ps.setDouble(13, ord.getRouteDuration());
+	   		 ps.setDouble(14, ord.getRouteDistance());
+	   		 ps.setDouble(15, ord.getRoutePrice());
+	   		 ps.setString(16, ord.getRoutePath());
+	   		 ps.setBoolean(17, ord.isComplete());
 	   		 ps.execute();
 			
 		}  catch(Exception e) {
 			e.printStackTrace();
 			System.out.println("error from src/db/DBConnection -> setReservation: " + e.getMessage());
 		}
+	}
+	
+	public String findOrderNumber(String UserId) {
+		
+		if (conn == null) {
+			System.err.println("DB connection failed from src/db/DBConnection -> findOrderNumber");
+			return null;
+		}
+		try {
+			String sql = "SELECT order_id FROM orders WHERE user_id = ? AND COMPLETE = FALSE";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1,UserId);
+			ResultSet rs = stmt.executeQuery();
+			String orderId = null;
+			while (rs.next()) {
+				orderId = rs.getString("order_id");
+			}
+			
+			sql = "UPDATE orders SET complete = TRUE WHERE user_id = ?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, UserId);
+			
+			return orderId;
+		}  catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("error from src/db/DBConnection -> findOrderNumber: " + e.getMessage());
+		}
+		return null;
+		
 	}
 	
 	public void setPaymentInfo(JSONObject input) {

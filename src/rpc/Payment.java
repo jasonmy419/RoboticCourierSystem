@@ -66,8 +66,7 @@ public class Payment extends HttpServlet {
 				boolean flag = conn.getPaymentInfo(userId);
 				
 				if (flag) {
-					UUID uuid = UUID.randomUUID();
-			        String str = uuid.toString();
+			        String str = conn.findOrderNumber(userId);
 					RpcHelper.writeJsonObject(response, new JSONObject().put("Confirmation number:", str));
 				}  else {
 					RpcHelper.writeJsonObject(response, new JSONObject().put("payment status:", "failed"));
