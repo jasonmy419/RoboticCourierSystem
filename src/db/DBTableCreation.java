@@ -89,7 +89,7 @@ public class DBTableCreation {
 //
 			sql = "CREATE TABLE couriers ("
 					+ "courier_id VARCHAR(255) NOT NULL,"
-//					+ "type VARCHAR(255) NOT NULL,"
+					+ "type VARCHAR(255) NOT NULL,"
 //					+ "price FLOAT,"
 					+ "station_id VARCHAR(255) NOT NULL,"
 //					+ "order VARCHAR(255) NOT NULL,"
@@ -100,21 +100,21 @@ public class DBTableCreation {
 					+ ")";
 			
 			statement.executeUpdate(sql);
-			sql = "INSERT INTO couriers VALUES('111', '11', CURRENT_TIMESTAMP)";
+			sql = "INSERT INTO couriers VALUES('111', 'Robot', '11', CURRENT_TIMESTAMP)";
 			statement.executeUpdate(sql);
-			sql = "INSERT INTO couriers VALUES('222', '11', CURRENT_TIMESTAMP)";
+			sql = "INSERT INTO couriers VALUES('222', 'Air', '11', CURRENT_TIMESTAMP)";
 			statement.executeUpdate(sql);
-			sql = "INSERT INTO couriers VALUES('211', '22', CURRENT_TIMESTAMP)";
+			sql = "INSERT INTO couriers VALUES('211', 'Robot', '22', CURRENT_TIMESTAMP)";
 			statement.executeUpdate(sql);
 			
 			// insert a future timestamp
 			Timestamp s = new Timestamp((new Date()).getTime() + 300000);
-			sql = "INSERT INTO couriers VALUES('321', '33', ?)";
+			sql = "INSERT INTO couriers VALUES('321', 'Robot', '33', ?)";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setTimestamp(1, s);
 			stmt.executeUpdate();
 			
-			sql = "INSERT INTO couriers VALUES('311', '33', ?)";
+			sql = "INSERT INTO couriers VALUES('311', 'Air', '33', ?)";
 			stmt = conn.prepareStatement(sql);
 			stmt.setTimestamp(1, s);
 			stmt.executeUpdate();
