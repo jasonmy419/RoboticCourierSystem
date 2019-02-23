@@ -13,33 +13,60 @@ class RegistrationForm extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    message.success('Registration Succeed!');
-    this.props.history.push('/login');
+    //this.props.history.push('/login');
 
-    // this.props.form.validateFieldsAndScroll((err, values) => {
-    //   if (!err) {
-    //     console.log('Received values of form: ', values);
-    //     //send request
-    //     // fetch(`${API_ROOT}/signup`, {
-    //     //   method: 'POST',
-    //     //   body: JSON.stringify({
-    //     //     username: values.username,
-    //     //     password: values.password,
-    //     //   })
-    //     // }).then((response) => {
-    //     //   if(response){
-    //     //     return response.text();
-    //     //   }
-    //     //   throw new Error(response.statusText);
-    //     // }).then((data) => {
-    //     //   console.log(data);
-    //     //   message.success('Registration Success');
-    //     // }).catch((err) => {
-    //     //   console.log(err);
-    //     //   message.error('Registration Fail');
-    //     // });
-    //   }
-    // });
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values);
+        //send request
+        fetch('http://localhost:8080/Jupiter/dummy', {
+          method: 'POST',
+          body: JSON.stringify({
+            user_id: values.username,
+            password: values.password,
+            first_name: values.firstname,
+            last_name: values.lastname,
+          })
+        }).then((response) => {
+          if(response){
+            return response.text();
+          }
+          throw new Error(response.statusText);
+        }).then((data) => {
+          console.log(data);
+          return JSON.parse(data);
+        }).then((json) => {
+          if(json.status == "OK"){
+            message.success('Registration Success');
+          } else {
+            message.error('Username already exist');
+            this.props.history.push('/Register');
+          }
+        }).catch((err) => {
+          console.log(err);
+          message.error('Registration Fail');
+        });
+        //send request
+        // fetch(`${API_ROOT}/signup`, {
+        //   method: 'POST',
+        //   body: JSON.stringify({
+        //     username: values.username,
+        //     password: values.password,
+        //   })
+        // }).then((response) => {
+        //   if(response){
+        //     return response.text();
+        //   }
+        //   throw new Error(response.statusText);
+        // }).then((data) => {
+        //   console.log(data);
+        //   message.success('Registration Success');
+        // }).catch((err) => {
+        //   console.log(err);
+        //   message.error('Registration Fail');
+        // });
+      }
+    });
   }
 
   handleConfirmBlur = (e) => {
@@ -99,6 +126,26 @@ class RegistrationForm extends React.Component {
           >
             {getFieldDecorator('username', {
               rules: [{ required: true, message: 'Please input your username!' }],
+            })(
+                <Input />
+            )}
+          </Form.Item>
+          <Form.Item
+              {...formItemLayout}
+              label='First name'
+          >
+            {getFieldDecorator('firstname', {
+              rules: [{ required: true, message: 'Please input your first name!' }],
+            })(
+                <Input />
+            )}
+          </Form.Item>
+          <Form.Item
+              {...formItemLayout}
+              label='Last name'
+          >
+            {getFieldDecorator('lastname', {
+              rules: [{ required: true, message: 'Please input your last name!' }],
             })(
                 <Input />
             )}
