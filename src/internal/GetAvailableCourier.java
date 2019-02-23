@@ -15,7 +15,8 @@ public class GetAvailableCourier {
 		try {
 			stationList = conn.getStation();
 			for (String station : stationList) {
-				list.add(conn.getAvailableCourier(station));
+				list.add(conn.getAvailableCourier(station, "Robot"));
+				list.add(conn.getAvailableCourier(station, "Air"));
 			}
 			
 		} catch (Exception e) {
@@ -23,9 +24,9 @@ public class GetAvailableCourier {
 		} finally {
 			conn.close();
 		}
-//		for (String s : list) {
-//			System.out.println(s);
-//		}
+		for (String s : list) {
+			System.out.println(s);
+		}
 		return list;
 	}
 }
