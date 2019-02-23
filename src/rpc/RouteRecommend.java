@@ -16,7 +16,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import db.DBConnection;
 import entity.Address;
 import entity.Route;
 import entity.Route.RouteBuilder;
@@ -198,15 +197,4 @@ public class RouteRecommend extends HttpServlet {
 			e.printStackTrace();
 		} 
 	}
-	
-	private JSONArray toJSONArray(List<Route> routes) {
-		JSONArray array = new JSONArray();
-		
-		for(Route r: routes) {
-			array.put(r.toJSONObject());
-		}
-		
-		return array;
-	}
-
 }
