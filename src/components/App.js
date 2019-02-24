@@ -22,30 +22,31 @@ class App extends Component {
     console.log("app constructor ran")
     super(props);
     this.state = {
-      isLoggedIn: this.validateSession(),
+      isLoggedIn: true,
     }
-    console.log(this.state);
+    this.validateSession();
   }
 
   validateSession = () => {
-    console.log("validate function ran")
-    let validateResult = true;
-    //for test purpose, comment for final use
-    const response = '{"status": "not-OK", "user_id": "Jizhou"}';
-    const promise = new Promise((resolve, reject) => {
-      resolve(response);
-    });
+    console.log("validate session function ran")
 
-    // //send request, uncomment for final use
-    // const promise = fetch(`${API_ROOT}/login`, {
-    //   method: "GET",
-    // }).then((response) => {
-    //   if(response){
-    //     return response.text();
-    //   }
-    //   throw new Error(response.statusText);
+    // //for test purpose, comment for final use
+    // const response = '{"status": "OK", "user_id": "Jizhou"}';
+    // const promise = new Promise((resolve, reject) => {
+    //   resolve(response);
     // });
 
+    //send request, uncomment for final use
+    const promise = fetch(`${API_ROOT}/login`, {
+      method: "GET",
+    }).then((response) => {
+      if(response){
+        return response.text();
+      }
+      throw new Error(response.statusText);
+    });
+
+    console.log(promise.valueOf());
     promise.then((data) => {
       console.log(data);
       return JSON.parse(data);
@@ -53,20 +54,15 @@ class App extends Component {
       if(json.status === "OK"){
         console.log("Session is valid");
         localStorage.setItem(USER_ID,json.user_id);
-        validateResult = true;
-        //this.setState({isLoggedIn: true,});
+        this.setState({isLoggedIn: true,});
       } else {
         console.log("Session is INVALID");
         localStorage.removeItem(USER_ID);
-        validateResult = false;
-        //this.setState({isLoggedIn: false,});
+        this.setState({isLoggedIn: false,});
       }
     }).catch((err) => {
       console.log(err);
     });
-    console.log("validate function finish");
-    console.log(`validate result is: ${validateResult}`);
-    return validateResult;
   }
 
   handleSuccessfulLogin = (user_id) => {

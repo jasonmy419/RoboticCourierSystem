@@ -2,6 +2,7 @@ import React from 'react';
 import {API_ROOT} from "./constants";
 import { Form, Icon, Input, Button, message,} from 'antd';
 import { Link } from 'react-router-dom';
+import md5 from "md5"
 
 class NormalLoginForm extends React.Component {
   handleSubmit = (e) => {
@@ -10,25 +11,25 @@ class NormalLoginForm extends React.Component {
     if (!err) {
       console.log('Received values of form: ', values);
 
-      //for test purpose, comment for final use
-      const response = '{"status": "OK", "user_id": "Jizhou"}';
-      const promise = new Promise((resolve, reject) => {
-        resolve(response);
-      });
-
-      // // send request, uncomment for final use
-      // const promise = fetch(`${API_ROOT}/logout`, {
-      //   method: 'POST',
-      //   body: JSON.stringify({
-      //     username: values.username,
-      //     password: values.password,
-      //   })
-      // }).then((response) => {
-      //   if(response){
-      //     return response.text();
-      //   }
-      //   throw new Error(response.statusText);
+      // //for test purpose, comment for final use
+      // const response = '{"status": "OK", "user_id": "Jizhou"}';
+      // const promise = new Promise((resolve, reject) => {
+      //   resolve(response);
       // });
+
+      // send request, uncomment for final use
+      const promise = fetch(`${API_ROOT}/login`, {
+        method: 'POST',
+        body: JSON.stringify({
+          username: values.username,
+          password: md5(values.username + md5(values.password))
+        })
+      }).then((response) => {
+        if(response){
+          return response.text();
+        }
+        throw new Error(response.statusText);
+      });
 
       promise.then((data) => {
         console.log(data);
