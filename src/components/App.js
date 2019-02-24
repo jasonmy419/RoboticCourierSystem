@@ -20,8 +20,8 @@ class App extends Component {
     isLoggedIn: Boolean(localStorage.getItem(TOKEN_KEY)),
   }
 
-  handleSuccessfulLogin = (token) => {
-    localStorage.setItem(TOKEN_KEY, token);
+  handleSuccessfulLogin = (user_id) => {
+    localStorage.setItem(USER_ID, user_id);
     this.setState({ isLoggedIn: true });
   }
 

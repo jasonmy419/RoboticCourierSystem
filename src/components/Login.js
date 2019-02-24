@@ -6,30 +6,37 @@ import { Link } from 'react-router-dom';
 class NormalLoginForm extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.handleSuccessfulLogin("123");
-    // this.props.form.validateFields((err, values) => {
-    // if (!err) {
-    //   console.log('Received values of form: ', values);
-    //   //send request
-    //   fetch(`${API_ROOT}/login`, {
-    //     method: 'POST',
-    //     body: JSON.stringify({
-    //       username: values.username,
-    //       password: values.password,
-    //     })
-    //   }).then((response) => {
-    //     if(response){
-    //       return response.text();
-    //     }
-    //     throw new Error(response.statusText);
-    //   }).then((data) => {
-    //     message.success('Registration Success');
-    //   }).catch((err) => {
-    //     console.log(err);
-    //     message.error('Registration Fail');
-    //   });
-    // }
-    // });
+    this.props.form.validateFields((err, values) => {
+    if (!err) {
+      console.log('Received values of form: ', values);
+      //send request
+      fetch(`http://localhost:8080/Jupiter/login`, {
+        method: 'POST',
+        body: JSON.stringify({
+          username: values.username,
+          password: values.password,
+        })
+      }).then((response) => {
+        if(response){
+          return response.text();
+        }
+        throw new Error(response.statusText);
+      }).then((data) => {
+        console.log(data);
+        return JSON.parse(data);
+      }).then((json) => {
+        if(json.status === "OK"){
+          console.log("Login successfully")
+          this.props.handleSuccessfulLogin(json.user_id);
+        } else {
+          message.error('User not found or wrong password');
+        }
+      }).catch((err) => {
+        console.log(err);
+        message.error('Login Fail');
+      });
+    }
+    });
   }
 
   render() {

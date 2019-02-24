@@ -36,35 +36,16 @@ class RegistrationForm extends React.Component {
           console.log(data);
           return JSON.parse(data);
         }).then((json) => {
-          if(json.status == "OK"){
+          if(json.status === "OK"){
             message.success('Registration Success');
+            this.props.history.push('/login');
           } else {
             message.error('Username already exist');
-            this.props.history.push('/Register');
           }
         }).catch((err) => {
           console.log(err);
           message.error('Registration Fail');
         });
-        //send request
-        // fetch(`${API_ROOT}/signup`, {
-        //   method: 'POST',
-        //   body: JSON.stringify({
-        //     username: values.username,
-        //     password: values.password,
-        //   })
-        // }).then((response) => {
-        //   if(response){
-        //     return response.text();
-        //   }
-        //   throw new Error(response.statusText);
-        // }).then((data) => {
-        //   console.log(data);
-        //   message.success('Registration Success');
-        // }).catch((err) => {
-        //   console.log(err);
-        //   message.error('Registration Fail');
-        // });
       }
     });
   }
