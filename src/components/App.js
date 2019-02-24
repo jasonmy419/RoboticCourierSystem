@@ -34,7 +34,7 @@ class App extends Component {
       resolve(response);
     });
 
-    // //uncomment for final use
+    // //send request, uncomment for final use
     // const promise = fetch(`${API_ROOT}/login`, {
     //   method: "GET",
     // }).then((response) => {
@@ -68,20 +68,30 @@ class App extends Component {
   }
 
   handleLogout = () => {
-    fetch(`${API_ROOT}/logout`, {
-      method: 'GET',
-    }).then((response) => {
-      if(response){
-        return response.text();
-      }
-      throw new Error(response.statusText);
-    }).then(() => {
+
+    //for test purpose, comment for final use
+    const response = '{"status": "O", "user_id": "Jizhou"}';
+    const promise = new Promise((resolve, reject) => {
+      resolve(response);
+    });
+
+    // //send request, uncomment for final use
+    // const promise = fetch(`${API_ROOT}/logout`, {
+    //   method: 'GET',
+    // }).then((response) => {
+    //   if(response){
+    //     return response.text();
+    //   }
+    //   throw new Error(response.statusText);
+    // });
+
+    promise.then(() => {
       console.log("logged out successfully");
       localStorage.removeItem(USER_ID);
       this.setState({ isLoggedIn: false });
     }).catch((err) => {
       console.log(err);
-      message.error('Login Fail');
+      message.error('Logout Fail');
     })
   }
 

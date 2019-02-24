@@ -9,19 +9,28 @@ class NormalLoginForm extends React.Component {
     this.props.form.validateFields((err, values) => {
     if (!err) {
       console.log('Received values of form: ', values);
-      //send request
-      fetch(`http://localhost:8080/Jupiter/login`, {
-        method: 'POST',
-        body: JSON.stringify({
-          username: values.username,
-          password: values.password,
-        })
-      }).then((response) => {
-        if(response){
-          return response.text();
-        }
-        throw new Error(response.statusText);
-      }).then((data) => {
+
+      //for test purpose, comment for final use
+      const response = '{"status": "OK", "user_id": "Jizhou"}';
+      const promise = new Promise((resolve, reject) => {
+        resolve(response);
+      });
+
+      // // send request, uncomment for final use
+      // const promise = fetch(`${API_ROOT}/logout`, {
+      //   method: 'POST',
+      //   body: JSON.stringify({
+      //     username: values.username,
+      //     password: values.password,
+      //   })
+      // }).then((response) => {
+      //   if(response){
+      //     return response.text();
+      //   }
+      //   throw new Error(response.statusText);
+      // });
+
+      promise.then((data) => {
         console.log(data);
         return JSON.parse(data);
       }).then((json) => {

@@ -3,6 +3,7 @@ import React from 'react';
 import {
   Form, Input, message, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete,
 } from 'antd';
+import {Link} from "react-router-dom"
 // import {API_ROOT} from "./constants"
 
 class RegistrationForm extends React.Component {
@@ -161,7 +162,8 @@ class RegistrationForm extends React.Component {
           </Form.Item>
 
           <Form.Item {...tailFormItemLayout}>
-            <Button type="primary" htmlType="submit">Register</Button>
+            <Button type="primary" htmlType="submit" className="register-form-button">Register</Button>
+            Or <Link to="/login">login</Link>
           </Form.Item>
         </Form>
     );
