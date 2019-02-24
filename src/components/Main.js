@@ -11,6 +11,11 @@ import { ConfirmationPage } from "./ConfirmationPage";
 
 
 export class Main extends React.Component {
+
+    getExactpath = () => {
+        return this.props.isLoggedIn ? <Redirect to="/home"/> : <Redirect to="/login"/>;
+    }
+
     getLogin = () => {
         return this.props.isLoggedIn ? <Redirect to="/home"/> : <Login handleSuccessfulLogin={this.props.handleSuccessfulLogin}/>;
     }
@@ -33,7 +38,7 @@ export class Main extends React.Component {
             <div className="main">
                 <BrowserRouter>
                     <Switch>
-                        <Route exact path="/" render={this.getLogin}/>
+                        <Route exact path="/" render={this.getExactpath}/>
                         <Route path="/login" render={this.getLogin}/>
                         <Route path="/register" component={Register}/>
                         <Route path="/home" render={this.getHome}/>

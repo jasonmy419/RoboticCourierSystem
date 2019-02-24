@@ -27,14 +27,24 @@ class App extends Component {
   }
 
   validateSession = () => {
-    fetch(`${API_ROOT}/login`, {
-      method: "GET",
-    }).then((response) => {
-      if(response){
-        return response.text();
-      }
-      throw new Error(response.statusText);
-    }).then((data) => {
+
+    //for test purpose, comment for final use
+    const response = '{"status": "OK", "user_id": "Jizhou"}';
+    const promise = new Promise((resolve, reject) => {
+      resolve(response);
+    });
+
+    // //uncomment for final use
+    // const promise = fetch(`${API_ROOT}/login`, {
+    //   method: "GET",
+    // }).then((response) => {
+    //   if(response){
+    //     return response.text();
+    //   }
+    //   throw new Error(response.statusText);
+    // });
+
+    promise.then((data) => {
       console.log(data);
       return JSON.parse(data);
     }).then((json) => {
@@ -49,7 +59,6 @@ class App extends Component {
       }
     }).catch((err) => {
       console.log(err);
-      message.error('Login Fail');
     });
   }
 
