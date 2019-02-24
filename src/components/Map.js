@@ -3,6 +3,7 @@ import React from 'react';
 import {withScriptjs, withGoogleMap, GoogleMap, Polyline} from "react-google-maps";
 // import { AroundMarker } from './AroundMarker';
 import {SF_COORD} from "../constants";
+import {CustomizedMarker} from "./CustomizedMarker"
 
 class NormalAroundMap extends React.Component {
 
@@ -53,14 +54,30 @@ class NormalAroundMap extends React.Component {
     //     isRouteGiven: true
     // }
     getCenter = () => {
-        const center = this.props.response.length > 0 ? this.props.response[0].center : SF_COORD;
-        return(center);
+        if(this.props.response.length > 0){
+            const destLat = this.props.response[0].destination_point.destination_point_lat;
+            const destLon = this.props.response[0].destination_point.destination_point_lon;
+            const wayptLat = this.props.response[0].way_point.way_point_lat;
+            const wayptLon = this.props.response[0].way_point.way_point_lon;
+            const center = {lat: (destLat + wayptLat)/2, lng: (destLon + wayptLon)/2};
+            return(center);
+        }
+        return(SF_COORD);
     }
 
     render() {
         // console.log(this.props.response.length > 0 ? this.props.response[0].mode : null);
         // const { lat, lon: lng } = JSON.parse(localStorage.getItem(POS_KEY));
-
+        const dest = {city: this.props.response[0].destination_point.city,
+                        lat: this.props.response[0].destination_point.destination_point_lat,
+            lon: this.props.response[0].destination_point.destination_point_lon,
+        stName: this.props.response[0].destination_point.street_name,
+        stNum: this.props.response[0].destination_point.street_number}
+        const waypoint = {city: this.props.response[0].way_point.city,
+            lat: this.props.response[0].way_point.way_point_lat,
+            lon: this.props.response[0].way_point.way_point_lon,
+            stName: this.props.response[0].way_point.street_name,
+            stNum: this.props.response[0].way_point.street_number}
         const decodedPath = this.props.response.length > 0 ? new window.google.maps.geometry.encoding.decodePath(
              this.props.response[0].overview_polyline.points
             ):null;
@@ -81,7 +98,10 @@ class NormalAroundMap extends React.Component {
                         strokeWeight: 4,
 
                     }}/>
+
                 }
+                {this.props.response.length > 0 ? <CustomizedMarker point = {dest} point_type="destination"></CustomizedMarker> : null}
+                {this.props.response.length > 0 ?<CustomizedMarker point = {waypoint} point_type="waypoint"></CustomizedMarker> : null}
 
             </GoogleMap>
         );
