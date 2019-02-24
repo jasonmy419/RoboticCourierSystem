@@ -76,30 +76,10 @@ class App extends Component {
 
   handleLogout = () => {
 
-    //for test purpose, comment for final use
-    const response = '{"status": "OK", "user_id": "Jizhou"}';
-    const promise = new Promise((resolve, reject) => {
-      resolve(response);
-    });
+    console.log("logged out successfully");
+    localStorage.removeItem(USER_ID);
+    this.setState({ isLoggedIn: false });
 
-    // //send request, uncomment for final use
-    // const promise = fetch(`${API_ROOT}/logout`, {
-    //   method: 'GET',
-    // }).then((response) => {
-    //   if(response){
-    //     return response.text();
-    //   }
-    //   throw new Error(response.statusText);
-    // });
-
-    promise.then(() => {
-      console.log("logged out successfully");
-      localStorage.removeItem(USER_ID);
-      this.setState({ isLoggedIn: false });
-    }).catch((err) => {
-      console.log(err);
-      message.error('Logout Fail');
-    })
   }
 
   render() {
