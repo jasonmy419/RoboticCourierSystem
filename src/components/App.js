@@ -17,8 +17,39 @@ import {message} from "antd"
 // const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
 class App extends Component {
-  state = {
-    isLoggedIn: Boolean(localStorage.getItem(TOKEN_KEY)),
+  constructor(props){
+    super(props);
+    this.state = {
+      isLoggedIn: false,
+    }
+    this.validateSession();
+  }
+
+  validateSession = () => {
+    fetch(`${API_ROOT}/login`, {
+      method: "GET",
+    }).then((response) => {
+      if(response){
+        return response.text();
+      }
+      throw new Error(response.statusText);
+    }).then((data) => {
+      console.log(data);
+      return JSON.parse(data);
+    }).then((json) => {
+      if(json.status === "OK"){
+        console.log("Session is valid");
+        localStorage.setItem("USER_ID",json.user_id);
+        this.setState({isLoggedIn: true,});
+      } else {
+        console.log("Session is INVALID");
+        localStorage.removeItem("USER_ID");
+        this.setState({isLoggedIn: false,});
+      }
+    }).catch((err) => {
+      console.log(err);
+      message.error('Login Fail');
+    });
   }
 
   handleSuccessfulLogin = (user_id) => {
