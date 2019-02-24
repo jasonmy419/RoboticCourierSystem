@@ -11,6 +11,7 @@ import { TOKEN_KEY } from './constants';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import {Register} from "./Register";
 import {Payment} from "./Payment";
+import {message} from "antd"
 // import Steps, { Step } from 'rc-steps';
 
 // const AnyReactComponent = ({ text }) => <div>{text}</div>;
@@ -26,8 +27,21 @@ class App extends Component {
   }
 
   handleLogout = () => {
-    localStorage.removeItem(TOKEN_KEY);
-    this.setState({ isLoggedIn: false });
+    fetch(`${API_ROOT}/logout`, {
+      method: 'GET',
+    }).then((response) => {
+      if(response){
+        return response.text();
+      }
+      throw new Error(response.statusText);
+    }).then(() => {
+      console.log("logged out successfully");
+      localStorage.removeItem(USER_ID);
+      this.setState({ isLoggedIn: false });
+    }).catch((err) => {
+      console.log(err);
+      message.error('Login Fail');
+    })
   }
 
   render() {
