@@ -3,8 +3,9 @@ import React from 'react';
 import {
   Form, Input, message, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete,
 } from 'antd';
+import md5 from "md5"
 import {Link} from "react-router-dom"
-// import {API_ROOT} from "./constants"
+import {API_ROOT} from "./constants"
 
 class RegistrationForm extends React.Component {
   state = {
@@ -15,16 +16,15 @@ class RegistrationForm extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     //this.props.history.push('/login');
-
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
         //send request
-        fetch('http://localhost:8080/Jupiter/dummy', {
+        fetch(`${API_ROOT}/signup`, {
           method: 'POST',
           body: JSON.stringify({
             user_id: values.username,
-            password: values.password,
+            password: md5(values.username + md5(values.password)),
             first_name: values.firstname,
             last_name: values.lastname,
           })
