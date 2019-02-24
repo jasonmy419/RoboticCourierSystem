@@ -68,16 +68,16 @@ class NormalAroundMap extends React.Component {
     render() {
         // console.log(this.props.response.length > 0 ? this.props.response[0].mode : null);
         // const { lat, lon: lng } = JSON.parse(localStorage.getItem(POS_KEY));
-        const dest = {city: this.props.response[0].destination_point.city,
+        const dest = this.props.response.length > 0 ? {city: this.props.response[0].destination_point.city,
                         lat: this.props.response[0].destination_point.destination_point_lat,
             lon: this.props.response[0].destination_point.destination_point_lon,
         stName: this.props.response[0].destination_point.street_name,
-        stNum: this.props.response[0].destination_point.street_number}
-        const waypoint = {city: this.props.response[0].way_point.city,
+        stNum: this.props.response[0].destination_point.street_number} : null;
+        const waypoint = this.props.response.length > 0 ? {city: this.props.response[0].way_point.city,
             lat: this.props.response[0].way_point.way_point_lat,
             lon: this.props.response[0].way_point.way_point_lon,
             stName: this.props.response[0].way_point.street_name,
-            stNum: this.props.response[0].way_point.street_number}
+            stNum: this.props.response[0].way_point.street_number}:null;
         const decodedPath = this.props.response.length > 0 ? new window.google.maps.geometry.encoding.decodePath(
              this.props.response[0].overview_polyline.points
             ):null;
