@@ -9,7 +9,7 @@ import { Main } from "./Main";
 import 'rc-steps/assets/index.css';
 import 'rc-steps/assets/iconfont.css';
 import { USER_ID } from './constants';
-import {BrowserRouter, Route, Switch} from "react-router-dom";
+import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
 import {Register} from "./Register";
 import {Payment} from "./Payment";
 import {message} from "antd"
@@ -19,17 +19,19 @@ import {message} from "antd"
 
 class App extends Component {
   constructor(props){
+    console.log("app constructor ran")
     super(props);
     this.state = {
-      isLoggedIn: false,
+      isLoggedIn: this.validateSession(),
     }
-    this.validateSession();
+    console.log(this.state);
   }
 
   validateSession = () => {
-
+    console.log("validate function ran")
+    let validateResult = true;
     //for test purpose, comment for final use
-    const response = '{"status": "OK", "user_id": "Jizhou"}';
+    const response = '{"status": "not-OK", "user_id": "Jizhou"}';
     const promise = new Promise((resolve, reject) => {
       resolve(response);
     });
@@ -51,15 +53,20 @@ class App extends Component {
       if(json.status === "OK"){
         console.log("Session is valid");
         localStorage.setItem(USER_ID,json.user_id);
-        this.setState({isLoggedIn: true,});
+        validateResult = true;
+        //this.setState({isLoggedIn: true,});
       } else {
         console.log("Session is INVALID");
         localStorage.removeItem(USER_ID);
-        this.setState({isLoggedIn: false,});
+        validateResult = false;
+        //this.setState({isLoggedIn: false,});
       }
     }).catch((err) => {
       console.log(err);
     });
+    console.log("validate function finish");
+    console.log(`validate result is: ${validateResult}`);
+    return validateResult;
   }
 
   handleSuccessfulLogin = (user_id) => {
@@ -70,7 +77,7 @@ class App extends Component {
   handleLogout = () => {
 
     //for test purpose, comment for final use
-    const response = '{"status": "O", "user_id": "Jizhou"}';
+    const response = '{"status": "OK", "user_id": "Jizhou"}';
     const promise = new Promise((resolve, reject) => {
       resolve(response);
     });
@@ -96,6 +103,8 @@ class App extends Component {
   }
 
   render() {
+    console.log("rendering");
+    console.log(this.state.isLoggedIn);
     return (
         <div className="App">
           <TopBar handleLogout={this.handleLogout} isLoggedIn={this.state.isLoggedIn} />

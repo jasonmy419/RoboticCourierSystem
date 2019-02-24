@@ -20,9 +20,7 @@ export class TopBar extends React.Component {
                         <Icon type="logout" />{' '}logout
                     </a> : null}
                 {this.props.isLoggedIn? <a href='./orders' className="orders">orders</a>:null}
-
             </header>
-
     );
   }
 }

@@ -15,11 +15,9 @@ export class Main extends React.Component {
     getExactpath = () => {
         return this.props.isLoggedIn ? <Redirect to="/home"/> : <Redirect to="/login"/>;
     }
-
     getLogin = () => {
         return this.props.isLoggedIn ? <Redirect to="/home"/> : <Login handleSuccessfulLogin={this.props.handleSuccessfulLogin}/>;
     }
-
     getHome = (props) => {
         return this.props.isLoggedIn ? <Home {...props} /> : <Redirect to="/login"/>;
     }

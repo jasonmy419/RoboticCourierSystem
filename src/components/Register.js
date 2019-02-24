@@ -15,7 +15,6 @@ class RegistrationForm extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    //this.props.history.push('/login');
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
@@ -27,6 +26,11 @@ class RegistrationForm extends React.Component {
             password: md5(values.username + md5(values.password)),
             first_name: values.firstname,
             last_name: values.lastname,
+            street_num: values.streetnumber,
+            street_name: values.streetname,
+            city: values.city,
+            state: values.state,
+            zip_code: values.zipcode,
           })
         }).then((response) => {
           if(response){
@@ -99,9 +103,9 @@ class RegistrationForm extends React.Component {
       },
     };
 
-
     return (
         <Form onSubmit={this.handleSubmit} className="Register">
+          {/*username and passwords*/}
           <Form.Item
               {...formItemLayout}
               label='Username'
@@ -109,27 +113,7 @@ class RegistrationForm extends React.Component {
             {getFieldDecorator('username', {
               rules: [{ required: true, message: 'Please input your username!' }],
             })(
-                <Input />
-            )}
-          </Form.Item>
-          <Form.Item
-              {...formItemLayout}
-              label='First name'
-          >
-            {getFieldDecorator('firstname', {
-              rules: [{ required: true, message: 'Please input your first name!' }],
-            })(
-                <Input />
-            )}
-          </Form.Item>
-          <Form.Item
-              {...formItemLayout}
-              label='Last name'
-          >
-            {getFieldDecorator('lastname', {
-              rules: [{ required: true, message: 'Please input your last name!' }],
-            })(
-                <Input />
+                <Input allowClear/>
             )}
           </Form.Item>
           <Form.Item
@@ -143,7 +127,7 @@ class RegistrationForm extends React.Component {
                 validator: this.validateToNextPassword,
               }],
             })(
-                <Input type="password" />
+                <Input type="password" allowClear/>
             )}
           </Form.Item>
           <Form.Item
@@ -157,8 +141,92 @@ class RegistrationForm extends React.Component {
                 validator: this.compareToFirstPassword,
               }],
             })(
-                <Input type="password" onBlur={this.handleConfirmBlur} />
+                <Input type="password" onBlur={this.handleConfirmBlur} allowClear/>
             )}
+          </Form.Item>
+
+          {/*firstname and lastname*/}
+          <Form.Item
+              {...formItemLayout}
+              label='First name'
+          >
+            {getFieldDecorator('firstname', {
+              rules: [{ required: true, message: 'Please input your first name!' }],
+            })(
+                <Input allowClear/>
+            )}
+          </Form.Item>
+          <Form.Item
+              {...formItemLayout}
+              label='Last name'
+          >
+            {getFieldDecorator('lastname', {
+              rules: [{ required: true, message: 'Please input your last name!' }],
+            })(
+                <Input allowClear/>
+            )}
+          </Form.Item>
+
+          {/*address*/}
+          <Form.Item
+              {...formItemLayout}
+              label="Street Address"
+          >
+            <Row gutter={8}>
+              <Col span={6}>
+                {getFieldDecorator('streetnumber', {
+                  rules: [{ required: true, message: 'Please input your Street Number and Name' }],
+                })(
+                    <Input placeholder="Number"/>
+                )}
+              </Col>
+              <Col span={18}>
+                {getFieldDecorator('streetname', {
+                  rules: [{ required: true, message: 'Please input your Street Number and Name' }],
+                })(
+                    <Input placeholder="Street name"/>
+                )}
+              </Col>
+            </Row>
+          </Form.Item>
+          <Form.Item
+              {...formItemLayout}
+              label="City/State"
+          >
+            <Row gutter={8}>
+              <Col span={8}>
+                {getFieldDecorator('city', {
+                  rules: [{ required: true, message: 'Please input your city' }],
+                })(
+                    <Input placeholder="city"/>
+                )}
+              </Col>
+              <Col span={8}>
+                {getFieldDecorator('state', {
+                  rules: [{ required: true, message: 'Please input your city' }],
+                })(
+                    <Select
+                        showSearch
+                        placeholder="state"
+                        optionFilterProp="children"
+                        // onChange={handleChange}
+                        // onFocus={handleFocus}
+                        // onBlur={handleBlur}
+                        filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                    >
+                      <Select.Option value="CA">CA</Select.Option>
+                      <Select.Option value="NV">NV</Select.Option>
+                    </Select>
+                )}
+              </Col>
+              <Col span={8}>
+                {getFieldDecorator('zipcode', {
+                  rules: [{ required: true, message: 'Please input your Street Number and Name' }],
+                })(
+                    <Input placeholder="ZIP code"/>
+                )}
+              </Col>
+            </Row>
           </Form.Item>
 
           <Form.Item {...tailFormItemLayout}>
