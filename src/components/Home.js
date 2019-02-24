@@ -4,33 +4,7 @@ import { OrderInfo } from "./OrderInfo"
 import { Col } from 'antd';
 import {MAP_API_KEY} from '../constants';
 export class Home extends React.Component{
-    state = { response : [    {
-            "duration": 477,
-            "mode": "FLYING",
-            "route": [
-                {
-                    "duration": 136,
-                    "distance": 3413,
-                    "polyline": {
-                        "points": "cmtgE`{fjUvNtbF"
-                    }
-                },
-                {
-                    "duration": 341,
-                    "distance": 8540,
-                    "polyline": {
-                        "points": "k}sgEv~mjUz`I_gL"
-                    }
-                }
-            ],
-            "distance": 11953,
-            "size": "SMALL",
-            "price": 18.444499721625707,
-            "overview_polyline": {
-                "points": "cmtgE`{fjUvNtbFz`I_gL"
-            },
-            "center": {"lat": 32.715736, "lng": -117.161087}
-        }
+    state = { response : [
         ] }
 
 handleResponse = (responseValue) => {
