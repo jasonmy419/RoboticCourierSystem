@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {API_ROOT} from "./constants";
 import '../styles/App.css';
 // import GoogleMapReact from 'google-map-react';
 import { TopBar } from './TopBar';
@@ -7,7 +8,7 @@ import { Main } from "./Main";
 
 import 'rc-steps/assets/index.css';
 import 'rc-steps/assets/iconfont.css';
-import { TOKEN_KEY } from './constants';
+import { USER_ID } from './constants';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import {Register} from "./Register";
 import {Payment} from "./Payment";
@@ -39,11 +40,11 @@ class App extends Component {
     }).then((json) => {
       if(json.status === "OK"){
         console.log("Session is valid");
-        localStorage.setItem("USER_ID",json.user_id);
+        localStorage.setItem(USER_ID,json.user_id);
         this.setState({isLoggedIn: true,});
       } else {
         console.log("Session is INVALID");
-        localStorage.removeItem("USER_ID");
+        localStorage.removeItem(USER_ID);
         this.setState({isLoggedIn: false,});
       }
     }).catch((err) => {
