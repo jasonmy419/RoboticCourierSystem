@@ -44,7 +44,7 @@ export class CustomizedMarker extends React.Component {
                 {   this.state.isOpen ?
                     <InfoWindow>
                         <div>
-                            <p>{`${stNum} ${stName},  ${city}`}</p>
+                            <p>{`${this.props.point_type == "destination"? "To: " : "From: "}${stNum} ${stName},  ${city}`}</p>
                         </div>
                     </InfoWindow> : null
                 }
