@@ -53,6 +53,7 @@ public class DBTableCreation {
 //					+ "last_name VARCHAR(255),"
 //					+ "first_name VARCHAR(255),"
 //					+ "address VARCHAR(255),"
+//					+ "address_id"
 //					+ "zipcode VARCHAR(255),"
 //					// FIXME
 ////					+ "PRIMARY KEY (user_id)"
@@ -158,12 +159,8 @@ public class DBTableCreation {
 					 +"courier_id VARCHAR(255) NOT NULL,"
 					 +"item_id VARCHAR(255) NOT NULL,"
 					 +"type VARCHAR(255) NOT NULL,"
-					 +"start_street_number VARCHAR(255) NOT NULL,"
-					 +"start_street_name VARCHAR(255) NOT NULL,"
-					 +"start_city VARCHAR(255) NOT NULL,"
-					 +"end_street_number VARCHAR(255) NOT NULL,"
-					 +"end_street_name VARCHAR(255) NOT NULL,"
-					 +"end_city VARCHAR(255) NOT NULL,"
+					 +"start_address_id VARCHAR(255) NOT NULL,"
+					 +"end_address_id VARCHAR(255) NOT NULL,"
 					 +"status VARCHAR(255) NOT NULL,"
 					 +"route_duration DOUBLE NOT NULL,"
 					 +"route_distance DOUBLE NOT NULL,"
@@ -173,11 +170,10 @@ public class DBTableCreation {
 					 +")";
 			statement.executeUpdate(sql);
 			
-			sql = "INSERT INTO orders VALUES('sfogbwklskansbbvncs012e','123','xyz','111','D', '3869', 'Miramar St',"
-					+ " 'La Jolla', '4609', 'Convoy St', 'San Diego',"
-					+ "'TRANSIT',"
-				+ "996.0, 11.25, 29.83, 'k}qcFjushVf@QFABABAF?D?D@RBB@D?J?N?B?n@JLJJ@LDTDNDNDFBFBDBDBFBFBHB',"
-				+ "TRUE)";
+			sql = "INSERT INTO orders VALUES('sfogbwklskansbbvncs012e','123','xyz','111','D',"
+					+ " 'La Jolla', 'San Diego', 'TRANSIT',"
+					+ "996.0, 11.25, 29.83, 'k}qcFjushVf@QFABABAF?D?D@RBB@D?J?N?B?n@JLJJ@LDTDNDNDFBFBDBDBFBFBHB',"
+					+ "TRUE)";
 			statement.executeUpdate(sql);
 
 	

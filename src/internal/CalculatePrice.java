@@ -16,10 +16,10 @@ public class CalculatePrice {
 		
 		switch(mode) {
 		case FLYING: // this case is used on flying robots
-			price += time * 1.0 / 300 + 2 * distance * 1.0 / 1609.344 + priceOfSize;
+			price += time * 1.0 / 300 + 5 * distance * 1.0 / 1609.344 + priceOfSize;
 			break;
 		case WALKING: // this case is used for walking robots
-			price += time * 1.0 / 1200 + 5 * distance * 1.0 / 1609.344 + priceOfSize;
+			price += time * 1.0 / 1200 + 2 * distance * 1.0 / 1609.344 + priceOfSize;
 			break;
 		default:
 			System.out.println("Unable to calculate price!");
