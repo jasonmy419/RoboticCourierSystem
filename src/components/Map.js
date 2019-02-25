@@ -86,11 +86,16 @@ class NormalAroundMap extends React.Component {
              this.props.response[0].overview_polyline.points
             ):null;
         return (
+<<<<<<< HEAD
+            <GoogleMap
+                center={this.getCenter(dest,waypoint)}
+=======
 
             <GoogleMap
+>>>>>>> c54adbd7e6877df74d67341af30beb1f3e85d896
                 ref={this.getMapRef}
                 defaultZoom={13}
-                defaultCenter={this.getCenter(dest, waypoint)}
+                defaultCenter={SF_COORD}
                 //onClick={this.toggleRoute}
             >
                 {

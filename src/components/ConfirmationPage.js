@@ -3,8 +3,6 @@ import { API_ROOT } from "../constants";
 import { Steps } from 'antd';
 
 const Step = Steps.Step;
-
-
 export class ConfirmationPage extends Component {
 
     state = {
