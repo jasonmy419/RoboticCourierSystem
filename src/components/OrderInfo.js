@@ -196,6 +196,7 @@ class OrderInfoForm extends React.Component {
 
         return (
             <Card className="order">
+                <h1>Let's find out the best route for you!</h1>
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Item
                         {...formItemLayout}

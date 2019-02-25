@@ -4,6 +4,7 @@ import {withScriptjs, withGoogleMap, GoogleMap, Polyline} from "react-google-map
 // import { AroundMarker } from './AroundMarker';
 import {SF_COORD} from "../constants";
 import {CustomizedMarker} from "./CustomizedMarker"
+import {StationMarker} from "./StationMarker";
 
 class NormalAroundMap extends React.Component {
 
@@ -82,6 +83,13 @@ class NormalAroundMap extends React.Component {
                 stName: this.props.response[0].way_point.street_name,
                 stNum: this.props.response[0].way_point.street_number
             } : null;
+        const station = this.props.response.length > 0 ? {
+            city: this.props.response[0].station_point.city,
+            lat: this.props.response[0].station_point.station_lat,
+            lon: this.props.response[0].station_point.station_lon,
+            stName: this.props.response[0].station_point.street_name,
+            stNum: this.props.response[0].station_point.street_number
+        } : null;
         const decodedPath = this.props.response.length > 0 ? new window.google.maps.geometry.encoding.decodePath(
              this.props.response[0].overview_polyline.points
             ):null;
@@ -109,6 +117,7 @@ class NormalAroundMap extends React.Component {
                 }
                 {this.props.response.length > 0 ? <CustomizedMarker point = {dest} point_type="destination"></CustomizedMarker> : null}
                 {this.props.response.length > 0 ?<CustomizedMarker point = {waypoint} point_type="waypoint"></CustomizedMarker> : null}
+                {this.props.response.length > 0 ? <StationMarker point = {station} point_type="station"></StationMarker> : null}
 
             </GoogleMap>
         );

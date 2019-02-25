@@ -4,7 +4,55 @@ import { OrderInfo } from "./OrderInfo"
 import { Col } from 'antd';
 import {MAP_API_KEY} from '../constants';
 export class Home extends React.Component{
-    state = { response : [] }
+    state = { response : [{
+            "duration": 634,
+            "mode": "FLYING",
+            "route": [
+                {
+                    "duration": 294,
+                    "distance": 7368,
+                    "polyline": {
+                        "points": "w~kgE|yajUs}FxcK"
+                    }
+                },
+                {
+                    "duration": 340,
+                    "distance": 8519,
+                    "polyline": {
+                        "points": "k}sgEv~mjUb`I}eL"
+                    }
+                }
+            ],
+            "station_point": {
+                "city": "San Diego",
+                "street_number": "7373",
+                "station_lat": 32.834517,
+                "station_lon": -117.1623357,
+                "street_name": "Convoy Ct"
+            },
+            "distance": 15887,
+            "size": "SMALL",
+            "courier": "222",
+            "price": 53.47195398870596,
+            "destination_point": {
+                "destination_point_lon": -117.154692,
+                "city": "San Diego",
+                "destination_point_lat": 32.8238827,
+                "street_number": "4609",
+                "street_name": "Convoy St"
+            },
+            "overview_polyline": {
+                "points": "w~kgE|yajUs}FxcKb`I}eL"
+            },
+            "way_point": {
+                "city": "La Jolla",
+                "way_point_lat": 32.8752583,
+                "street_number": "3869",
+                "way_point_lon": -117.2223574,
+                "street_name": "Miramar St"
+            }
+        }
+        ] }
 
 handleResponse = (responseValue) => {
         this.setState({response: responseValue});
