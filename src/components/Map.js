@@ -53,13 +53,9 @@ class NormalAroundMap extends React.Component {
     // state ={
     //     isRouteGiven: true
     // }
-    getCenter = () => {
+    getCenter = (dest, waypoint) => {
         if(this.props.response.length > 0){
-            const destLat = this.props.response[0].destination_point.destination_point_lat;
-            const destLon = this.props.response[0].destination_point.destination_point_lon;
-            const wayptLat = this.props.response[0].way_point.way_point_lat;
-            const wayptLon = this.props.response[0].way_point.way_point_lon;
-            const center = {lat: (destLat + wayptLat)/2, lng: (destLon + wayptLon)/2};
+            const center = {lat: (dest.lat + waypoint.lat)/2, lng: (dest.lon + waypoint.lon)/2};
             return(center);
         }
         return(SF_COORD);
@@ -68,24 +64,29 @@ class NormalAroundMap extends React.Component {
     render() {
         // console.log(this.props.response.length > 0 ? this.props.response[0].mode : null);
         // const { lat, lon: lng } = JSON.parse(localStorage.getItem(POS_KEY));
-        const dest = this.props.response.length > 0 ? {city: this.props.response[0].destination_point.city,
-                        lat: this.props.response[0].destination_point.destination_point_lat,
-            lon: this.props.response[0].destination_point.destination_point_lon,
-        stName: this.props.response[0].destination_point.street_name,
-        stNum: this.props.response[0].destination_point.street_number} : null;
-        const waypoint = this.props.response.length > 0 ? {city: this.props.response[0].way_point.city,
-            lat: this.props.response[0].way_point.way_point_lat,
-            lon: this.props.response[0].way_point.way_point_lon,
-            stName: this.props.response[0].way_point.street_name,
-            stNum: this.props.response[0].way_point.street_number}:null;
+        const dest = this.props.response.length > 0 ? {
+                city: this.props.response[0].destination_point.city,
+                lat: this.props.response[0].destination_point.destination_point_lat,
+                lon: this.props.response[0].destination_point.destination_point_lon,
+                stName: this.props.response[0].destination_point.street_name,
+                stNum: this.props.response[0].destination_point.street_number
+            } : null;
+        const waypoint = this.props.response.length > 0 ? {
+                city: this.props.response[0].way_point.city,
+                lat: this.props.response[0].way_point.way_point_lat,
+                lon: this.props.response[0].way_point.way_point_lon,
+                stName: this.props.response[0].way_point.street_name,
+                stNum: this.props.response[0].way_point.street_number
+            } : null;
         const decodedPath = this.props.response.length > 0 ? new window.google.maps.geometry.encoding.decodePath(
              this.props.response[0].overview_polyline.points
             ):null;
         return (
             <GoogleMap
+
                 ref={this.getMapRef}
                 defaultZoom={13}
-                defaultCenter={this.getCenter()}
+                defaultCenter={this.getCenter(dest, waypoint)}
                 //onClick={this.toggleRoute}
             >
                 {
