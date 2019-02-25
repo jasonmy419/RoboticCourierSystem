@@ -1,5 +1,7 @@
 package internal;
 
+import java.text.DecimalFormat;
+
 import org.json.JSONObject;
 
 import entity.TravelMode;
@@ -24,6 +26,12 @@ public class CalculatePrice {
 		default:
 			System.out.println("Unable to calculate price!");
 		}
-		return price;	
+		
+		DecimalFormat df = new DecimalFormat("#.00");
+	    String priceStr = df.format(price);
+//	    System.out.println("price is "+ priceStr); 
+	    double newPrice = Double.parseDouble(priceStr);
+	    
+		return newPrice;	
 	}
 }

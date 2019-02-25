@@ -31,5 +31,20 @@ public class StationAddress {
 		
 		return address;
 	}
+	
+	public static JSONObject getStationAddress(String courierID) {
+		DBConnection conn = new DBConnection();
+		JSONObject obj = null;
+		try {
+			obj = conn.getParticularStationByCourierID(courierID);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			conn.close();
+		}
+		
+		return obj;
+	}
 
 }

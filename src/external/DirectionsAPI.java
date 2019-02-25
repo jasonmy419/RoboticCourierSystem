@@ -21,6 +21,7 @@ import entity.Polyline.PolylineBuilder;
 import entity.Route;
 import entity.Route.RouteBuilder;
 import internal.CalculatePrice;
+import internal.GetAvailableCourier;
 import entity.State;
 import entity.TravelMode;
 import entity.ItemSize;
@@ -82,7 +83,10 @@ public class DirectionsAPI {
 				JSONArray array = obj.getJSONArray("routes");
 				System.out.println("Route numbers: " + array.length());
 				for (int i = 0; i < array.length(); i++) {
-					routes.add(routeParse(array.getJSONObject(i), size));
+					Route tmp = routeParse(array.getJSONObject(i), size, origin);
+					routes.add(tmp);
+					System.out.println("s in main directionAPI is " + routes.get(0).getCourierID());
+					System.out.println("s in main directionAPI tmp is " + tmp.getCourierID());
 				}
 			}
 
@@ -93,7 +97,7 @@ public class DirectionsAPI {
 		return routes;
 	}
 
-	private Route routeParse(JSONObject object, ItemSize size) throws JSONException, UnsupportedEncodingException {
+	private Route routeParse(JSONObject object, ItemSize size, Address origin) throws JSONException, UnsupportedEncodingException {
 
 		RouteBuilder routeBuilder = new RouteBuilder();
 
@@ -144,13 +148,20 @@ public class DirectionsAPI {
 					leg.getJSONObject("distance").getInt("value"), TravelMode.WALKING, size);
 			
 			routeBuilder.setPrice(price);
+			
+
 		}
 
 		if (!object.isNull("overview_polyline")) {
 			routeBuilder.setPolylineOverview(object.getJSONObject("overview_polyline"));
 		}
 		
-		
+		//			String courierID = GetAvailableCourier.getAvailableCourierByCoordinate(origin.getLatitude(), 
+//					origin.getLongitude(), "Robot");
+			String courierID = GetAvailableCourier.getAvailableCourierByPlace(origin.getStreetNum(),
+					origin.getStreetName(), origin.getCity(), "Robot");
+//			System.out.println("s in directionAPI is " + courierID);
+			routeBuilder.setCourier(courierID);
 
 		return routeBuilder.build();
 	}
@@ -173,27 +184,27 @@ public class DirectionsAPI {
 		return query;
 	}
 
-	public static void main(String args[]) throws JSONException {
-		DirectionsAPI api = new DirectionsAPI();
-
-		// 68 Willow Road, Menlo Park, CA
-		Address origin = new AddressBuilder().setStreetNum("68").setStreetName("Willow Road").setCity("Menlo Park")
-				.setState(State.CA).setInputType(InputType.ADDRESS_STRING).setResponseType(GeoResponseType.COORDINATE)
-				.build();
-
-		// 383 University Ave, Palo Alto, CA
-		Address wayPoint = new AddressBuilder().setStreetNum("383").setStreetName("University Ave").setCity("Palo Alto")
-				.setState(State.CA).setInputType(InputType.ADDRESS_STRING).setResponseType(GeoResponseType.COORDINATE)
-				.build();
-
-		// 1929 Menalto Ave, Menlo Park, CA
-		Address destination = new AddressBuilder().setStreetNum("1929").setStreetName("Menalto Ave")
-				.setCity("Menlo Park").setState(State.CA).setInputType(InputType.ADDRESS_STRING)
-				.setResponseType(GeoResponseType.COORDINATE).build();
-
-		List<Route> routes = api.directions(origin, destination, wayPoint, ItemSize.SMALL);
-		for (Route r : routes) {
-			System.out.println(r.getPolyline());
-		}
-	}
+//	public static void main(String args[]) throws JSONException {
+//		DirectionsAPI api = new DirectionsAPI();
+//
+//		// 68 Willow Road, Menlo Park, CA
+//		Address origin = new AddressBuilder().setStreetNum("68").setStreetName("Willow Road").setCity("Menlo Park")
+//				.setState(State.CA).setInputType(InputType.ADDRESS_STRING).setResponseType(GeoResponseType.COORDINATE)
+//				.build();
+//
+//		// 383 University Ave, Palo Alto, CA
+//		Address wayPoint = new AddressBuilder().setStreetNum("383").setStreetName("University Ave").setCity("Palo Alto")
+//				.setState(State.CA).setInputType(InputType.ADDRESS_STRING).setResponseType(GeoResponseType.COORDINATE)
+//				.build();
+//
+//		// 1929 Menalto Ave, Menlo Park, CA
+//		Address destination = new AddressBuilder().setStreetNum("1929").setStreetName("Menalto Ave")
+//				.setCity("Menlo Park").setState(State.CA).setInputType(InputType.ADDRESS_STRING)
+//				.setResponseType(GeoResponseType.COORDINATE).build();
+//
+//		List<Route> routes = api.directions(origin, destination, wayPoint, ItemSize.SMALL);
+//		for (Route r : routes) {
+//			System.out.println(r.getPolyline());
+//		}
+//	}
 }

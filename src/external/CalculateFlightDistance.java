@@ -17,6 +17,7 @@ import entity.Route.RouteBuilder;
 import internal.CalculatePrice;
 import entity.TravelMode;
 import entity.ItemSize;
+import internal.GetAvailableCourier;
 
 public class CalculateFlightDistance {
 	
@@ -65,7 +66,8 @@ public class CalculateFlightDistance {
 		double price = CalculatePrice.getPrice(first.getDuration() + second.getDuration(), 
 				first.getDistance() + second.getDistance(), TravelMode.FLYING, size);
 		
-		
+		String courierID = GetAvailableCourier.getAvailableCourierByPlace(origin.getStreetNum(), 
+				origin.getStreetName(), origin.getCity(), "Air");
 		
 		RouteBuilder builder = new RouteBuilder();
 		builder.setDistance(first.getDistance() + second.getDistance());
@@ -74,12 +76,10 @@ public class CalculateFlightDistance {
 		builder.setRoute(polylines);
 		builder.setPolylineOverview(object);
 		builder.setPrice(price);
+		builder.setCourier(courierID);
 				
 		routes.add(builder.build());
 		
-//		System.out.println("Distance is" + routes.get(0).getDistance());
-//		System.out.println("Duration is" + routes.get(0).getDuration());
-//		System.out.println("Duration is" + routes.get(0).getDuration());
 		return routes;
 	}
 	
