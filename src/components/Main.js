@@ -12,7 +12,12 @@ import {UserProfile} from "./UserProfile";
 
 
 export class Main extends React.Component {
-
+    state={
+        orderID: ""
+    }
+    handlerOrderID = (orderID) =>{
+        this.setState({orderID: orderID});
+    }
     getExactpath = () => {
         return this.props.isLoggedIn ? <Redirect to="/home"/> : <Redirect to="/login"/>;
     }
@@ -29,10 +34,10 @@ export class Main extends React.Component {
         return this.props.isLoggedIn ? <UserProfile/> : <Redirect to="/login"/>;
     }
     getPayment = () => {
-        return this.props.isLoggedIn ? <Payment/> : <Redirect to="/login"/>;
+        return this.props.isLoggedIn ? <Payment orderID = {this.handlerOrderID}/> : <Redirect to="/login"/>;
     }
     getConfirmation = () => {
-        return <ConfirmationPage orderID = '123abc'/>
+        return <ConfirmationPage orderID = {this.state.orderID}/>
     }
 
     render() {
@@ -44,9 +49,9 @@ export class Main extends React.Component {
                         <Route path="/login" render={this.getLogin}/>
                         <Route path="/register" component={Register}/>
                         <Route path="/home" render={this.getHome}/>
-                        <Route path="/payment" render={this.getPayment}/>
+                        {/*<Route path="/payment" render={this.getPayment}/>*/}
                         <Route path="/profile" render={this.getUserProfile}/>
-                        {/*<Route path="/payment" component={Payment}/>*/}
+                        <Route path="/payment" component={Payment}/>
                         <Route path="/confirmation" render={this.getConfirmation}/>
                         <Route path="/orders" render={this.getOrders}/>
                         <Route render={this.getLogin}/>
