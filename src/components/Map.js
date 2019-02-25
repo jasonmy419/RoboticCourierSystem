@@ -2,6 +2,7 @@
 import React from 'react';
 import {withScriptjs, withGoogleMap, GoogleMap, Polyline} from "react-google-maps";
 // import { AroundMarker } from './AroundMarker';
+// import { fitBounds } from 'google-map'
 import {SF_COORD} from "../constants";
 import {CustomizedMarker} from "./CustomizedMarker"
 import {StationMarker} from "./StationMarker";
@@ -50,19 +51,17 @@ class NormalAroundMap extends React.Component {
     // }
     getMapRef = (instance) => {
         this.map = instance;
+        // instance.fitBounds(instance.getBounds());
     }
     // state ={
     //     isRouteGiven: true
     // }
-    getCenter = (dest, waypoint) => {
+    getCenter = (dest, waypoint,station) => {
         if(this.props.response.length > 0){
-            const destLat = this.props.response[0].destination_point.destination_point_lat;
-            const destLon = this.props.response[0].destination_point.destination_point_lon;
-            const wayptLat = this.props.response[0].way_point.way_point_lat;
-            const wayptLon = this.props.response[0].way_point.way_point_lon;
-            const center = {lat: (dest.lat + waypoint.lat)/2, lng: (dest.lon + waypoint.lon)/2};
+            const center = {lat: (dest.lat + waypoint.lat+station.lat)/3, lng: (dest.lon + waypoint.lon+station.lon)/3};
             return(center);
         }
+
         return(SF_COORD);
     }
 
@@ -97,7 +96,7 @@ class NormalAroundMap extends React.Component {
 
 
             <GoogleMap
-                center = {this.getCenter(dest, waypoint)}
+                center = {this.getCenter(dest, waypoint,station)}
                 ref={this.getMapRef}
                 defaultZoom={13}
                 defaultCenter={SF_COORD}
