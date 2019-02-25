@@ -51,21 +51,6 @@ public class DBTableCreation {
 			
 			sql = "DROP TABLE IF EXISTS payment";
 			statement.executeUpdate(sql);
-			
-			
-			// Create new tables
-			sql = "CREATE TABLE users ("
-					+ "user_id VARCHAR(255) NOT NULL,"
-					+ "password VARCHAR(255) NOT NULL" 
-					+ "last_name VARCHAR(255),"
-					+ "first_name VARCHAR(255),"
-					+ "address VARCHAR(255),"
-					+ "address_id"
-					+ "zipcode VARCHAR(255),"
-					// FIXME
-//					+ "PRIMARY KEY (user_id)"
-					+ ")";
-			statement.executeUpdate(sql);
 
 			// Create new tables
 			sql = "CREATE TABLE users ("
@@ -86,9 +71,12 @@ public class DBTableCreation {
 					+ "street_name VARCHAR(255),"
 					+ "city VARCHAR(255),"
 					+ "state VARCHAR(255),"
-					// FIXME
 					+ "PRIMARY KEY (address_id)"
 					+ ")";
+			statement.executeUpdate(sql);
+			
+			
+			sql = "INSERT INTO address VALUES('11', '32', 'angle st', 'LA', 'CA')";
 			statement.executeUpdate(sql);
 //
 //			sql = "CREATE TABLE users_end ("
@@ -117,11 +105,11 @@ public class DBTableCreation {
 					+ ")";
 			statement.executeUpdate(sql);
 			
-//			sql = "INSERT INTO stations VALUES('11', 32.2, 7373, 'Convoy Ct','San Diego')";
+//			sql = "INSERT 			sql = "INSERT INTO stations VALUES('11', 32.834517, -117.160147, 7373, 'Convoy Ct','San Diego')";
+//			statement.executeUpdate(sql);
 //			statement.executeUpdate(sql);
 			
-			sql = "INSERT INTO stations VALUES('11', 32.834517, -117.160147, 7373, 'Convoy Ct','San Diego')";
-			statement.executeUpdate(sql);
+
 			sql = "INSERT INTO stations VALUES('22', 32.8777831, -117.1859253, 5716,'Miramar Rd','San Diego')";
 			statement.executeUpdate(sql);
 			sql = "INSERT INTO stations VALUES('33', 32.8227254, -117.2265489, 4605,'Morena Blvd','San Diego')";
@@ -159,22 +147,7 @@ public class DBTableCreation {
 			stmt = conn.prepareStatement(sql);
 			stmt.setTimestamp(1, s);
 			stmt.executeUpdate();
-			
-
-			
-//			sql = "CREATE TABLE orders ("
-//					+ "order_id VARCHAR(255) NOT NULL,"
-//					+ "item_id VARCHAR(255) NOT NULL,"
-//					+ "courier_id VARCHAR(255) NOT NULL,"
-//					+ "user_id VARCHAR(255) NOT NULL,"
-//					+ "user_id_end VARCHAR(255) NOT NULL,"
-//					+ "status VARCHAR(255) NOT NULL,"
-//					// TODO
-//					+ "PRIMARY KEY (order_id)"
-//					+ "FOREIGN KEY (station_id) REFERENCES items(station_id)"
-//					+ ")";
-//			statement.executeUpdate(sql);
-			
+					
 //			sql = "CREATE TABLE items ("
 //					+ "item_id VARCHAR(255) NOT NULL,"
 //					+ "weight FLOAT,"
@@ -188,14 +161,6 @@ public class DBTableCreation {
 //			statement.executeUpdate(sql);
 //			sql = "INSERT INTO orders VALUES('123k1','In Transit')";
 //			statement.executeUpdate(sql);
-			
-			
-			statement.executeUpdate(sql);
-			
-			sql = "INSERT INTO payment VALUES('2233', 'wu', 'sicheng','xxxx-xxxx-xxxx-xxxx',"
-					+ " '3001 S. Michigan Ave', '', 'Chicago', 60616, 'IL', 04, 2018, 907)";
-			statement.executeUpdate(sql);
-			
 			
 			sql = "CREATE TABLE	orders (" 
 					 +"order_id VARCHAR(255) NOT NULL,"
@@ -220,31 +185,28 @@ public class DBTableCreation {
 					+ "TRUE)";
 			statement.executeUpdate(sql);
 			
-//			sql = "CREATE TABLE	payment (" 
-//					 +"user_id VARCHAR(255) NOT NULL,"
-//					 +"last_name VARCHAR(255) NOT NULL,"
-//					 +"first_name VARCHAR(255) NOT NULL,"
-//					 +"card_number VARCHAR(255) NOT NULL,"
-//					 +"address_line1 VARCHAR(255) NOT NULL,"
-//					 +"address_line2 VARCHAR(255),"
-//					 +"city VARCHAR(255) NOT NULL,"
-//					 +"zipcode INT NOT NULL,"
-//					 +"state VARCHAR(255) NOT NULL,"
-//					 +"month INT NOT NULL,"
-//					 +"year INT NOT NULL,"
-//					 +"cvv INT NOT NULL"
-//					 +")";
-//			
-//			
-//			statement.executeUpdate(sql);
-//			
-//			sql = "INSERT INTO payment VALUES('2233', 'wu', 'sicheng','xxxx-xxxx-xxxx-xxxx',"
-//					+ " '3001 S. Michigan Ave', '', 'Chicago', 60616, 'IL', 04, 2018, 907)";
-//			statement.executeUpdate(sql);
-//			
-//			
+			sql = "CREATE TABLE	payment (" 
+					 +"user_id VARCHAR(255) NOT NULL,"
+					 +"last_name VARCHAR(255) NOT NULL,"
+					 +"first_name VARCHAR(255) NOT NULL,"
+					 +"card_number VARCHAR(255) NOT NULL,"
+					 +"address_line1 VARCHAR(255) NOT NULL,"
+					 +"address_line2 VARCHAR(255),"
+					 +"city VARCHAR(255) NOT NULL,"
+					 +"zipcode INT NOT NULL,"
+					 +"state VARCHAR(255) NOT NULL,"
+					 +"month INT NOT NULL,"
+					 +"year INT NOT NULL,"
+					 +"cvv INT NOT NULL"
+					 +")";
+			
+			
+			statement.executeUpdate(sql);
+			
+			sql = "INSERT INTO payment VALUES('2233', 'wu', 'sicheng','xxxx-xxxx-xxxx-xxxx',"
+					+ " '3001 S. Michigan Ave', '', 'Chicago', 60616, 'IL', 04, 2018, 907)";
+			statement.executeUpdate(sql);
 
-	
 			conn.close();
 			System.out.println("Import done successfully");
 		} catch (Exception e) {

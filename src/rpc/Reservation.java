@@ -15,6 +15,7 @@ import org.json.JSONObject;
 
 import db.DBConnection;
 import entity.Order;
+import util.Tool;
 /**
  * Servlet implementation class PlaceOrder
  */
@@ -53,26 +54,27 @@ public class Reservation extends HttpServlet {
 			double distance = detail.getDouble("distance");
 			String type = detail.getString("mode").equals("FLYING") ? "D" : "R";
 			double price = detail.getDouble("price");
-			price = Double.valueOf(df.format(price));
 			
 			String status = "TRANSIT";
 			JSONObject obj = (JSONObject) detail.get("overview_polyline");
-			String routePath = obj.getString("points");
+			
+			String routePath = Tool.StringProccessing(obj.getString("points"));
 			String itemId = UUID.randomUUID().toString();
 			String orderId = UUID.randomUUID().toString();
 			boolean complete = false;
 			
-			
-			
 			JSONArray arr = (JSONArray)input.get("waypoint");
 			String startStreeNumber = arr.get(0).toString();
 			String startStreeName = arr.get(1).toString();
-			String startCity = arr.get(1).toString();
+			String startCity = arr.get(2).toString();
+			String startAddressId = conn.setAddress(startStreeNumber, startStreeName, startCity);
+			
 			
 			arr = (JSONArray)input.get("destination");
 			String endStreeNumber = arr.get(0).toString();
 			String endStreeName = arr.get(1).toString();
 			String endCity = arr.get(2).toString();
+			String endAddressId = conn.setAddress(endStreeNumber, endStreeName, endCity);
 			
 			String courierId = input.getString("couier_id");
 			String userId = input.getString("user_id");
@@ -84,12 +86,8 @@ public class Reservation extends HttpServlet {
 					 .itemId(itemId)
 					 .status(status)
 					 .type(type)
-					 .startStreeNumber(startStreeNumber)
-					 .startStreeName(startStreeName)
-					 .startCity(startCity)
-					 .endStreeNumber(endStreeNumber)
-					 .endStreeName(endStreeName)
-					 .endCity(endCity)
+					 .startAddressId(startAddressId)
+					 .endAddressId(endAddressId)
 					 .routeDuration(duration)
 					 .routeDistance(distance)
 					 .routePrice(price)

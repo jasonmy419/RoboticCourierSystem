@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -171,6 +172,33 @@ public class DBConnection {
 		}
 		return stationList;
 	}
+	
+	public String setAddress(String streetNumber, String streetName, String city) {
+		
+		if (conn == null) {
+			System.err.println("DB connection failed from src/db/DBConnection -> setAddress");
+			return null;
+		}
+		
+		try {
+			String sql = "INSERT IGNORE INTO address VALUES(?, ?, ?, ?, ?)";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			String addressId = UUID.randomUUID().toString();
+			ps.setString(1,addressId);
+			ps.setString(2, streetNumber);
+			ps.setString(3, streetName);
+			ps.setString(4, city);
+			ps.setString(5, "CA");
+			ps.execute();
+			return addressId;
+			
+		}  catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("error from src/db/DBConnection -> setAddress: " + e.getMessage());
+		}
+		
+		return null;
+	}
 
 	public void setReservation(Order ord) {
 
@@ -181,25 +209,21 @@ public class DBConnection {
 
 		try {
 
-			String sql = "INSERT IGNORE INTO orders VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			String sql = "INSERT IGNORE INTO orders VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, ord.getOrderId());
 			ps.setString(2, ord.getUserId());
 			ps.setString(3, ord.getCourierId());
 			ps.setString(4, ord.getItemId());
 			ps.setString(5, ord.getType());
-			ps.setString(6, ord.getStartStreeNumber());
-			ps.setString(7, ord.getStartStreeName());
-			ps.setString(8, ord.getStartCity());
-			ps.setString(9, ord.getEndStreeNumber());
-			ps.setString(10, ord.getEndStreeName());
-			ps.setString(11, ord.getEndCity());
-			ps.setString(12, ord.getStatus());
-			ps.setDouble(13, ord.getRouteDuration());
-			ps.setDouble(14, ord.getRouteDistance());
-			ps.setDouble(15, ord.getRoutePrice());
-			ps.setString(16, ord.getRoutePath());
-			ps.setBoolean(17, ord.isComplete());
+			ps.setString(6, ord.getStartAddressId());
+			ps.setString(7, ord.getEndAddressId());
+			ps.setString(8, ord.getStatus());
+			ps.setDouble(9, ord.getRouteDuration());
+			ps.setDouble(10, ord.getRouteDistance());
+			ps.setDouble(11, ord.getRoutePrice());
+			ps.setString(12, ord.getRoutePath());
+			ps.setBoolean(13, ord.isComplete());
 			ps.execute();
 
 		} catch (Exception e) {

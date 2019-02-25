@@ -8,12 +8,8 @@ public class Order {
 	private String courierId;
 	private String status;
 	private String type;
-	private String startStreeNumber;
-	private String startStreeName;
-	private String startCity;
-	private String endStreeNumber;
-	private String endStreeName;
-	private String endCity;
+	private String startAddressId;
+	private String endAddressId;
 	private double routeDuration;
 	private double routeDistance;
 	private double routePrice;
@@ -32,29 +28,14 @@ public class Order {
 		return type;
 	}
 
-	public String getStartStreeNumber() {
-		return startStreeNumber;
+	public String getStartAddressId() {
+		return startAddressId;
 	}
 
-	public String getStartStreeName() {
-		return startStreeName;
+	public String getEndAddressId() {
+		return endAddressId;
 	}
 
-	public String getStartCity() {
-		return startCity;
-	}
-
-	public String getEndStreeNumber() {
-		return endStreeNumber;
-	}
-
-	public String getEndStreeName() {
-		return endStreeName;
-	}
-
-	public String getEndCity() {
-		return endCity;
-	}
 
 	public double getRouteDuration() {
 		return routeDuration;
@@ -93,12 +74,8 @@ public class Order {
 		this.courierId = builder.courierId;
 		this.status = builder.status;
 		this.type = builder.type;
-		this.startStreeNumber = builder.startStreeNumber;
-		this.startStreeName  = builder.startStreeName;
-		this.startCity  = builder.startCity;
-		this.endStreeNumber  = builder.endStreeNumber;
-		this.endStreeName  = builder.endStreeName;
-		this.endCity  = builder.endCity;
+		this.startAddressId = builder.startAddressId;
+		this.endAddressId  = builder.endAddressId;
 		this.routeDuration  = builder.routeDuration;
 		this.routeDistance  = builder.routeDistance;
 		this.routePrice  = builder.routePrice;
@@ -117,12 +94,8 @@ public class Order {
 					  + ", CourierId: " + this.getCourierId()
 					  + ", Status: " + this.getStatus()
 					  + ", Type: "   + this.getType() 
-					  + ", StartStreeNumber: " + this.getStartStreeNumber()
-					  + ", StartStreeName: "+ this.getStartStreeName()
-					  + ", StartCity: "+ this.getStartCity()
-					  + ", EndStreeNumber: "+ this.getEndStreeNumber()
-					  + ", EndStreeName: " + this.getEndStreeName()
-					  + ", EndCity: "+ this.getEndCity()
+					  + ", StartAddressId: " + this.getStartAddressId()
+					  + ", EndAddressId: "+ this.getEndAddressId()
 					  + ", RouteDuration: " + this.getRouteDuration()
 					  + ", Distance: " + this.getRouteDistance() 
 					  + ", RoutePrice: " + this.getRoutePrice()    
@@ -141,12 +114,8 @@ public class Order {
 		private String courierId;
 		private String status;
 		private String type;
-		private String startStreeNumber;
-		private String startStreeName;
-		private String startCity;
-		private String endStreeNumber;
-		private String endStreeName;
-		private String endCity;
+		private String startAddressId;
+		private String endAddressId;
 		private double routeDuration;
 		private double routeDistance;
 		private double routePrice;
@@ -182,36 +151,16 @@ public class Order {
 			return this;
 		}
 
-		public OrderBuilder startStreeNumber(String startStreeNumber) {
-			this.startStreeNumber = startStreeNumber;
+		public OrderBuilder startAddressId(String startAddressId) {
+			this.startAddressId = startAddressId;
 			return this;
 		}
 		
-		public OrderBuilder startStreeName(String startStreeName) {
-			this.startStreeName = startStreeName;
+		public OrderBuilder endAddressId(String endAddressId) {
+			this.endAddressId = endAddressId;
 			return this;
 		}
 		
-		public OrderBuilder startCity(String startCity) {
-			this.startCity = startCity;
-			return this;
-		}
-
-		public OrderBuilder endStreeNumber(String endStreeNumber) {
-			this.endStreeNumber = endStreeNumber;
-			return this;
-		}
-		
-		public OrderBuilder endStreeName(String endStreeName) {
-			this.endStreeName = endStreeName;
-			return this;
-		}
-		
-		public OrderBuilder endCity(String endCity) {
-			this.endCity = endCity;
-			return this;
-		}
-
 		public OrderBuilder routeDuration(double routeDuration) {
 			this.routeDuration = routeDuration;
 			return this;
@@ -250,19 +199,15 @@ public class Order {
 							 .itemId("zzz")
 							 .status("TRANSIT")
 							 .type("D")
-							 .startStreeNumber("3869")
-							 .startStreeName("Miramar St")
-							 .startCity("La Jolla")
-							 .endStreeNumber("4609")
-							 .endStreeName("Convoy St")
-							 .endCity("San Diego")
+							 .startAddressId("3869")
+							 .endAddressId("sdva")
 							 .routeDuration(476)
 							 .routeDistance(11932)
 							 .routePrice(18.415068798218403)
 							 .routePath("cmtgE`{fjUvNtbFb`I}eL")
 							 .complete(false)
 							 .build();
-			
+
 		System.out.println(ord.toString());
 	}
 }
