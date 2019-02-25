@@ -106,11 +106,11 @@ public class DBTableCreation {
 //			sql = "INSERT INTO stations VALUES('11', 32.2, 7373, 'Convoy Ct','San Diego')";
 //			statement.executeUpdate(sql);
 			
-			sql = "INSERT INTO stations VALUES('11', 32.834517, -117.160147, 7373, 'Convoy Ct','San Diego')";
+			sql = "INSERT INTO stations VALUES('11', 32.8346176, -117.1597783, 7373, 'Convoy Ct','San Diego')";
 			statement.executeUpdate(sql);
-			sql = "INSERT INTO stations VALUES('22', 32.8777831, -117.1859253, 5716,'Miramar Rd','San Diego')";
+			sql = "INSERT INTO stations VALUES('22', 32.8769189, -117.1849218, 5716,'Miramar Rd','San Diego')";
 			statement.executeUpdate(sql);
-			sql = "INSERT INTO stations VALUES('33', 32.8227254, -117.2265489, 4605,'Morena Blvd','San Diego')";
+			sql = "INSERT INTO stations VALUES('33', 32.8205483, -117.2250157, 4605,'Morena Blvd','San Diego')";
 			statement.executeUpdate(sql);
 			
 //
