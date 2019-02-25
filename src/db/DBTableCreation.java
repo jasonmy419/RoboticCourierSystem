@@ -31,6 +31,9 @@ public class DBTableCreation {
 			String sql = "DROP TABLE IF EXISTS users";
 			statement.executeUpdate(sql);
 			
+			sql = "DROP TABLE IF EXISTS address";
+			statement.executeUpdate(sql);
+			
 			sql = "DROP TABLE IF EXISTS users_end";
 			statement.executeUpdate(sql);
 			
@@ -50,18 +53,29 @@ public class DBTableCreation {
 			statement.executeUpdate(sql);
 			
 			
-//			// Create new tables
-//			sql = "CREATE TABLE users ("
-//					+ "user_id VARCHAR(255) NOT NULL,"
-//					+ "password VARCHAR(255) NOT NULL" 
-//					+ "last_name VARCHAR(255),"
-//					+ "first_name VARCHAR(255),"
-//					+ "address VARCHAR(255),"
-//					+ "zipcode VARCHAR(255),"
-//					// FIXME
-////					+ "PRIMARY KEY (user_id)"
-//					+ ")";
-//			statement.executeUpdate(sql);
+			// Create new tables
+			sql = "CREATE TABLE users ("
+					+ "user_id VARCHAR(255) NOT NULL,"
+					+ "password VARCHAR(255) NOT NULL," 
+					+ "last_name VARCHAR(255),"
+					+ "first_name VARCHAR(255),"
+					+ "address_id VARCHAR(255),"
+					+ "zipcode VARCHAR(255),"
+					// FIXME
+					+ "PRIMARY KEY (user_id)"
+					+ ")";
+			statement.executeUpdate(sql);
+			
+			sql = "CREATE TABLE address ("
+					+ "address_id VARCHAR(255) NOT NULL,"
+					+ "street_num VARCHAR(255)," 
+					+ "street_name VARCHAR(255),"
+					+ "city VARCHAR(255),"
+					+ "state VARCHAR(255),"
+					// FIXME
+					+ "PRIMARY KEY (address_id)"
+					+ ")";
+			statement.executeUpdate(sql);
 //
 //			sql = "CREATE TABLE users_end ("
 //					+ "user_id VARCHAR(255) NOT NULL,"
