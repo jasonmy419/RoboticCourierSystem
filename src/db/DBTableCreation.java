@@ -78,17 +78,7 @@ public class DBTableCreation {
 			
 			sql = "INSERT INTO address VALUES('11', '32', 'angle st', 'LA', 'CA')";
 			statement.executeUpdate(sql);
-//
-//			sql = "CREATE TABLE users_end ("
-//					+ "user_id VARCHAR(255) NOT NULL,"
-//					+ "last_name VARCHAR(255),"
-//					+ "first_name VARCHAR(255),"
-//					+ "address VARCHAR(255),"
-//					+ "zipcode VARCHAR(255),"
-//					// FIXME
-////					+ "PRIMARY KEY (user_id)"
-//					+ ")";
-//			statement.executeUpdate(sql);
+
 //			
 			sql = "CREATE TABLE stations ("
 					+ "station_id VARCHAR(255) NOT NULL,"
@@ -180,7 +170,7 @@ public class DBTableCreation {
 			statement.executeUpdate(sql);
 			
 			sql = "INSERT INTO orders VALUES('sfogbwklskansbbvncs012e','123','xyz','111','D',"
-					+ " 'La Jolla', 'San Diego', 'TRANSIT',"
+					+ " 'lavieenrose', 'emanon', 'TRANSIT',"
 					+ "996.0, 11.25, 29.83, 'k}qcFjushVf@QFABABAF?D?D@RBB@D?J?N?B?n@JLJJ@LDTDNDNDFBFBDBDBFBFBHB',"
 					+ "TRUE)";
 			statement.executeUpdate(sql);
