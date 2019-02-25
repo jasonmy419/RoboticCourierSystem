@@ -60,6 +60,7 @@ class NormalAroundMap extends React.Component {
             const wayptLat = this.props.response[0].way_point.way_point_lat;
             const wayptLon = this.props.response[0].way_point.way_point_lon;
             const center = {lat: (destLat + wayptLat)/2, lng: (destLon + wayptLon)/2};
+            console.log("center: " + center);
             return(center);
         }
         return(SF_COORD);
@@ -82,7 +83,8 @@ class NormalAroundMap extends React.Component {
              this.props.response[0].overview_polyline.points
             ):null;
         return (
-            <GoogleMap
+            console.log("recall"),
+            <GoogleMap setCenter={this.getCenter()}
                 ref={this.getMapRef}
                 defaultZoom={13}
                 defaultCenter={this.getCenter()}

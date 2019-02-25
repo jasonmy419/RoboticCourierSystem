@@ -4,49 +4,7 @@ import { OrderInfo } from "./OrderInfo"
 import { Col } from 'antd';
 import {MAP_API_KEY} from '../constants';
 export class Home extends React.Component{
-    state = { response : [ {
-            "duration": 574,
-            "mode": "FLYING",
-            "route": [
-                {
-                    "duration": 234,
-                    "distance": 5854,
-                    "polyline": {
-                        "points": "auigE|xnjUigIeY"
-                    }
-                },
-                {
-                    "duration": 340,
-                    "distance": 8519,
-                    "polyline": {
-                        "points": "k}sgEv~mjUb`I}eL"
-                    }
-                }
-            ],
-            "distance": 14373,
-            "size": "SMALL",
-            "courier": "311",
-            "price": 48.568174063469336,
-            "destination_point": {
-                "destination_point_lon": -117.154692,
-                "city": "San Diego",
-                "destination_point_lat": 32.8238827,
-                "street_number": "4609",
-                "street_name": "Convoy St"
-            },
-            "overview_polyline": {
-                "points": "auigE|xnjUigIeYb`I}eL"
-            },
-            "way_point": {
-                "city": "La Jolla",
-                "way_point_lat": 32.8752583,
-                "street_number": "3869",
-                "way_point_lon": -117.2223574,
-                "street_name": "Miramar St"
-            }
-        }
-
-        ] }
+    state = { response : [] }
 
 handleResponse = (responseValue) => {
         this.setState({response: responseValue});

@@ -3,6 +3,7 @@ import { Form, Input, Button, Select, Card, message, Radio } from 'antd';
 import { API_ROOT, proxyurl, NUMBER, WORD, PRICE } from "../constants";
 import { Link } from 'react-router-dom';
 import { RouteInfo } from "./RouteInfo";
+import NumberFormat from 'react-number-format';
 
 class OrderInfoForm extends React.Component {
     state = {
@@ -10,6 +11,7 @@ class OrderInfoForm extends React.Component {
         deliveryAddr: [],
         routes: [],
         price: 0.00,
+        chosenRoute: '',
     }
     // handleSubmit = (e) => {
     //     e.preventDefault();
@@ -114,7 +116,45 @@ class OrderInfoForm extends React.Component {
     }
 
     onClick = () => {
-        this.props.history.push('/payment');
+        // this.props.history.push('/payment');
+        console.log(JSON.stringify({
+            'waypoint': this.state.pickUpAddr,
+            'destination': this.state.deliveryAddr,
+            // 'key' : this.state.chosenRoute,
+            ...this.state.routes.filter((route) => route.price === this.state.chosenRoute),
+        }));
+        // send request
+        // fetch(`${API_ROOT}/routeRecommend`, {
+        //     method: 'POST',
+        //     // body: JSON.stringify({
+        //     //     username: values.pickingUpAddress,
+        //     //     password: values.deliveryAddress,
+        //     // }),
+        //     body: JSON.stringify({
+        //             'waypoint': this.state.pickUpAddr,
+        //             'destination': this.state.deliveryAddr,
+        //             ...this.state.routes.filter((route) => route.price === e.target.value),
+        //         }
+        //     ),
+        // }).then((response) => {
+        //     if (response.ok) {
+        //         return response.json();
+        //     }
+        //     throw new Error(response.statusText);
+        // })
+        //     .then((data) => {
+        //         console.log(data);
+        //         message.success('Sending Succeed!');
+        //         this.setState({ routes : data ? data : [] });
+        //         console.log(this.state.routes);
+        //         // this.props.handleResponse(data);
+        //         //this.props.history.push('/payment');
+        //     })
+        //     .catch((e) => {
+        //
+        //         console.log(e);
+        //         message.error('Sending Failed.');
+        //     });
     }
 
     // getPrice = (price) => {
@@ -124,6 +164,7 @@ class OrderInfoForm extends React.Component {
     onChange = (e) => {
         console.log(`radio checked:${e.target.value}`);
         this.setState({price : e.target.value});
+        this.setState({chosenRoute : e.target.value});
         this.props.handleResponse(this.state.routes.filter((route) => route.price === e.target.value));
     }
 
@@ -192,10 +233,10 @@ class OrderInfoForm extends React.Component {
                     </Form.Item>
                     <Form.Item
                         {...formItemLayout}
-                        label="Radio.Button"
+                        label="Recommended Routes"
                     >
                         {getFieldDecorator('radio-button')(
-                            <Radio.Group onChange={this.onChange}>
+                            <Radio.Group buttonStyle="solid" onChange={this.onChange}>
                                 {this.state.routes.map((route) => <RouteInfo route={route} key={route.price}/>)}
                             </Radio.Group>
                         )}
@@ -204,7 +245,7 @@ class OrderInfoForm extends React.Component {
                         {...formItemLayout}
                         label="Price: "
                     >
-                        <p>$ {this.state.price} </p>
+                        <NumberFormat value={this.state.price} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} />
                     </Form.Item>
                     <Form.Item {...tailFormItemLayout}>
                         <Button type="primary" htmlType="submit">
