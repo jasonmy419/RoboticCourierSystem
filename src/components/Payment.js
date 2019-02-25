@@ -2,7 +2,7 @@ import React from 'react';
 import {
     Form, Input, Select, Button, DatePicker, message
 } from 'antd';
-import { API_ROOT, ORDER_NUM } from '../constants';
+import {API_ROOT, ORDER_NUM, USER_ID} from '../constants';
 import { Link } from 'react-router-dom';
 
 
@@ -34,6 +34,7 @@ class PaymentFrom extends React.Component {
             fetch(`${API_ROOT}/checkout`, {
                 method: 'POST',
                 body: JSON.stringify({
+                    user_id: localStorage.getItem(USER_ID),
                     last_name: values.last_name,
                     first_name: values.first_name,
                     card_number: values.card_number,

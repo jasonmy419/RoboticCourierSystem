@@ -41,6 +41,7 @@ export class Main extends React.Component {
                         <Route path="/register" component={Register}/>
                         <Route path="/home" render={this.getHome}/>
                         <Route path="/payment" render={this.getPayment}/>
+                        {/*<Route path="/payment" component={Payment}/>*/}
                         <Route path="/confirmation" render={this.getConfirmation}/>
                         <Route path="/orders" render={this.getOrders}/>
                         <Route render={this.getLogin}/>
