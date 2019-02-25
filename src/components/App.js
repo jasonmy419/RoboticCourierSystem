@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {API_ROOT} from "./constants";
+import {API_ROOT} from "../constants";
 import '../styles/App.css';
 // import GoogleMapReact from 'google-map-react';
 import { TopBar } from './TopBar';
@@ -8,7 +8,7 @@ import { Main } from "./Main";
 
 import 'rc-steps/assets/index.css';
 import 'rc-steps/assets/iconfont.css';
-import { USER_ID } from './constants';
+import { USER_ID } from '../constants';
 import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
 import {Register} from "./Register";
 import {Payment} from "./Payment";
