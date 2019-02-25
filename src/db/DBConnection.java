@@ -47,6 +47,46 @@ public class DBConnection {
 		}
 	}
 	
+	public JSONObject getParticularStationByCourierID(String courierID) {
+		if (conn == null) {
+			return null;
+		}
+		JSONObject obj = new JSONObject();
+		String stationID = "";
+		try {
+			String sql = "SELECT station_id FROM couriers WHERE courier_id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, courierID);
+			ResultSet rs = stmt.executeQuery();			
+			while (rs.next()) {
+				stationID = rs.getString("station_id");
+			}	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			String sql = "SELECT station_lat, station_lon, street_number, street_name, city FROM stations WHERE station_id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, stationID);
+			ResultSet rs = stmt.executeQuery();
+			
+			while (rs.next()) {
+				obj.put("station_lat", rs.getDouble("station_lat"));
+				obj.put("station_lon", rs.getDouble("station_lon"));
+				obj.put("street_number", rs.getString("street_number"));
+				obj.put("street_name", rs.getString("street_name"));
+				obj.put("city", rs.getString("city"));
+			}
+			
+		} catch (SQLException | JSONException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return obj;
+	}
+	
 	public String getParticularStationByCoordinate(double lat, double lon) {
 		if (conn == null) {
 			return null;
