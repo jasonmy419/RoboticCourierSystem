@@ -162,6 +162,9 @@ public class RouteRecommend extends HttpServlet {
 			fastRoute.put("size", size);
 			fastRoute.put("way_point", waypointInfo);
 			fastRoute.put("destination_point", destPointInfo);
+
+			fastRoute.put("station_point", StationAddress.getStationAddress(routes.get(0).getCourierID()));
+			
 			res.put(fastRoute);
 			
 			// Sort the route based on distance
@@ -186,6 +189,7 @@ public class RouteRecommend extends HttpServlet {
 			
 			cheapRoute.put("way_point", waypointInfo);
 			cheapRoute.put("destination_point", destPointInfo);
+			cheapRoute.put("station_point", StationAddress.getStationAddress(routes.get(0).getCourierID()));
 			
 			res.put(cheapRoute);
 			
