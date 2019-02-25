@@ -11,30 +11,25 @@ const { MonthPicker } = DatePicker;
 
 
 class PaymentFrom extends React.Component {
+
     state = {
         confirmDirty: false,
         autoCompleteResult: [],
     };
 
     handleSubmit = (e) => {
+
         e.preventDefault();
         this.props.form.validateFields((err, fieldsValue) => {if (!err) {
-            console.log(fieldsValue.month);
-            const rangeValue = fieldsValue['range-picker'];
-            const rangeTimeValue = fieldsValue['range-time-picker'];
+            console.log('values', fieldsValue);
+
             const values = {
                 ...fieldsValue,
-                'date-picker': fieldsValue['date-picker'].format('YYYY-MM-DD'),
-                'date-time-picker': fieldsValue['date-time-picker'].format('YYYY-MM-DD HH:mm:ss'),
-                'month-picker': fieldsValue['month-picker'].format('YYYY-MM'),
-                'range-picker': [rangeValue[0].format('YYYY-MM-DD'), rangeValue[1].format('YYYY-MM-DD')],
-                'range-time-picker': [
-                    rangeTimeValue[0].format('YYYY-MM-DD HH:mm:ss'),
-                    rangeTimeValue[1].format('YYYY-MM-DD HH:mm:ss'),
-                ],
-                'time-picker': fieldsValue['time-picker'].format('HH:mm:ss'),
+                year: fieldsValue ['expiration date'].format('YYYY'),
+                month: fieldsValue ['expiration date'].format('MM')
             };
-            console.log('Received values of form: ', values);
+            console.log('values', values);
+
             // send request
             fetch(`${API_ROOT}/checkout`, {
                 method: 'POST',
@@ -60,6 +55,7 @@ class PaymentFrom extends React.Component {
                 message.success('Check Success!');
                 console.log(data);
                 this.props.handleSuccessfulLogin(data);
+                this.props.history.push("/confirmation")
                 localStorage.setItem(ORDER_NUM, data);
             }).catch((e) => {
                 console.log(e);
@@ -106,6 +102,8 @@ class PaymentFrom extends React.Component {
 
         return (
             <Form onSubmit={this.handleSubmit} className="payment">
+
+                <p>USER INFORMANTIOM</p>
 
                 <Form.Item
                     {...formItemLayout}
@@ -219,7 +217,8 @@ class PaymentFrom extends React.Component {
                         <Input type="zipcode" />
                     )}
                 </Form.Item>
-                <hr></hr>
+
+                <p>CARD INFORMANTIOM</p>
 
                 <Form.Item
                     {...formItemLayout}
@@ -236,15 +235,6 @@ class PaymentFrom extends React.Component {
 
                 <Form.Item
                     {...formItemLayout}
-                    label="expiration date"
-                >
-                    {getFieldDecorator('expiration date', config)(
-                        <DatePicker />
-                    )}
-                </Form.Item>
-
-                <Form.Item
-                    {...formItemLayout}
                     label="CVV"
                 >
                     {getFieldDecorator('cvv', {
@@ -256,7 +246,14 @@ class PaymentFrom extends React.Component {
                     )}
                 </Form.Item>
 
-                <hr></hr>
+                <Form.Item
+                    {...formItemLayout}
+                    label="Expiration Date"
+                >
+                    {getFieldDecorator('expiration date', config)(
+                        <DatePicker />
+                    )}
+                </Form.Item>
 
                 <Form.Item
                     wrapperCol={{
@@ -264,8 +261,7 @@ class PaymentFrom extends React.Component {
                         sm: { span: 16, offset: 8 },
                     }}
                 >
-                    <Button type="primary" htmlType="submit"><Link to ='/confirmation'>Place your order</Link></Button>
-                    <p> Order total :</p>
+                    <Button type="primary" htmlType="submit">pay now</Button>
                 </Form.Item>
             </Form>
         );
