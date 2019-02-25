@@ -5,7 +5,7 @@ import {
 } from 'antd';
 import md5 from "md5"
 import {Link} from "react-router-dom"
-import {API_ROOT} from "./constants"
+import {API_ROOT} from "../constants"
 
 class RegistrationForm extends React.Component {
   state = {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {API_ROOT} from "./constants";
+import {API_ROOT} from "../constants";
 import '../styles/App.css';
 // import GoogleMapReact from 'google-map-react';
 import { TopBar } from './TopBar';
@@ -8,11 +8,12 @@ import { Main } from "./Main";
 
 import 'rc-steps/assets/index.css';
 import 'rc-steps/assets/iconfont.css';
-import { USER_ID } from './constants';
+import { USER_ID } from '../constants';
 import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
 import {Register} from "./Register";
 import {Payment} from "./Payment";
 import {message} from "antd"
+import md5 from "md5"
 // import Steps, { Step } from 'rc-steps';
 
 // const AnyReactComponent = ({ text }) => <div>{text}</div>;
@@ -71,6 +72,27 @@ class App extends Component {
   }
 
   handleLogout = () => {
+    fetch(`${API_ROOT}/logout`, {
+      method: 'GET',
+    }).then((response) => {
+      if(response){
+        return response.text();
+      }
+      throw new Error(response.statusText);
+    }).then((data) => {
+      console.log(data);
+      return JSON.parse(data);
+    }).then((json) => {
+      if(json.status === "OK"){
+        console.log("Login successfully")
+        this.props.handleSuccessfulLogin(json.user_id);
+      } else {
+        message.error('User not found or wrong password');
+      }
+    }).catch((err) => {
+      console.log(err);
+      message.error('Login Fail');
+    });
 
     console.log("logged out successfully");
     localStorage.removeItem(USER_ID);
