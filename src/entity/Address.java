@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 public class Address {
 
+	private String addressId;
 	private String streetNum;
 	private String streetName;
 	private String city;
@@ -20,6 +21,7 @@ public class Address {
 
 	private Address(AddressBuilder builder) {
 
+		this.addressId = builder.addressId;
 		this.streetNum = builder.streetNum;
 		this.streetName = builder.streetName;
 		this.city = builder.city;
@@ -31,6 +33,10 @@ public class Address {
 		this.response = builder.response;
 	}
 
+	public String getAddressId() {
+		return addressId;
+	}
+	
 	public String getStreetNum() {
 		return this.streetNum;
 	}
@@ -134,6 +140,7 @@ public class Address {
 
 	public static class AddressBuilder {
 
+		private String addressId;
 		private String streetNum;
 		private String streetName;
 		private String city;
@@ -147,6 +154,11 @@ public class Address {
 		private InputType input;
 		private GeoResponseType response;
 
+		public AddressBuilder setAddressId(String addressId) {
+			this.addressId= addressId;
+			return this;
+		}
+		
 		public AddressBuilder setStreetNum(String streetNum) {
 			this.streetNum = streetNum;
 			return this;
