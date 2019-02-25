@@ -83,10 +83,10 @@ class NormalAroundMap extends React.Component {
             ):null;
         return (
             <GoogleMap
-
+                center={this.getCenter(dest,waypoint)}
                 ref={this.getMapRef}
                 defaultZoom={13}
-                defaultCenter={this.getCenter(dest, waypoint)}
+                defaultCenter={SF_COORD}
                 //onClick={this.toggleRoute}
             >
                 {
