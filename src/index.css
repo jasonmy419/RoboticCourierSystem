@@ -12,6 +12,7 @@
 @import "styles/Payment.css";
 @import "styles/ConfirmationPage.css";
 @import "styles/History.css";
+@import "styles/RouteInfo.css";
 
 body {
   margin: 0;
