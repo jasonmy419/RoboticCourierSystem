@@ -4,36 +4,106 @@ import { OrderInfo } from "./OrderInfo"
 import { Col } from 'antd';
 import {MAP_API_KEY} from '../constants';
 export class Home extends React.Component{
-    state = { response : [{
-            "duration": 634,
-            "mode": "FLYING",
+    state = { response : [ {
+            "duration": 2771,
+            "mode": "WALKING",
             "route": [
                 {
-                    "duration": 294,
-                    "distance": 7368,
+                    "duration": 45,
+                    "distance": 60,
                     "polyline": {
-                        "points": "w~kgE|yajUs}FxcK"
+                        "points": "cntgEb{fjU@N@L@JBLDLVn@"
                     }
                 },
                 {
-                    "duration": 340,
-                    "distance": 8519,
+                    "duration": 69,
+                    "distance": 93,
                     "polyline": {
-                        "points": "k}sgEv~mjUb`I}eL"
+                        "points": "{ltgEx~fjURKLGJELCFAFAPCXAf@A"
+                    }
+                },
+                {
+                    "duration": 1009,
+                    "distance": 1383,
+                    "polyline": {
+                        "points": "{gtgEn}fjUG`G?^@\\@f@B`@JfBH`At@pJBd@RlCTtCRxBd@tELtABTLpATxBd@zFLdBDZXvD^rE\\nEBT"
+                    }
+                },
+                {
+                    "duration": 603,
+                    "distance": 767,
+                    "polyline": {
+                        "points": "{{sgEvxijU@PN`Bd@vGd@lGVrDB^?B@B@P?@@HB\\TxCBNVhDBZ\\vG?HBN"
+                    }
+                },
+                {
+                    "duration": 32,
+                    "distance": 35,
+                    "polyline": {
+                        "points": "_usgEjkkjUS@C?AAECGCAAA?C?E?E@"
+                    }
+                },
+                {
+                    "duration": 36,
+                    "distance": 46,
+                    "polyline": {
+                        "points": "{vsgEbkkjUCDQRe@f@"
+                    }
+                },
+                {
+                    "duration": 28,
+                    "distance": 36,
+                    "polyline": {
+                        "points": "wxsgEdmkjU?N?|@"
+                    }
+                },
+                {
+                    "duration": 94,
+                    "distance": 131,
+                    "polyline": {
+                        "points": "wxsgErokjUo@CW@QBSDOFSJKHw@r@"
+                    }
+                },
+                {
+                    "duration": 557,
+                    "distance": 772,
+                    "polyline": {
+                        "points": "m_tgElrkjUT^Td@NZJZFXFX@L@LBV@Z?`@?L?\\?D?^?nB?jBAP?rCAf@?|D?HAzC?X?zA?hFApB"
+                    }
+                },
+                {
+                    "duration": 121,
+                    "distance": 163,
+                    "polyline": {
+                        "points": "s|sgEbemjUBV?HALAN?HEXALCLCLCNGP[vACPCDEZCP"
+                    }
+                },
+                {
+                    "duration": 20,
+                    "distance": 24,
+                    "polyline": {
+                        "points": "}~sgEpomjUj@J"
+                    }
+                },
+                {
+                    "duration": 157,
+                    "distance": 221,
+                    "polyline": {
+                        "points": "q}sgE|omjUEVKh@SdBGj@CVA`@GhAAb@EtA"
                     }
                 }
             ],
             "station_point": {
                 "city": "San Diego",
-                "street_number": "7373",
-                "station_lat": 32.834517,
-                "station_lon": -117.1623357,
-                "street_name": "Convoy Ct"
+                "street_number": "5716",
+                "station_lat": 32.8777831,
+                "station_lon": -117.188114,
+                "street_name": "Miramar Rd"
             },
-            "distance": 15887,
+            "distance": 3731,
             "size": "SMALL",
-            "courier": "222",
-            "price": 53.47195398870596,
+            "courier": "211",
+            "price": 8.945838503141653,
             "destination_point": {
                 "destination_point_lon": -117.154692,
                 "city": "San Diego",
@@ -42,7 +112,7 @@ export class Home extends React.Component{
                 "street_name": "Convoy St"
             },
             "overview_polyline": {
-                "points": "w~kgE|yajUs}FxcKb`I}eL"
+                "points": "cntgEb{fjUB\\DX\\|@`@Sh@Mj@Ef@AG`G@|@DhAnA`Qh@bHx@nIt@vHvC`_@zBtZZbEZxD`@rHBXW@GEOEK@UXe@f@?N?|@o@Ci@Dc@L_@Tw@r@T^d@`ARt@Hf@Dd@@hBClSAzGAzIB`@I`AMx@k@`CIl@j@JEV_@nCKbAQdFPeFJcA^oCbAaGB]e@EB[@WAiC@{N?gE@g@zB?jBAd@?dMDvH@~D?|BKtB[bDy@rBi@tA]xHgBTIrBq@dB_AhBwAjAqAh@q@\\e@hAqBxDgHjEyHf@u@|@uAh@o@f@g@p@c@zAs@rGwA|JqBtB]tI_BjAKbACzG`@rBHv@?n@EjAS~@]`Ag@nAcA`D{DtBiCxBgCnDeEtDkEtAwA`CgBfB_ApBs@bAWhBg@fE_A~KuC`D{@~@]zFiCtAIlA?T??kP?kMBqJH}^H}e@BkGBuANyBPiB|BoT`A_Jx@sHXqCTeCHkDAsGGkS?iCr@Cd@G`Gy@|UaDdHaAdAMAgAAqB?gE^@nA?FELeBlA@?mC^?D?p@E"
             },
             "way_point": {
                 "city": "La Jolla",
@@ -52,6 +122,7 @@ export class Home extends React.Component{
                 "street_name": "Miramar St"
             }
         }
+
         ] }
 
 handleResponse = (responseValue) => {
