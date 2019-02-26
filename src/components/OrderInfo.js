@@ -264,7 +264,7 @@ class OrderInfoForm extends React.Component {
                         <NumberFormat value={this.state.price} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} />
                     </Form.Item>
                     <Form.Item {...tailFormItemLayout}>
-                        <Button type="primary" htmlType="submit">
+                        <Button type="primary" htmlType="submit" className="button">
                             Show Route
                         </Button>
                         <Button type="primary" className="button" onClick={this.onClick}>
