@@ -66,7 +66,7 @@ class NormalAroundMap extends React.Component {
     }
 
     render() {
-        // console.log(this.props.response.length > 0 ? this.props.response[0].mode : null);
+         console.log("response",this.props.response);
         // const { lat, lon: lng } = JSON.parse(localStorage.getItem(POS_KEY));
         const dest = this.props.response.length > 0 ? {
                 city: this.props.response[0].destination_point.city,

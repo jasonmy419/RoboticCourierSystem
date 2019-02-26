@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { API_ROOT } from "../constants";
-import { Steps } from 'antd';
+import {API_ROOT, MAP_API_KEY} from "../constants";
+import {Col, Steps} from 'antd';
+import {Map} from "./Map";
 
 const Step = Steps.Step;
 export class ConfirmationPage extends Component {
@@ -33,6 +34,7 @@ export class ConfirmationPage extends Component {
 
     render() {
         console.log('confirm', this.props.orderID);
+        console.log("confirm response", this.props.response);
         return (
             <div className="Confirmation">
                 <div className="text">
@@ -50,6 +52,15 @@ export class ConfirmationPage extends Component {
                     <Step title="Delivering" description={this.description2} />
                     <Step title="Arrived" description={this.description3} />
                 </Steps>
+                <Map
+                    googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${MAP_API_KEY}&libraries=geometry,drawing,places`}
+                    loadingElement={<div style={{ height: `100%` }} />}
+                    containerElement={<div style={{ height: `900px` }} />}
+                    mapElement={<div style={{ height: `100%` }} />}
+                    response={this.props.response}
+                    // posts={this.state.posts}
+                    // loadNearbyPosts={this.state.topic === "around" ? this.loadNearbyPosts: this.loadFacesAroundTheWorld}
+                />
             </div>
         );
     }

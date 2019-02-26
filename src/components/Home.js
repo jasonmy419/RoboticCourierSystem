@@ -11,6 +11,7 @@ export class Home extends React.Component{
 handleResponse = (responseValue) => {
         this.setState({response: responseValue});
         console.log(this.state.response);
+        this.props.handlerResponse(responseValue);
     }
 
     render(){
