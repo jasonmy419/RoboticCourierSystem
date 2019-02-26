@@ -117,45 +117,40 @@ class OrderInfoForm extends React.Component {
     }
 
     onClick = () => {
-        this.props.history.push('/payment');
-        console.log(JSON.stringify({
-            'waypoint': this.state.pickUpAddr,
-            'destination': this.state.deliveryAddr,
-            // 'key' : this.state.chosenRoute,
-            ...this.state.routes.filter((route) => route.price === this.state.chosenRoute),
-        }));
+        // console.log(JSON.stringify({
+        //     'waypoint': this.state.pickUpAddr,
+        //     'destination': this.state.deliveryAddr,
+        //     'detail' : {...this.state.routes.filter((route) => route.price === this.state.price)[0]},
+        //     'user_id' : "123",
+        //     'courier_id' : "abc",
+        // }));
         // send request
-        // fetch(`${API_ROOT}/routeRecommend`, {
-        //     method: 'POST',
-        //     // body: JSON.stringify({
-        //     //     username: values.pickingUpAddress,
-        //     //     password: values.deliveryAddress,
-        //     // }),
-        //     body: JSON.stringify({
-        //             'waypoint': this.state.pickUpAddr,
-        //             'destination': this.state.deliveryAddr,
-        //             ...this.state.routes.filter((route) => route.price === e.target.value),
-        //         }
-        //     ),
-        // }).then((response) => {
-        //     if (response.ok) {
-        //         return response.json();
-        //     }
-        //     throw new Error(response.statusText);
-        // })
-        //     .then((data) => {
-        //         console.log(data);
-        //         message.success('Sending Succeed!');
-        //         this.setState({ routes : data ? data : [] });
-        //         console.log(this.state.routes);
-        //         // this.props.handleResponse(data);
-        //         //this.props.history.push('/payment');
-        //     })
-        //     .catch((e) => {
-        //
-        //         console.log(e);
-        //         message.error('Sending Failed.');
-        //     });
+        fetch(`${API_ROOT}/orders`, {
+            method: 'POST',
+
+            body: JSON.stringify({
+                    'waypoint': this.state.pickUpAddr,
+                    'destination': this.state.deliveryAddr,
+                    'detail' : {...this.state.routes.filter((route) => route.price === this.state.price)[0]},
+                    'user_id' : "123",
+                    'courier_id' : "abc",
+                }
+            ),
+        }).then((response) => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error(response.statusText);
+        })
+            .then((data) => {
+                console.log(data);
+                this.props.history.push('/payment');
+            })
+            .catch((e) => {
+
+                console.log(e);
+                message.error('Sending Failed.');
+            });
     }
 
     // getPrice = (price) => {
