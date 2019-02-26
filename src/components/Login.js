@@ -11,25 +11,25 @@ class NormalLoginForm extends React.Component {
     if (!err) {
       console.log('Received values of form: ', values);
 
-      //for test purpose, comment for final use
-      const response = '{"status": "OK", "user_id": "Jizhou"}';
-      const promise = new Promise((resolve, reject) => {
-        resolve(response);
-      });
-
-      // send request, uncomment for final use
-      // const promise = fetch(`${API_ROOT}/login`, {
-      //   method: 'POST',
-      //   body: JSON.stringify({
-      //     username: values.username,
-      //     password: md5(values.username + md5(values.password))
-      //   })
-      // }).then((response) => {
-      //   if(response){
-      //     return response.text();
-      //   }
-      //   throw new Error(response.statusText);
+      // //for test purpose, comment for final use
+      // const response = '{"status": "OK", "user_id": "Jizhou"}';
+      // const promise = new Promise((resolve, reject) => {
+      //   resolve(response);
       // });
+
+      //gsend request, uncomment for final use
+      const promise = fetch(`${API_ROOT}/login`, {
+        method: 'POST',
+        body: JSON.stringify({
+          user_id: values.username,
+          password: md5(values.username + md5(values.password))
+        })
+      }).then((response) => {
+        if(response){
+          return response.text();
+        }
+        throw new Error(response.statusText);
+      });
 
       promise.then((data) => {
         console.log(data);
@@ -43,7 +43,7 @@ class NormalLoginForm extends React.Component {
         }
       }).catch((err) => {
         console.log(err);
-        message.error('Login Fail');
+        message.error('Login Failed');
       });
     }
     });

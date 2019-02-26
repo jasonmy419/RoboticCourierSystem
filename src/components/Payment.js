@@ -34,7 +34,8 @@ class PaymentFrom extends React.Component {
             fetch(`${API_ROOT}/checkout`, {
                 method: 'POST',
                 body: JSON.stringify({
-                    user_id: localStorage.getItem(USER_ID),
+                    user_id:"123",
+                    // user_id: localStorage.getItem(USER_ID),
                     last_name: values.last_name,
                     first_name: values.first_name,
                     card_number: values.card_number,
@@ -54,8 +55,7 @@ class PaymentFrom extends React.Component {
                 throw new Error(response.statusText);
             }).then((data) => {
                 message.success('Check Success!');
-                console.log(data);
-                this.props.handleSuccessfulLogin(data);
+                // this.props.handleSuccessfulLogin(data);
                 this.props.history.push("/confirmation")
                 localStorage.setItem(ORDER_NUM, data);
             }).catch((e) => {

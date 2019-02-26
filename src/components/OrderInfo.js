@@ -57,17 +57,18 @@ class OrderInfoForm extends React.Component {
                     //     password: values.deliveryAddress,
                     // }),
                     body: JSON.stringify({
-                            'waypoint': {
+                            waypoint: {
                                 street_number: this.state.pickUpAddr[0],
                                 street_name: this.state.pickUpAddr[1],
                                 city: this.state.pickUpAddr[2],
                             },
-                            'destination': {
+                            destination: {
                                 street_number: this.state.deliveryAddr[0],
                                 street_name: this.state.deliveryAddr[1],
                                 city: this.state.deliveryAddr[2],
                             },
-                            'size': values.itemSize,
+                            size: values.itemSize,
+                            user_id: "123"
                         }
                     ),
                 }).then((response) => {
@@ -82,7 +83,7 @@ class OrderInfoForm extends React.Component {
                         this.setState({ routes : data ? data : [] });
                         console.log(this.state.routes);
                         // this.props.handleResponse(data);
-                        //this.props.history.push('/payment');
+                        // this.props.history.push('/payment');
                     })
                     .catch((e) => {
 

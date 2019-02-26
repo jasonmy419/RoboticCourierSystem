@@ -7,6 +7,7 @@ import {BrowserRouter, Link, Redirect, Route, Switch} from 'react-router-dom';
 import {Payment} from "./Payment";
 import {Orders} from "./Orders";
 import {Home} from "./Home";
+import {UserInfo} from "./UserInfo";
 
 export class TopBar extends React.Component {
 
@@ -20,6 +21,8 @@ export class TopBar extends React.Component {
                         <Icon type="logout" />{' '}logout
                     </a> : null}
                 {this.props.isLoggedIn ? <a href='./orders' className="orders">orders</a>:null}
+                {/*{this.props.isLoggedIn ? <a href='./profile' className="profile">profile</a>:null}*/}
+                {/*{this.props.isLoggedIn ? <UserInfo/> : null}*/}
             </header>
     );
   }
