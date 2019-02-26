@@ -283,10 +283,10 @@ public class DBConnection {
 
 			String cardAddress = null;
 			int zipcode = -1;
-
+			JSONObject obj = new JSONObject();
 			while (rs.next()) {
-				cardAddress = rs.getString("address_line1");
-				zipcode = rs.getInt("zipcode");
+				cardAddress =  rs.getString("address_line1");
+				zipcode =  rs.getInt("zipcode");
 			}
 
 			if (cardAddress == null || cardAddress.length() == 0 && zipcode == -1) {
@@ -339,13 +339,18 @@ public class DBConnection {
 			System.err.println("DB connection failed from src/db/DBConnection -> getPaymentInfo");
 		}
 		String str = null;
+		JSONArray array = new JSONArray();
 		try {
+			JSONObject obj = new JSONObject();
 			String sql = "SELECT * FROM payment WHERE user_id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, userId);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
-				str = rs.getString("card_number");
+				obj.put("card_number", rs.getString("card_number"));
+				obj.put("user_id", rs.getString("user_id"));
+				System.out.println(obj);
+				array.put(obj);
 			}
 
 		} catch (Exception e) {
@@ -353,7 +358,7 @@ public class DBConnection {
 			System.out.println("error from src/db/DBConnection -> getPaymentInfo " + e.getMessage());
 		}
 
-		return str != null;
+		return array.length() > 0;
 	}
 
 	public String getStatus(String orderID) {
