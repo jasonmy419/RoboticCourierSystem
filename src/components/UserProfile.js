@@ -6,9 +6,9 @@ import {API_ROOT, ORDER_NUM, USER_ID} from '../constants';
 import { Link } from 'react-router-dom';
 import { List, Avatar, Icon } from 'antd';
 export class UserProfile extends React.Component{
-    state = {
-        userInfo:{}
-    }
+
+
+
     componentDidMount() {
         fetch(`${API_ROOT}/profile`, {
             method: 'GET',
@@ -41,9 +41,16 @@ export class UserProfile extends React.Component{
     }
 
     render() {
+        const userInfo = {
+            user_id:"T1nypeanut",
+            first_name: "Yu",
+            last_name:"MA",
+        }
         return(
             <Card className="order">
                 <Avatar size={128} icon="user"/>
+                <p>{`${userInfo.user_id}`}</p>
+                <p>{`${userInfo.first_name} ${userInfo.last_name}`}</p>
             </Card>
         );
     }
