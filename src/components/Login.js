@@ -11,7 +11,7 @@ class NormalLoginForm extends React.Component {
     if (!err) {
       console.log('Received values of form: ', values);
 
-      // //for test purpose, comment for final use
+      //for test purpose, comment for final use
       // const response = '{"status": "OK", "user_id": "Jizhou"}';
       // const promise = new Promise((resolve, reject) => {
       //   resolve(response);

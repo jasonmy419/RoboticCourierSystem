@@ -25,7 +25,7 @@ class App extends Component {
     this.state = {
       isLoggedIn: true,
     }
-    this.validateSession();
+    // this.validateSession();
   }
 
   validateSession = () => {

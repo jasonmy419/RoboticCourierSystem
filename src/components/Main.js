@@ -34,13 +34,14 @@ export class Main extends React.Component {
         return this.props.isLoggedIn ? <UserProfile/> : <Redirect to="/login"/>;
     }
     getPayment = () => {
-        return this.props.isLoggedIn ? <Payment orderID = {this.handlerOrderID}/> : <Redirect to="/login"/>;
+        return this.props.isLoggedIn ? <Payment handlerOrderID = {this.handlerOrderID}/> : <Redirect to="/login"/>;
     }
     getConfirmation = () => {
         return <ConfirmationPage orderID = {this.state.orderID}/>
     }
 
     render() {
+        console.log(this.state.orderID);
         return (
             <div className="main">
                 <BrowserRouter>
@@ -49,7 +50,7 @@ export class Main extends React.Component {
                         <Route path="/login" render={this.getLogin}/>
                         <Route path="/register" component={Register}/>
                         <Route path="/home" render={this.getHome}/>
-                        {/*<Route path="/payment" render={this.getPayment}/>*/}
+                        <Route path="/payment" render={this.getPayment}/>
                         <Route path="/profile" render={this.getUserProfile}/>
                         <Route path="/payment" component={Payment}/>
                         <Route path="/confirmation" render={this.getConfirmation}/>
