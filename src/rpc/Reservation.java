@@ -3,6 +3,8 @@ package rpc;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.UUID;
+import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -55,7 +57,7 @@ public class Reservation extends HttpServlet {
 			String type = detail.getString("mode").equals("FLYING") ? "D" : "R";
 			double price = detail.getDouble("price");
 			
-			String status = "TRANSIT";
+			Timestamp end = new Timestamp((new Date()).getTime() + (long)duration*1000);
 			JSONObject obj = (JSONObject) detail.get("overview_polyline");
 			
 			String routePath = Tool.StringProccessing(obj.getString("points"));
@@ -84,7 +86,7 @@ public class Reservation extends HttpServlet {
 					 .orderId(orderId)
 					 .courierId(courierId)
 					 .itemId(itemId)
-					 .status(status)
+					 .endTime(end)
 					 .type(type)
 					 .startAddressId(startAddressId)
 					 .endAddressId(endAddressId)

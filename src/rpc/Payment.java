@@ -67,7 +67,7 @@ public class Payment extends HttpServlet {
 				
 				if (flag) {
 			        String str = conn.findOrderNumber(userId);
-					RpcHelper.writeJsonObject(response, new JSONObject().put("Confirmation number:", str));
+					RpcHelper.writeJsonObject(response, new JSONObject().put("confirmation_number:", str));
 				}  else {
 					RpcHelper.writeJsonObject(response, new JSONObject().put("payment status:", "failed"));
 				}

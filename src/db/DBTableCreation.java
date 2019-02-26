@@ -186,7 +186,7 @@ public class DBTableCreation {
 					+"type VARCHAR(255) NOT NULL,"
 					+"start_address_id VARCHAR(255) NOT NULL,"
 					+"end_address_id VARCHAR(255) NOT NULL,"
-					+"status VARCHAR(255) NOT NULL,"
+					+"end_time TIMESTAMP NOT NULL,"
 					+"route_duration DOUBLE NOT NULL,"
 					+"route_distance DOUBLE NOT NULL,"
 					+"route_price DOUBLE NOT NULL,"
@@ -195,11 +195,14 @@ public class DBTableCreation {
 					+")";
 			statement.executeUpdate(sql);
 
+			Timestamp end = new Timestamp((new Date()).getTime() + 300000);
 			sql = "INSERT INTO orders VALUES('sfogbwklskansbbvncs012e','123','xyz','111','D',"
-					+ " 'lavieenrose', 'emanon', 'TRANSIT',"
-					+ "996.0, 11.25, 29.83, 'k}qcFjushVf@QFABABAF?D?D@RBB@D?J?N?B?n@JLJJ@LDTDNDNDFBFBDBDBFBFBHB',"
+					+ " 'lavieenrose', 'emanon', ?" 
+					+ ", 996.0, 11.25, 29.83, 'k}qcFjushVf@QFABABAF?D?D@RBB@D?J?N?B?n@JLJJ@LDTDNDNDFBFBDBDBFBFBHB',"
 					+ "TRUE)";
-			statement.executeUpdate(sql);
+			stmt = conn.prepareStatement(sql);
+			stmt.setTimestamp(1, s);
+			stmt.executeUpdate();
 
 			sql = "CREATE TABLE	payment (" 
 					+"user_id VARCHAR(255) NOT NULL,"

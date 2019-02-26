@@ -1,12 +1,15 @@
 package entity;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 public class Order {
 
 	private String userId;
 	private String orderId;
 	private String itemId;
 	private String courierId;
-	private String status;
+	private Timestamp endTime;
 	private String type;
 	private String startAddressId;
 	private String endAddressId;
@@ -20,8 +23,8 @@ public class Order {
 		return userId;
 	}
 	
-	public String getStatus() {
-		return status;
+	public Timestamp getTimestamp() {
+		return endTime;
 	}
 
 	public String getType() {
@@ -72,7 +75,7 @@ public class Order {
 		this.orderId = builder.orderId;
 		this.itemId = builder.itemId;
 		this.courierId = builder.courierId;
-		this.status = builder.status;
+		this.endTime = builder.endTime;
 		this.type = builder.type;
 		this.startAddressId = builder.startAddressId;
 		this.endAddressId  = builder.endAddressId;
@@ -92,7 +95,7 @@ public class Order {
 					  + ", OrderId: " + this.getOrderId() 
 					  + ", ItemId: "  + this.getItemId()
 					  + ", CourierId: " + this.getCourierId()
-					  + ", Status: " + this.getStatus()
+					  + ", EndTime: " + this.getTimestamp()
 					  + ", Type: "   + this.getType() 
 					  + ", StartAddressId: " + this.getStartAddressId()
 					  + ", EndAddressId: "+ this.getEndAddressId()
@@ -112,7 +115,7 @@ public class Order {
 		private String orderId;
 		private String itemId;
 		private String courierId;
-		private String status;
+		private Timestamp endTime;
 		private String type;
 		private String startAddressId;
 		private String endAddressId;
@@ -141,8 +144,8 @@ public class Order {
 			return this;
 		}
 		
-		public OrderBuilder status(String status) {
-			this.status = status;
+		public OrderBuilder endTime(Timestamp endTime) {
+			this.endTime = endTime;
 			return this;
 		}
 		
@@ -197,7 +200,7 @@ public class Order {
 							 .orderId("111")
 							 .courierId("aaa")
 							 .itemId("zzz")
-							 .status("TRANSIT")
+							 .endTime(new Timestamp((new Date()).getTime() + 300000))
 							 .type("D")
 							 .startAddressId("3869")
 							 .endAddressId("sdva")

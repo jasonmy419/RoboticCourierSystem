@@ -218,7 +218,7 @@ public class DBConnection {
 			ps.setString(5, ord.getType());
 			ps.setString(6, ord.getStartAddressId());
 			ps.setString(7, ord.getEndAddressId());
-			ps.setString(8, ord.getStatus());
+			ps.setTimestamp(8, ord.getTimestamp());
 			ps.setDouble(9, ord.getRouteDuration());
 			ps.setDouble(10, ord.getRouteDistance());
 			ps.setDouble(11, ord.getRoutePrice());
@@ -248,10 +248,15 @@ public class DBConnection {
 				orderId = rs.getString("order_id");
 			}
 
-			sql = "UPDATE orders SET complete = TRUE WHERE user_id = ?";
-			stmt = conn.prepareStatement(sql);
-			stmt.setString(1, UserId);
-
+			if (orderId != null) {
+				sql = "UPDATE orders SET complete = ? WHERE user_id = ? AND order_id = ?";
+				stmt = conn.prepareStatement(sql);
+				stmt.setBoolean(1, true);
+				stmt.setString(2, UserId);
+				stmt.setString(3, orderId);
+				stmt.executeUpdate();
+			}
+			
 			return orderId;
 		} catch (Exception e) {
 			e.printStackTrace();
