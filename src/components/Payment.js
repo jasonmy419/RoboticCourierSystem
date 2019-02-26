@@ -48,15 +48,18 @@ class PaymentFrom extends React.Component {
                 }),
             }).then((response) => {
                 if (response.ok) {
-                    return response.text();
+                    return response.json();
                 }
                 throw new Error(response.statusText);
             }).then((data) => {
                 console.log(data);
+                console.log(data.confirmation_number);
+                const {confirmation_number} = data;
+                console.log(confirmation_number);
                 message.success('Check Success!');
                 // this.props.handleSuccessfulLogin(data);
                 this.props.history.push("/confirmation");
-                this.props.handlerOrderID(data.confirmation_number);
+                //this.props.handlerOrderID({});
                 //localStorage.setItem(ORDER_NUM, data)
             }).catch((e) => {;
                 console.log(e);

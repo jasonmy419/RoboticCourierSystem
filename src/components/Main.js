@@ -33,8 +33,8 @@ export class Main extends React.Component {
     getUserProfile = () => {
         return this.props.isLoggedIn ? <UserProfile/> : <Redirect to="/login"/>;
     }
-    getPayment = () => {
-        return this.props.isLoggedIn ? <Payment handlerOrderID = {this.handlerOrderID}/> : <Redirect to="/login"/>;
+    getPayment = (props) => {
+        return this.props.isLoggedIn ? <Payment handlerOrderID = {this.handlerOrderID} {...props}/> : <Redirect to="/login"/>;
     }
     getConfirmation = () => {
         return <ConfirmationPage orderID = {this.state.orderID}/>
