@@ -17,6 +17,21 @@ import entity.Route;
 
 public class StationAddress {
 
+	public static JSONObject getParticularStationByCourierID(String courierID) {
+		DBConnection conn = new DBConnection();
+		JSONObject address = null;
+		try {
+			address = conn.getParticularStationByCourierID(courierID);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			conn.close();
+		}
+		
+		return address;
+	}
+	
 	public JSONArray getAddress() {
 		DBConnection conn = new DBConnection();
 		JSONArray address = null;

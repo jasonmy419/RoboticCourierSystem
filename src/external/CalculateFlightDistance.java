@@ -113,6 +113,13 @@ public class CalculateFlightDistance {
 		
 	}
 	
+	public int returnTime(double start_lat, double start_lon, double end_lat, double end_lon) {
+		LatLng ori = new LatLng(start_lat, start_lon);
+		LatLng dest = new LatLng(end_lat, end_lon);
+		int dist = distance(ori, dest);
+		return (int)(dist / FLYING_SPEED);
+	}
+	
 	private int distance(LatLng origin, LatLng destination) {
 		
 		double height = 0.0;
