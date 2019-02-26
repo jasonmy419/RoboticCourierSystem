@@ -18,21 +18,19 @@ class NormalLoginForm extends React.Component {
       // });
 
       // send request, uncomment for final use
-      const promise = fetch(`${API_ROOT}/login`, {
+      fetch(`${API_ROOT}/login`, {
         method: 'POST',
+        credentials: "include",
         body: JSON.stringify({
-          username: values.username,
-          password: values.password
-          //password: md5(values.username + md5(values.password))
+          user_id: values.username,
+          password: md5(values.username + md5(values.password))
         })
       }).then((response) => {
         if(response){
           return response.text();
         }
         throw new Error(response.statusText);
-      });
-
-      promise.then((data) => {
+      }).then((data) => {
         console.log(data);
         return JSON.parse(data);
       }).then((json) => {

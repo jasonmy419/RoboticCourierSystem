@@ -25,12 +25,13 @@ class App extends Component {
     this.state = {
       isLoggedIn: true,
     }
-  }
-
-  componentWillMount() {
-    console.log(`this.state.isLoggedIn: ${this.state.isLoggedIn} componentWillMount`);
     this.validateSession();
   }
+
+  // componentWillMount() {
+  //   console.log(`componentWillMount - this.state.isLoggedIn: ${this.state.isLoggedIn} `);
+  //   this.validateSession();
+  // }
 
   validateSession = () => {
     console.log("validate session function ran")
@@ -44,6 +45,7 @@ class App extends Component {
     //send request, uncomment for final use
     const promise = fetch(`${API_ROOT}/login`, {
       method: "GET",
+      credentials: "include",
     }).then((response) => {
       if(response){
         return response.text();
@@ -77,7 +79,8 @@ class App extends Component {
 
   handleLogout = () => {
     fetch(`${API_ROOT}/logout`, {
-      method: 'GET',
+      method: 'POST',
+      //credentials: 'include'
     }).then((response) => {
       if(response){
         return response.text();
@@ -91,7 +94,7 @@ class App extends Component {
         console.log("Login successfully")
         this.props.handleSuccessfulLogin(json.user_id);
       } else {
-        message.error('User not found or wrong password');
+        console.log("Login successfully");
       }
     }).catch((err) => {
       console.log(err);
