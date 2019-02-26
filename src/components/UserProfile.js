@@ -47,11 +47,11 @@ export class UserProfile extends React.Component{
             last_name:"MA",
         }
         return(
-            <Card className="order">
-                <Avatar size={128} icon="user"/>
+            <div className="user-info">
+                <Avatar size="small" icon="user"/>
                 <p>{`${userInfo.user_id}`}</p>
                 <p>{`${userInfo.first_name} ${userInfo.last_name}`}</p>
-            </Card>
+            </div>
         );
     }
 }

@@ -5,6 +5,7 @@ import {
 import { API_ROOT, ORDER_NUM } from '../constants';
 import { Link } from 'react-router-dom';
 import { List, Avatar, Icon } from 'antd';
+import {UserProfile} from "./UserProfile";
 
 const listData = [];
 for (let i = 0; i < 23; i++) {
@@ -22,7 +23,10 @@ for (let i = 0; i < 23; i++) {
 export class Orders extends React.Component{
     render() {
         return(
+            <div>
+            <UserProfile/>
             <div className="OrderList">
+
                 <div>
                     <h2 className="history_title">Order History</h2>
                 </div>
@@ -59,6 +63,7 @@ export class Orders extends React.Component{
                         </List.Item>
                     )}
                 />
+            </div>
             </div>
         );
     }

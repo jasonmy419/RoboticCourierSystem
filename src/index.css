@@ -13,6 +13,7 @@
 @import "styles/ConfirmationPage.css";
 @import "styles/History.css";
 @import "styles/RouteInfo.css";
+@import "styles/UserProfile.css";
 
 body {
   margin: 0;
