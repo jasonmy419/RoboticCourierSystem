@@ -68,6 +68,7 @@ class PaymentFrom extends React.Component {
                 }
                 throw new Error(response.statusText);
             }).then((data) => {
+                console.log(data);
                 message.success('Check Success!');
                 // this.props.handleSuccessfulLogin(data);
                 this.props.history.push("/confirmation")
