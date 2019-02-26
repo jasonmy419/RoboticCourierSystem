@@ -390,7 +390,7 @@ public class DBConnection {
 				obj.put("street_number", rs.getString("street_number"));
 				obj.put("street_name", rs.getString("street_name"));
 				obj.put("city", rs.getString("city"));
-				System.out.println(obj);
+//				System.out.println(obj);
 				array.put(obj);
 			}
 
