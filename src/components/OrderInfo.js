@@ -50,6 +50,20 @@ class OrderInfoForm extends React.Component {
                     })
                 }
                 // send request
+                console.log("route",JSON.stringify({
+                    waypoint: {
+                        street_number: this.state.pickUpAddr[0],
+                        street_name: this.state.pickUpAddr[1],
+                        city: this.state.pickUpAddr[2],
+                    },
+                    destination: {
+                        street_number: this.state.deliveryAddr[0],
+                        street_name: this.state.deliveryAddr[1],
+                        city: this.state.deliveryAddr[2],
+                    },
+                    size: values.itemSize,
+                    user_id: "123"
+                }))
                 fetch(`${API_ROOT}/routeRecommend`, {
                     method: 'POST',
                     // body: JSON.stringify({
