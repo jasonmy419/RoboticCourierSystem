@@ -165,6 +165,12 @@ public class RouteRecommend extends HttpServlet {
 
 			fastRoute.put("station_point", StationAddress.getStationAddress(routes.get(0).getCourierID()));
 			
+			CalculateFlightDistance distanceAPI = new CalculateFlightDistance();
+			JSONObject fast_obj = StationAddress.getStationAddress(routes.get(0).getCourierID());
+			double retTime = distanceAPI.returnTime(destination.getLatitude(), destination.getLongitude(), 
+					fast_obj.getDouble("station_lat"), fast_obj.getDouble("station_lon"));
+			fastRoute.put("courier_return_time", retTime);
+			
 			res.put(fastRoute);
 			
 			// Sort the route based on distance
