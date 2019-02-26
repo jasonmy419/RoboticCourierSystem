@@ -41,7 +41,7 @@ export class Main extends React.Component {
     }
 
     render() {
-        console.log(this.state.orderID);
+        console.log("main",this.state.orderID);
         return (
             <div className="main">
                 <BrowserRouter>

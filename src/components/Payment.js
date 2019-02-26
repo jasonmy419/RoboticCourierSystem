@@ -59,7 +59,7 @@ class PaymentFrom extends React.Component {
                 message.success('Check Success!');
                 // this.props.handleSuccessfulLogin(data);
                 this.props.history.push("/confirmation");
-                //this.props.handlerOrderID({});
+                this.props.handlerOrderID(confirmation_number);
                 //localStorage.setItem(ORDER_NUM, data)
             }).catch((e) => {;
                 console.log(e);
