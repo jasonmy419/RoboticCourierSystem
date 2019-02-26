@@ -22,7 +22,8 @@ class NormalLoginForm extends React.Component {
         method: 'POST',
         body: JSON.stringify({
           username: values.username,
-          password: md5(values.username + md5(values.password))
+          password: values.password
+          //password: md5(values.username + md5(values.password))
         })
       }).then((response) => {
         if(response){
@@ -43,7 +44,7 @@ class NormalLoginForm extends React.Component {
         }
       }).catch((err) => {
         console.log(err);
-        message.error('Login Fail');
+        message.error('Failed to access to the website');
       });
     }
     });

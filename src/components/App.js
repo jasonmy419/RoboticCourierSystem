@@ -25,6 +25,10 @@ class App extends Component {
     this.state = {
       isLoggedIn: true,
     }
+  }
+
+  componentWillMount() {
+    console.log(`this.state.isLoggedIn: ${this.state.isLoggedIn} componentWillMount`);
     this.validateSession();
   }
 
@@ -47,7 +51,6 @@ class App extends Component {
       throw new Error(response.statusText);
     });
 
-    console.log(promise.valueOf());
     promise.then((data) => {
       console.log(data);
       return JSON.parse(data);
@@ -62,6 +65,7 @@ class App extends Component {
         this.setState({isLoggedIn: false,});
       }
     }).catch((err) => {
+      console.log("catch err")
       console.log(err);
     });
   }
@@ -102,7 +106,7 @@ class App extends Component {
 
   render() {
     console.log("rendering");
-    console.log(this.state.isLoggedIn);
+    console.log(`this.state.isLoggedIn:${this.state.isLoggedIn}, localstorage.USER_ID: ${localStorage.getItem("USER_ID")}`);
     return (
         <div className="App">
           <TopBar handleLogout={this.handleLogout} isLoggedIn={this.state.isLoggedIn} />

@@ -1,0 +1,499 @@
+[33mcommit a166db8f7432bc4dd632fbfbc1c6a21e6be0c881[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Merge: 75bbb8c c54adbd
+Author: Yu Ma <jasonmy419@gmail.com>
+Date:   Sun Feb 24 20:51:21 2019 -0800
+
+    1
+
+[33mcommit 75bbb8c58e377498931eadc2496f69e00b75914d[m
+Author: Yu Ma <jasonmy419@gmail.com>
+Date:   Sun Feb 24 20:49:41 2019 -0800
+
+    automatically change center
+
+[33mcommit c54adbd7e6877df74d67341af30beb1f3e85d896[m
+Merge: 189cdb2 d5e8d46
+Author: wyr <ywang5@sdsu.edu>
+Date:   Sun Feb 24 18:15:35 2019 -0800
+
+    time and price format
+
+[33mcommit 189cdb2051a9921dd4a04baebfc4260c8c85bad4[m
+Author: wyr <ywang5@sdsu.edu>
+Date:   Sun Feb 24 18:10:15 2019 -0800
+
+    format of price and time
+
+[33mcommit d5e8d46b761eca787465b4327f79d96716ba3726[m
+Author: Yu Ma <jasonmy419@gmail.com>
+Date:   Sun Feb 24 17:30:35 2019 -0800
+
+    optimized getCenter func
+
+[33mcommit 810b25e2c5a4cdb68c6bcd407dd263bb17f2d87e[m
+Merge: 50ed580 277244d
+Author: Yu Ma <jasonmy419@gmail.com>
+Date:   Sun Feb 24 16:53:31 2019 -0800
+
+    Merge branch 'master' of https://github.com/jasonmy419/RoboticCourierSystem
+
+[33mcommit 50ed5802dfea4846c0e92b97c37d0058627a6f36[m
+Author: Yu Ma <jasonmy419@gmail.com>
+Date:   Sun Feb 24 16:53:13 2019 -0800
+
+    change constants.js
+
+[33mcommit 277244d3c919cd7f391c5eadabdf11d0a69c931a[m
+Author: liujz08 <jizhou.liu@aya.yale.edu>
+Date:   Sun Feb 24 16:51:16 2019 -0800
+
+    update logout
+
+[33mcommit f6329ba9afde9796a4c28ae45caa1c1b6b4bba22[m
+Merge: 2ccc4ce ef6e826
+Author: liujz08 <jizhou.liu@aya.yale.edu>
+Date:   Sun Feb 24 14:57:03 2019 -0800
+
+    Merge branch 'master' of https://github.com/jasonmy419/RoboticCourierSystem
+
+[33mcommit 2ccc4ce21a44ec654d2bd9dffbf3f7d338e35c61[m
+Author: liujz08 <jizhou.liu@aya.yale.edu>
+Date:   Sun Feb 24 14:56:23 2019 -0800
+
+    validate session update
+
+[33mcommit ef6e8263b0023a748dd2f71e95ffa3240edb962f[m
+Author: Yu Ma <jasonmy419@gmail.com>
+Date:   Sun Feb 24 14:49:57 2019 -0800
+
+    change order index start from 0 to 1
+
+[33mcommit 9ebd8ce27642cf05f8164c8f5d33b6c28c78548a[m
+Author: Yu Ma <jasonmy419@gmail.com>
+Date:   Sun Feb 24 14:36:14 2019 -0800
+
+    add From/To tag
+
+[33mcommit 33f15b31f864b3b9c76a93e7988a16d13a54f147[m
+Author: liujz08 <jizhou.liu@aya.yale.edu>
+Date:   Sun Feb 24 14:31:06 2019 -0800
+
+    handlelogout fix
+
+[33mcommit f0d2068f815b98eb4e8079001460fdaab0d57553[m
+Merge: df5416c 1a9bcc5
+Author: liujz08 <jizhou.liu@aya.yale.edu>
+Date:   Sun Feb 24 14:24:40 2019 -0800
+
+    Merge branch 'master' of https://github.com/jasonmy419/RoboticCourierSystem
+
+[33mcommit df5416c6a63c40de36a696d9b34b0cef26af40eb[m
+Author: liujz08 <jizhou.liu@aya.yale.edu>
+Date:   Sun Feb 24 14:23:57 2019 -0800
+
+    add address info in register.js
+
+[33mcommit 1a9bcc552ee51ca02d3c0b490b20ebd2db27dbd2[m
+Author: Yu Ma <jasonmy419@gmail.com>
+Date:   Sun Feb 24 12:56:41 2019 -0800
+
+    set initial point to SF
+
+[33mcommit 4f9ba1d9a977e462402525c92dd66dd8e0707d7e[m
+Author: Yu Ma <jasonmy419@gmail.com>
+Date:   Sun Feb 24 12:53:39 2019 -0800
+
+    add marker on map, recenter according to dest
+
+[33mcommit d1f3c92683834bee820af425e53c0b3d71e9cedd[m
+Author: liujz08 <jizhou.liu@aya.yale.edu>
+Date:   Sat Feb 23 23:41:54 2019 -0800
+
+    implement md5 password  encryption
+
+[33mcommit 04742d88490fc0b6cea310f5e30b5afa98dda0ed[m
+Author: liujz08 <jizhou.liu@aya.yale.edu>
+Date:   Sat Feb 23 23:22:34 2019 -0800
+
+    fix logout and login
+
+[33mcommit b38c2b41cd142cb741d4378dabb070cd335d1bf2[m
+Author: liujz08 <jizhou.liu@aya.yale.edu>
+Date:   Sat Feb 23 22:57:46 2019 -0800
+
+    updated App.js for web page initialize
+
+[33mcommit 654a5735cdcb9febf34cca3aea4d13f200765e71[m
+Author: liujz08 <jizhou.liu@aya.yale.edu>
+Date:   Sat Feb 23 18:45:51 2019 -0800
+
+    fix:add const USER_ID
+
+[33mcommit 799b3b2cd4cc974a78054445d81655f195d63592[m
+Author: liujz08 <jizhou.liu@aya.yale.edu>
+Date:   Sat Feb 23 18:31:41 2019 -0800
+
+    update validateSession in app.js
+
+[33mcommit 129c53d0283c77084ba08ea6cc349162d01a07be[m
+Author: liujz08 <jizhou.liu@aya.yale.edu>
+Date:   Sat Feb 23 18:06:54 2019 -0800
+
+    update handleLogout in App.js with session method to align with backend
+
+[33mcommit adbea5a83bcc9be833f95f464e951df7a5adee80[m
+Author: liujz08 <jizhou.liu@aya.yale.edu>
+Date:   Sat Feb 23 17:49:37 2019 -0800
+
+    implement data communication with backend in Login.js
+
+[33mcommit 1cff6b2a33979efc5990917499e1b3af711e3362[m
+Author: liujz08 <jizhou.liu@aya.yale.edu>
+Date:   Sat Feb 23 14:38:33 2019 -0800
+
+    update Register with real backend data communication
+
+[33mcommit b1f10a4843f837637dc82da829add85bba28ce43[m
+Merge: c89e1de 3e8b493
+Author: jinglinliang <jinglin@cs.wisc.edu>
+Date:   Fri Feb 22 22:00:52 2019 -0600
+
+    Merge branch 'master' of https://github.com/jasonmy419/RoboticCourierSystem
+
+[33mcommit c89e1de52069d4f3fe8b1ef959811ea3c5946eff[m
+Author: jinglinliang <jinglin@cs.wisc.edu>
+Date:   Fri Feb 22 22:00:41 2019 -0600
+
+    order history
+
+[33mcommit 3e8b4935efd11401d33511016ab79c5904daeed0[m
+Author: Yu Ma <jasonmy419@gmail.com>
+Date:   Fri Feb 22 15:45:29 2019 -0800
+
+    set the center according to the route
+
+[33mcommit 060b658c7743d975c57033ee029913fd13e98204[m
+Merge: 93f4a5d 36b4715
+Author: wyr <ywang5@sdsu.edu>
+Date:   Thu Feb 21 22:07:34 2019 -0800
+
+    fix home jump to payment
+
+[33mcommit 93f4a5d697bd5a660e5c2eff25f565137e9bb290[m
+Author: wyr <ywang5@sdsu.edu>
+Date:   Thu Feb 21 22:03:43 2019 -0800
+
+    fix home jump to payment
+
+[33mcommit 36b4715b70053fc4ac8c51d45a2055cfd14c8197[m
+Author: Yu Ma <jasonmy419@gmail.com>
+Date:   Wed Feb 20 21:03:40 2019 -0800
+
+    add getCenter func for future change
+
+[33mcommit 6613219e3dc109ce6458ae366423f7c32c24257a[m
+Author: wyr <ywang5@sdsu.edu>
+Date:   Wed Feb 20 20:35:30 2019 -0800
+
+    route can show in the map
+
+[33mcommit e86b28a8fb579e20bda85121fe349ee13d9e1428[m
+Merge: a86dd78 657d424
+Author: wyr <ywang5@sdsu.edu>
+Date:   Wed Feb 20 14:55:23 2019 -0800
+
+    show routes and pass to map
+
+[33mcommit a86dd780d4d00fa058ffcabfac4ceee143acbda7[m
+Author: wyr <ywang5@sdsu.edu>
+Date:   Wed Feb 20 14:51:24 2019 -0800
+
+    get routes, show it in home, pass to map
+
+[33mcommit 657d424e72dceaf48159718c00c47247fa4b41da[m
+Author: Yu Ma <jasonmy419@gmail.com>
+Date:   Wed Feb 20 14:43:57 2019 -0800
+
+    render route according to response
+
+[33mcommit f58dd03c9ea9d0e24792d33a3bce6ac46d6c23a9[m
+Author: Yu Ma <jasonmy419@gmail.com>
+Date:   Wed Feb 20 11:00:25 2019 -0800
+
+    test
+
+[33mcommit 22b3c8f1cf7ddf2fba742826a79dbd2a4de1828f[m
+Author: Yu Ma <jasonmy419@gmail.com>
+Date:   Wed Feb 20 10:54:01 2019 -0800
+
+    nothing
+
+[33mcommit ce3b689fbb74a9701933f11d6bcb30fa42966989[m
+Author: Yu Ma <jasonmy419@gmail.com>
+Date:   Wed Feb 20 01:43:19 2019 -0800
+
+    render route from decoding backend data polyline
+
+[33mcommit c796a38639eb81789ab9424111455ed1318d536e[m
+Author: Yu Ma <jasonmy419@gmail.com>
+Date:   Tue Feb 19 22:55:19 2019 -0800
+
+    nothing
+
+[33mcommit 712a6373bbd4a6e8fd533264ed68b521d0a9993f[m
+Author: Yu Ma <jasonmy419@gmail.com>
+Date:   Tue Feb 19 10:12:33 2019 -0800
+
+    change app logo, redesign orders routing
+
+[33mcommit f4c57a6ca5298f2466182ce4058ada867972e87c[m
+Author: Yu Ma <jasonmy419@gmail.com>
+Date:   Tue Feb 19 00:40:40 2019 -0800
+
+    add order page, UI improvement
+
+[33mcommit 7879b03e71344a8391ee9327919fa2fb3ae7859d[m
+Author: jinglinliang <jinglin@cs.wisc.edu>
+Date:   Mon Feb 18 23:07:21 2019 -0600
+
+    confirmation.css
+
+[33mcommit 68605c9a0dd64253efb4d94dcc7faee890cf5c2f[m
+Author: yaran zhang <yaranzhang@yarans-MacBook-Pro.local>
+Date:   Mon Feb 18 19:52:04 2019 -0500
+
+    change some buttom and json information
+
+[33mcommit f29cd660c88766579c2a0dcb97b0b75241513035[m
+Author: wyr <ywang5@sdsu.edu>
+Date:   Mon Feb 18 16:06:50 2019 -0800
+
+    pass respose from order to map
+
+[33mcommit 079aa5575b8f252b76d704aa1249841a714c53b8[m
+Author: jinglinliang <jinglin@cs.wisc.edu>
+Date:   Mon Feb 18 17:04:24 2019 -0600
+
+    fix error in Main.js
+
+[33mcommit 303fb0fa83159312942216846d2b45344b7a7b10[m
+Author: jinglinliang <jinglin@cs.wisc.edu>
+Date:   Mon Feb 18 16:37:14 2019 -0600
+
+    confirmation takes props now
+
+[33mcommit 9ac4ca92ed32bec2b21f0b14732c124a127985cd[m
+Author: Yu Ma <jasonmy419@gmail.com>
+Date:   Sun Feb 17 22:53:55 2019 -0800
+
+    try to render router by passing down values, but did not work
+
+[33mcommit a11defda4d8f206769810b9b5e45812de3f32e8e[m
+Author: Yu Ma <jasonmy419@gmail.com>
+Date:   Sun Feb 17 22:10:33 2019 -0800
+
+    used a new react google map lib, rendered a route
+
+[33mcommit aab69d7dbd5fe1e9737b5c0f11da9ee2b0626047[m
+Author: Yu Ma <jasonmy419@gmail.com>
+Date:   Sun Feb 17 11:09:05 2019 -0800
+
+    play with map
+
+[33mcommit e8d6286d69053e33dd482620811a43140c5a1c68[m
+Author: Yu Ma <jasonmy419@gmail.com>
+Date:   Sun Feb 17 10:25:56 2019 -0800
+
+    remove map api key
+
+[33mcommit 933c74eaf2427f4af7d5f758e2e88040888a35e4[m
+Author: Yu Ma <jasonmy419@gmail.com>
+Date:   Sun Feb 17 10:16:44 2019 -0800
+
+    change Map API key
+
+[33mcommit d57ee7da810039a635d618683ca27fd738051e5c[m
+Author: wyr <ywang5@sdsu.edu>
+Date:   Sat Feb 16 21:56:28 2019 -0800
+
+    order address to server
+
+[33mcommit 062844c4c7492162375fd426da0d5fe762b3f8f0[m
+Author: wyr <ywang5@sdsu.edu>
+Date:   Mon Feb 11 21:01:13 2019 -0800
+
+    feb11
+
+[33mcommit e9f29ca81aca0040ce8bcf44526a9e6a8a5cd7b7[m
+Author: liujz08 <jizhou.liu@aya.yale.edu>
+Date:   Mon Feb 11 20:06:50 2019 -0800
+
+    update login and register(no data communication with backend yet)
+
+[33mcommit f5ee8c7ef021aaa45f1f6e3523c885b759ea0249[m
+Merge: c84bbf0 68d1590
+Author: liujz08 <jizhou.liu@aya.yale.edu>
+Date:   Mon Feb 11 19:57:02 2019 -0800
+
+    pull from origin
+
+[33mcommit 68d1590ad155bdeb33419177db3380297962082e[m
+Author: yaran zhang <yaranzhang@yarans-MacBook-Pro.local>
+Date:   Mon Feb 11 19:41:22 2019 -0500
+
+    payment
+
+[33mcommit be59d8d63adf18173ddbe728d3aad53880dd4f16[m
+Author: Yu Ma <jasonmy419@gmail.com>
+Date:   Mon Feb 11 16:20:35 2019 -0800
+
+    add three robots stations
+
+[33mcommit 587fc6fd229d66f8e85a701e92e3a90170e0b66f[m
+Author: Yu Ma <jasonmy419@gmail.com>
+Date:   Mon Feb 11 16:08:06 2019 -0800
+
+    reorganize the payment page
+
+[33mcommit c84bbf07dae8ad0297bf918a6a9c26eb7de6e912[m
+Author: liujz08 <jizhou.liu@aya.yale.edu>
+Date:   Sun Feb 10 23:01:14 2019 -0800
+
+    update Register.js with dummy login function(no data communication with backend)
+
+[33mcommit af2b95169cad8141e9afc926b37f94a35a3455db[m
+Author: wyr <ywang5@sdsu.edu>
+Date:   Sun Feb 10 22:57:24 2019 -0800
+
+    wyr_feb10
+
+[33mcommit 9df555e7dab92efbd1f380c9cb602579a30193ff[m
+Author: liujz08 <jizhou.liu@aya.yale.edu>
+Date:   Sun Feb 10 22:50:12 2019 -0800
+
+    update Login.js with dummy login function(no data communication with backend)
+
+[33mcommit fbe4c8e0c29eb16e0c0e9d589bc8a081b7a34ce5[m
+Author: liujz08 <jizhou.liu@aya.yale.edu>
+Date:   Sun Feb 10 22:42:58 2019 -0800
+
+    update package.json with react-router-dom installation; update Main.js with Router feature
+
+[33mcommit c20c5a64c3b1494b96d379a0c6947e5d713507a3[m
+Author: liujz08 <jizhou.liu@aya.yale.edu>
+Date:   Sun Feb 10 22:22:39 2019 -0800
+
+    update TopBar.js to accomodate login status verification
+
+[33mcommit 81139eb31fb766708e5482f9aada55186e49c450[m
+Author: liujz08 <jizhou.liu@aya.yale.edu>
+Date:   Sun Feb 10 21:12:34 2019 -0800
+
+    add login component(data communication with backend to be completed)
+
+[33mcommit fdb9a55d1245d5f8f302cda994532c6c5eb76b2b[m
+Author: Yu Ma <jasonmy419@gmail.com>
+Date:   Sun Feb 10 21:11:06 2019 -0800
+
+    add a pin on map center, change App name
+
+[33mcommit e29f241c6a332341aed4e71a0c8012122839a62d[m
+Author: liujz08 <jizhou.liu@aya.yale.edu>
+Date:   Sun Feb 10 21:06:10 2019 -0800
+
+    add register component
+
+[33mcommit eb57d4ae7c759046ee232256220afc3282ced433[m
+Author: Yu Ma <jasonmy419@gmail.com>
+Date:   Sun Feb 10 19:52:09 2019 -0800
+
+    initialize home.js
+
+[33mcommit f840da4800e2323c28afc458b3adfa16fd1e299f[m
+Author: Yu Ma <jasonmy419@gmail.com>
+Date:   Sun Feb 10 19:50:13 2019 -0800
+
+    UI changes
+
+[33mcommit 8c82295b92f1c5b01c06330b9d474250ab4f499c[m
+Author: Yu Ma <jasonmy419@gmail.com>
+Date:   Sun Feb 10 17:30:27 2019 -0800
+
+    configured react-router, relocate files, minor UI changes
+
+[33mcommit baf7b1d5a8f2712e3b7a0b78882a45b14ffb762f[m
+Author: yaran zhang <yaranzhang@yarans-MacBook-Pro.local>
+Date:   Mon Feb 4 19:06:43 2019 -0500
+
+    rename payment files
+
+[33mcommit ef95b7b87415b829671b0c68934b3adb57af4ffd[m
+Author: yaran zhang <yaranzhang@yarans-MacBook-Pro.local>
+Date:   Mon Feb 4 18:15:29 2019 -0500
+
+    add payment page
+
+[33mcommit 76b68a8edb87d55ad36e090ca49fbb11b2614f14[m
+Author: wyr <ywang5@sdsu.edu>
+Date:   Sun Feb 3 20:07:38 2019 -0800
+
+    sunday_yw
+
+[33mcommit 031d8460cf6f60646e9f6b7415410b533026d32e[m
+Author: yujiangliu <yujiangliu@bytedance.com>
+Date:   Sat Feb 2 16:53:06 2019 -0600
+
+    init ignore rule
+    
+    Change-Id: Iba31a35c279f024a5700d92668f3b3f21de65eab
+
+[33mcommit a09dc1a42bba76a0aa03f77d79839855501bdbb1[m
+Author: yujiangliu <yujiangliu@bytedance.com>
+Date:   Sat Feb 2 16:50:54 2019 -0600
+
+    uodate .gitignore
+    
+    Change-Id: I370dd3f593c0ecf01c1e790560cd9a356bfc4aeb
+
+[33mcommit c42ddd02c1e2a24e76af726f5fcce6150d55efb4[m
+Merge: b658e81 a4b3788
+Author: jinglinliang <jliang54@wisc.edu>
+Date:   Fri Feb 1 16:06:58 2019 -0600
+
+    Merge branch 'master' of https://github.com/jasonmy419/RoboticCourierSystem
+
+[33mcommit b658e8159c33e1dcc5b2e89864a2d3093af456e6[m
+Author: jinglinliang <jliang54@wisc.edu>
+Date:   Fri Feb 1 16:03:06 2019 -0600
+
+    Implemented a simple confirmation page and a status bar
+
+[33mcommit a4b378878eabeab895854b353b373efd2294dfdf[m[33m ([m[1;31morigin/frontend[m[33m)[m
+Author: Yu Ma <jasonmy419@gmail.com>
+Date:   Fri Feb 1 13:06:47 2019 -0800
+
+    removed unused folder
+
+[33mcommit 614c08b1a94ede65ea17acc72a0c7e1593b219aa[m
+Author: Yu Ma <jasonmy419@gmail.com>
+Date:   Fri Feb 1 12:59:03 2019 -0800
+
+    recenter the map to SF, still working on the map display
+
+[33mcommit c7871c402153dc1e6966d65f5bb6c98a01cb52ca[m
+Author: Yu Ma <jasonmy419@gmail.com>
+Date:   Fri Feb 1 12:36:12 2019 -0800
+
+    set up react app
+
+[33mcommit a6d323240aa5b2e7dfe7fb3190acf8af4b46870a[m
+Author: Yu Ma <jasonmy419@gmail.com>
+Date:   Thu Jan 31 22:02:53 2019 -0800
+
+    setup react app
+
+[33mcommit 312eb29dfd9e0a7ebd882cad8e9821389dae910a[m
+Author: Yu Ma <jasonmy419@gmail.com>
+Date:   Thu Jan 31 21:43:40 2019 -0800
+
+    Initial commit from Create React App

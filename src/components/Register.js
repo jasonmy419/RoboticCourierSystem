@@ -23,7 +23,8 @@ class RegistrationForm extends React.Component {
           method: 'POST',
           body: JSON.stringify({
             user_id: values.username,
-            password: md5(values.username + md5(values.password)),
+            password: values.password,
+            //password: md5(values.username + md5(values.password)),
             first_name: values.firstname,
             last_name: values.lastname,
             street_num: values.streetnumber,
