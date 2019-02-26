@@ -244,8 +244,13 @@ public class DBConnection {
 			stmt.setString(1, UserId);
 			ResultSet rs = stmt.executeQuery();
 			String orderId = null;
+			JSONArray arr = new JSONArray();
+			JSONObject obj = new JSONObject();
 			while (rs.next()) {
 				orderId = rs.getString("order_id");
+				obj.put("unfinished_order", orderId);
+				arr.put(obj);
+				System.out.println(obj);
 			}
 
 			if (orderId != null) {
@@ -338,7 +343,7 @@ public class DBConnection {
 		if (conn == null) {
 			System.err.println("DB connection failed from src/db/DBConnection -> getPaymentInfo");
 		}
-		String str = null;
+
 		JSONArray array = new JSONArray();
 		try {
 			JSONObject obj = new JSONObject();
