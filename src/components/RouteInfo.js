@@ -7,7 +7,7 @@ export class RouteInfo extends React.Component {
         const hour = parseInt(time / 3600);
         const minute = parseInt((time % 3600) / 60);
         const second = (time % 60);
-        return hour + ":" + minute + ":" + second;
+        return hour == 0 ? minute + ":" + second : hour + ":" + minute + ":" + second;
     }
 
     render() {

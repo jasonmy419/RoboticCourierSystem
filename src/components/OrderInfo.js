@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { RouteInfo } from "./RouteInfo";
 import NumberFormat from 'react-number-format';
 
+
 class OrderInfoForm extends React.Component {
     state = {
         pickUpAddr: [],
@@ -13,6 +14,7 @@ class OrderInfoForm extends React.Component {
         price: 0.00,
         chosenRoute: '',
     }
+
     // handleSubmit = (e) => {
     //     e.preventDefault();
     //     this.props.form.validateFieldsAndScroll((err, values) => {
@@ -43,23 +45,22 @@ class OrderInfoForm extends React.Component {
                 } else if (!tmpDelivery) {
                     message.error('Delivery address is invalid!');
                     return;
-                } else {
+                }
                     this.setState({
                         pickUpAddr : tmpPickingUp,
                         deliveryAddr : tmpDelivery
-                    })
-                }
+                    });
                 // send request
                 console.log("route",JSON.stringify({
                     waypoint: {
-                        street_number: this.state.pickUpAddr[0],
-                        street_name: this.state.pickUpAddr[1],
-                        city: this.state.pickUpAddr[2],
+                        street_number: tmpPickingUp[0],
+                        street_name: tmpPickingUp[1],
+                        city: tmpPickingUp[2],
                     },
                     destination: {
-                        street_number: this.state.deliveryAddr[0],
-                        street_name: this.state.deliveryAddr[1],
-                        city: this.state.deliveryAddr[2],
+                        street_number: tmpDelivery[0],
+                        street_name: tmpDelivery[1],
+                        city: tmpDelivery[2],
                     },
                     size: values.itemSize,
                     user_id: "123"
@@ -71,16 +72,16 @@ class OrderInfoForm extends React.Component {
                     //     password: values.deliveryAddress,
                     // }),
                     body: JSON.stringify({
-                            waypoint: {
-                                street_number: this.state.pickUpAddr[0],
-                                street_name: this.state.pickUpAddr[1],
-                                city: this.state.pickUpAddr[2],
-                            },
-                            destination: {
-                                street_number: this.state.deliveryAddr[0],
-                                street_name: this.state.deliveryAddr[1],
-                                city: this.state.deliveryAddr[2],
-                            },
+                        waypoint: {
+                            street_number: tmpPickingUp[0],
+                            street_name: tmpPickingUp[1],
+                            city: tmpPickingUp[2],
+                        },
+                        destination: {
+                            street_number: tmpDelivery[0],
+                            street_name: tmpDelivery[1],
+                            city: tmpDelivery[2],
+                        },
                             size: values.itemSize,
                             user_id: "123"
                         }
