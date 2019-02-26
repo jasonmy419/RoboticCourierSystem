@@ -78,7 +78,7 @@ public class Reservation extends HttpServlet {
 			String endCity = arr.get(2).toString();
 			String endAddressId = conn.setAddress(endStreeNumber, endStreeName, endCity);
 			
-			String courierId = input.getString("couier_id");
+			String courierId = input.getString("courier_id");
 			String userId = input.getString("user_id");
 			
 			Order ord = new Order.OrderBuilder()
