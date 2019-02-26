@@ -116,7 +116,7 @@ class OrderInfoForm extends React.Component {
     }
 
     onClick = () => {
-        // this.props.history.push('/payment');
+        this.props.history.push('/payment');
         console.log(JSON.stringify({
             'waypoint': this.state.pickUpAddr,
             'destination': this.state.deliveryAddr,
@@ -166,6 +166,10 @@ class OrderInfoForm extends React.Component {
         this.setState({price : e.target.value});
         this.setState({chosenRoute : e.target.value});
         this.props.handleResponse(this.state.routes.filter((route) => route.price === e.target.value));
+    }
+
+    onSelect = (e) => {
+        console.log(`radio checked:${e.target.value}`);
     }
 
     render() {
@@ -225,8 +229,8 @@ class OrderInfoForm extends React.Component {
                         {getFieldDecorator('itemSize', {
                             rules: [{ required: true, message: 'Please select your item size!'}],
                         })(
-                            <Radio.Group>
-                                <Radio value="SMALL">Small</Radio>
+                            <Radio.Group onChange={this.onSelect}>
+                                <Radio value="SMALL" htmlType="submit">Small</Radio>
                                 <Radio value="MEDIUM">Medium</Radio>
                                 <Radio value="LARGE">Large</Radio>
                             </Radio.Group>
