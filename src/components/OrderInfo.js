@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Button, Card, message, Radio, Spin } from 'antd';
+import { Form, Input, Button, Card, message, Radio, Spin, Select } from 'antd';
 import { API_ROOT, proxyurl, NUMBER, WORD } from "../constants";
 import { RouteInfo } from "./RouteInfo";
 import NumberFormat from 'react-number-format';
@@ -187,11 +187,25 @@ class OrderInfoForm extends React.Component {
             });
     }
 
-    onChange = (e) => {
+    onSelectRoute = (e) => {
         console.log(`radio checked:${e.target.value}`);
         this.setState({price : e.target.value});
         this.setState({chosenRoute : e.target.value});
         this.props.handleResponse(this.state.routes.filter((route) => route.price === e.target.value));
+    }
+
+    onSelectRoute1 = (value) => {
+        console.log(`selected ${value}`);
+        this.setState({price : value});
+        this.setState({chosenRoute : value});
+        this.props.handleResponse(this.state.routes.filter((route) => route.price === value));
+    }
+
+    getDuration = (time) => {
+        const hour = parseInt(time / 3600);
+        const minute = parseInt((time % 3600) / 60);
+        const second = (time % 60);
+        return hour == 0 ? minute + ":" + second : hour + ":" + minute + ":" + second;
     }
 
     render() {
@@ -267,17 +281,24 @@ class OrderInfoForm extends React.Component {
                         </Form.Item>
                     ) : this.state.isLoading ? (
                         <Form.Item>
-                            <Spin size="large" />
+                            <Spin size="large" tip="Loading..."/>
                         </Form.Item>) : (
                         <div>
                         <Form.Item
                         {...formItemLayout}
-                        label="Recommended Routes"
+                        label="Routes"
                     >
-                        {getFieldDecorator('radio-button')(
-                            <Radio.Group buttonStyle="solid" onChange={this.onChange}>
-                                {this.state.routes.map((route, index) => <RouteInfo route={route} key={index} index={index}/>)}
-                            </Radio.Group>
+                        {getFieldDecorator('route-select', {
+                            rules: [{ required: true, message: 'Please select a route!'}],
+                        })(
+                            /*<Radio.Group buttonStyle="solid" onChange={this.onSelectRoute}>*/
+                                /*{this.state.routes.map((route, index) => <RouteInfo route={route} key={index} index={index}/>)}*/
+                            /*</Radio.Group>*/
+                            <Select onChange={this.onSelectRoute1}
+                                    placeholder="Select a route">
+                                {this.state.routes.map((route, index) =>
+                                    <Select.Option value={route.price} key={index}>{route.mode} {this.getDuration(route.duration)}</Select.Option>)}
+                            </Select>
                         )}
                     </Form.Item>
                         <Form.Item
@@ -287,7 +308,7 @@ class OrderInfoForm extends React.Component {
                         <NumberFormat value={this.state.price} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} />
                         </Form.Item>
                         <Form.Item {...tailFormItemLayout}>
-                            <Button type="primary" className="button" onClick={this.onPlaceOrder}>
+                            <Button type="primary" onClick={this.onPlaceOrder}>
                             Place Order
                             </Button>
                          </Form.Item>
