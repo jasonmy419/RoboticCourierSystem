@@ -96,6 +96,62 @@ public class DirectionsAPI {
 		}
 		return routes;
 	}
+	
+	public int returnDuration(Address origin, Address destination) {
+
+		GeocodingAPI api = new GeocodingAPI();
+		api.geocoding(origin);
+		api.geocoding(destination);
+		
+
+		String query = String.format("%s&mode=%s&alternatives=%s&key=%s&avoid=tolls|highways|ferries",
+				this.generateTwoQuery(origin, destination),
+				TRAVEL_MODE,
+				ALTERNATIVES,
+				GoogleMapAPIUtil.API_KEY);
+		String url = GoogleMapAPIUtil.PREFIX + METHOD + GoogleMapAPIUtil.OUTPUT_FORMAT + "?" + query;
+		int duration = Integer.MAX_VALUE;
+		try {
+			HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+			connection.setRequestMethod("GET");
+
+			int responseCode = connection.getResponseCode();
+			System.out.println("Sending request to url: " + url);
+			System.out.println("Response code: " + responseCode);
+
+			if (responseCode != 200) {
+				throw new Exception("responseCode: " + responseCode);
+			}
+
+			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			String line;
+			StringBuilder response = new StringBuilder();
+
+			while ((line = reader.readLine()) != null) {
+				response.append(line);
+			}
+			reader.close();
+
+			JSONObject obj = new JSONObject(response.toString());
+
+			// System.out.println(obj.toString(4));
+
+			if (obj.get("status").equals("OK") && !obj.isNull("routes")) {
+				JSONArray array = obj.getJSONArray("routes");
+				System.out.println("Route numbers: " + array.length());
+				for (int i = 0; i < array.length(); i++) {
+					Route tmp = routeParse(array.getJSONObject(i), ItemSize.SMALL, origin);
+//					routes.add(tmp);
+					duration = Math.min(duration, tmp.getDuration());
+				}
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return duration;
+	}
 
 	private Route routeParse(JSONObject object, ItemSize size, Address origin) throws JSONException, UnsupportedEncodingException {
 
@@ -165,6 +221,25 @@ public class DirectionsAPI {
 
 		return routeBuilder.build();
 	}
+	
+	private String generateTwoQuery(Address origin, Address destination) {
+		// all 3 input should follow same format
+		String prefix = null;
+		String query = null;
+		
+		switch(origin.getResponseType()) {
+		case PLACE_ID:
+			prefix = "origin=place_id:%s&destination=place_id:%s";
+			query = String.format(prefix, origin.getPlaceID(), destination.getPlaceID());
+			break;
+		case COORDINATE:
+			prefix = "origin=%s&destination=%s";
+			query = String.format(prefix, origin.getCoordinate(), destination.getCoordinate());
+			break;
+		}
+		return query;
+	}
+
 	
 	private String generateQuery(Address origin, Address waypoint, Address destination) {
 		// all 3 input should follow same format
