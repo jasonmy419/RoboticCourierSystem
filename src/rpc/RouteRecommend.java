@@ -19,6 +19,7 @@ import org.json.JSONObject;
 import entity.Address;
 import entity.Route;
 import entity.Route.RouteBuilder;
+import entity.TravelMode;
 import entity.Address.AddressBuilder;
 import entity.ItemSize;
 import external.CalculateFlightDistance;
@@ -163,13 +164,11 @@ public class RouteRecommend extends HttpServlet {
 			fastRoute.put("way_point", waypointInfo);
 			fastRoute.put("destination_point", destPointInfo);
 
-			fastRoute.put("station_point", StationAddress.getStationAddress(routes.get(0).getCourierID()));
+			JSONObject fast_station = StationAddress.getStationAddress(routes.get(0).getCourierID());
+			fastRoute.put("station_point", fast_station);
 			
-			CalculateFlightDistance distanceAPI = new CalculateFlightDistance();
-			JSONObject fast_obj = StationAddress.getStationAddress(routes.get(0).getCourierID());
-			double retTime = distanceAPI.returnTime(destination.getLatitude(), destination.getLongitude(), 
-					fast_obj.getDouble("station_lat"), fast_obj.getDouble("station_lon"));
-			fastRoute.put("courier_return_time", retTime);
+			int fast_duration = calculateReturnTime(routes.get(0), fast_station, destination, destination_place);
+			fastRoute.put("courier_return_time", fast_duration);
 			
 			res.put(fastRoute);
 			
@@ -195,13 +194,12 @@ public class RouteRecommend extends HttpServlet {
 			
 			cheapRoute.put("way_point", waypointInfo);
 			cheapRoute.put("destination_point", destPointInfo);
-			cheapRoute.put("station_point", StationAddress.getStationAddress(routes.get(0).getCourierID()));
 			
-			JSONObject newObj = StationAddress.getStationAddress(routes.get(0).getCourierID());
-			Address station_place = new AddressBuilder().parseJson(newObj, 2);
-			DirectionsAPI directionsAPI = new DirectionsAPI();
-			int dur = directionsAPI.returnDuration(destination_place, station_place);
-			cheapRoute.put("courier_return_time", dur);
+			JSONObject cheap_station = StationAddress.getStationAddress(routes.get(0).getCourierID());
+			cheapRoute.put("station_point", cheap_station);
+			
+			int cheap_duration = calculateReturnTime(routes.get(0), cheap_station, destination, destination_place);
+			cheapRoute.put("courier_return_time", cheap_duration);
 			res.put(cheapRoute);
 			
 			
@@ -211,5 +209,20 @@ public class RouteRecommend extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
+	}
+	
+	private int calculateReturnTime(Route route, JSONObject station, Address destination, Address destination_place) throws JSONException {
+		int duration = 0;
+		if (route.getMode() == TravelMode.FLYING) {
+			CalculateFlightDistance distanceAPI = new CalculateFlightDistance();
+			duration = distanceAPI.returnTime(destination.getLatitude(), destination.getLongitude(), 
+					station.getDouble("station_lat"), station.getDouble("station_lon"));
+		}
+		else if (route.getMode() == TravelMode.WALKING) {
+			Address station_place = new AddressBuilder().parseJson(station, 2);
+			DirectionsAPI directionsAPI = new DirectionsAPI();
+			duration = directionsAPI.returnDuration(destination_place, station_place);
+		}
+		return duration;
 	}
 }
