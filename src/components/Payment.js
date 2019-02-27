@@ -105,8 +105,9 @@ class PaymentFrom extends React.Component {
         };
 
         return (
-            <Form onSubmit={this.handleSubmit} className="payment">
 
+            <Form onSubmit={this.handleSubmit} className="payment">
+                <h2>Billing Information</h2>
                 {/*<p>USER INFORMANTIOM</p>*/}
 
                 <Form.Item
@@ -222,7 +223,7 @@ class PaymentFrom extends React.Component {
                     )}
                 </Form.Item>
 
-                <p>Card Information</p>
+
 
                 <Form.Item
                     {...formItemLayout}
