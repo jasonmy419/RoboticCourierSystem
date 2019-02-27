@@ -46,6 +46,35 @@ public class DBConnection {
 			}
 		}
 	}
+	
+	// Check the ratio of available couriers to total couriers in particular station
+	public double getCourierRatio (String station_id, String type) {
+		if (conn == null) {
+			return 0;
+		}
+		Timestamp time = null;
+		int totalCount = 0, availableCount = 0;
+		try {
+			String sql = "SELECT time FROM couriers WHERE station_id = ? AND type = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+
+			stmt.setString(1, station_id);
+			stmt.setString(2, type);
+			ResultSet rs = stmt.executeQuery();
+			Timestamp current_time = new Timestamp((new Date()).getTime());
+			while (rs.next()) {
+				time = rs.getTimestamp("time");
+				totalCount++;
+				if (current_time.after(time)) {
+					availableCount++;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		if (totalCount == 0) return 0;
+		return availableCount * 1.0 / totalCount;
+	}
 
 	public JSONObject getParticularStationByCourierID(String courierID) {
 		if (conn == null) {
