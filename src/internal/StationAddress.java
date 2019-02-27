@@ -61,5 +61,20 @@ public class StationAddress {
 		
 		return obj;
 	}
+	
+	public static String getStationAddressByPlaceID(String street_num, String street_name, String city) {
+		DBConnection conn = new DBConnection();
+		String obj = null;
+		try {
+			obj = conn.getParticularStationByPlace(street_num, street_name, city);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			conn.close();
+		}
+		
+		return obj;
+	}
 
 }
