@@ -12,14 +12,9 @@
 
 .button {
     margin-left: 30px;
-    background-color: #7289da;
-    border: #7289da;;
 }
-.button :hover{
-    background-color: #7289da;
-    border: #7289da;;
-}
+
 .h1{
     padding-bottom: 20px;
-    color: #7289da;
+
 }

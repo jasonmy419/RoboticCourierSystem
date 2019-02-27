@@ -222,7 +222,7 @@ class PaymentFrom extends React.Component {
                     )}
                 </Form.Item>
 
-                <p>CARD INFORMANTIOM</p>
+                <p>Card Information</p>
 
                 <Form.Item
                     {...formItemLayout}
