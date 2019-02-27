@@ -117,6 +117,14 @@ public class RouteRecommend extends HttpServlet {
 					System.out.println("ID is" + r.getCourierID());
 				}
 			}
+			
+			// Show error warning when no routes recommended!
+			if (routes.size() == 0) {
+				JSONObject errorWarning = new JSONObject();
+				errorWarning.put("Error: ", "No routes recommended!");
+				RpcHelper.writeJsonObject(response, errorWarning);
+				return;
+			}
 			System.out.println("The size of routes is "+ routes.size());
 			
 			for (int i = 0; i < routes.size();i++) {
@@ -211,6 +219,7 @@ public class RouteRecommend extends HttpServlet {
 		} 
 	}
 	
+	// The time spent when machine returns from destination to corresponding station
 	private int calculateReturnTime(Route route, JSONObject station, Address destination, Address destination_place) throws JSONException {
 		int duration = 0;
 		if (route.getMode() == TravelMode.FLYING) {
