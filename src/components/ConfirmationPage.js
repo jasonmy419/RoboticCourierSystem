@@ -58,8 +58,6 @@ export class ConfirmationPage extends Component {
                     containerElement={<div style={{ height: `900px` }} />}
                     mapElement={<div style={{ height: `100%` }} />}
                     response={this.props.response}
-                    // posts={this.state.posts}
-                    // loadNearbyPosts={this.state.topic === "around" ? this.loadNearbyPosts: this.loadFacesAroundTheWorld}
                 />
             </div>
         );
