@@ -22,6 +22,7 @@ import entity.Route;
 import entity.Route.RouteBuilder;
 import internal.CalculatePrice;
 import internal.GetAvailableCourier;
+import internal.StationAddress;
 import entity.State;
 import entity.TravelMode;
 import entity.ItemSize;
@@ -200,8 +201,13 @@ public class DirectionsAPI {
 				routeBuilder.setRoute(Polylines);
 				routeBuilder.setTravelMode(TravelMode.WALKING);
 			}
+			
+			// Set up route price
 			double price = CalculatePrice.getPrice(leg.getJSONObject("duration").getInt("value"), 
 					leg.getJSONObject("distance").getInt("value"), TravelMode.WALKING, size);
+			String station_id = StationAddress.getStationAddressByPlaceID(origin.getStreetNum(), 
+					origin.getStreetName(), origin.getCity());
+			price = CalculatePrice.priceFluctuation(price, station_id, TravelMode.WALKING);
 			
 			routeBuilder.setPrice(price);
 			
@@ -212,8 +218,6 @@ public class DirectionsAPI {
 			routeBuilder.setPolylineOverview(object.getJSONObject("overview_polyline"));
 		}
 		
-		//			String courierID = GetAvailableCourier.getAvailableCourierByCoordinate(origin.getLatitude(), 
-//					origin.getLongitude(), "Robot");
 			String courierID = GetAvailableCourier.getAvailableCourierByPlace(origin.getStreetNum(),
 					origin.getStreetName(), origin.getCity(), "Robot");
 //			System.out.println("s in directionAPI is " + courierID);
