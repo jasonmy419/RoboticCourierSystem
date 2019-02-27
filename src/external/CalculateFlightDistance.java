@@ -18,6 +18,7 @@ import internal.CalculatePrice;
 import entity.TravelMode;
 import entity.ItemSize;
 import internal.GetAvailableCourier;
+import internal.StationAddress;
 
 public class CalculateFlightDistance {
 	
@@ -63,8 +64,12 @@ public class CalculateFlightDistance {
 			e.printStackTrace();
 		}
 		
+		// Set up route price
 		double price = CalculatePrice.getPrice(first.getDuration() + second.getDuration(), 
 				first.getDistance() + second.getDistance(), TravelMode.FLYING, size);
+		String station_id = StationAddress.getStationAddressByPlaceID(origin.getStreetNum(), 
+				origin.getStreetName(), origin.getCity());
+		price = CalculatePrice.priceFluctuation(price, station_id, TravelMode.FLYING);
 		
 		String courierID = GetAvailableCourier.getAvailableCourierByPlace(origin.getStreetNum(), 
 				origin.getStreetName(), origin.getCity(), "Air");
