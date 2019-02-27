@@ -11,10 +11,13 @@ export class RouteInfo extends React.Component {
     }
 
     render() {
+        const labels = ["FASTEST", "CHEAPEST"];
         const { duration, mode, price } = this.props.route;
+        console.log(this.props.index);
+        const index = this.props.index;
         const time = this.getDuration(duration);
         return (
-            <Radio.Button className="radioButton" value={price}>{mode}, Duration: {time}</Radio.Button>
+            <Radio.Button className="radioButton" value={price}>{mode} {time} {labels[index]}</Radio.Button>
         );
     }
 }
