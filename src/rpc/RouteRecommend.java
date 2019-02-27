@@ -157,7 +157,8 @@ public class RouteRecommend extends HttpServlet {
 				}
 			});
 			
-			
+			JSONObject fast_station = StationAddress.getStationAddress(routes.get(0).getCourierID());
+
 			RouteBuilder fastestRoute = new RouteBuilder();
 			fastestRoute.setDistance(routes.get(0).getDistance());
 			fastestRoute.setDuration(routes.get(0).getDuration());
@@ -168,11 +169,10 @@ public class RouteRecommend extends HttpServlet {
 			fastestRoute.setCourier(routes.get(0).getCourierID());
 			
 			JSONObject fastRoute = fastestRoute.build().toJSONObject();
+			
 			fastRoute.put("size", size);
 			fastRoute.put("way_point", waypointInfo);
 			fastRoute.put("destination_point", destPointInfo);
-
-			JSONObject fast_station = StationAddress.getStationAddress(routes.get(0).getCourierID());
 			fastRoute.put("station_point", fast_station);
 			
 			int fast_duration = calculateReturnTime(routes.get(0), fast_station, destination, destination_place);
@@ -188,6 +188,8 @@ public class RouteRecommend extends HttpServlet {
 				}
 			});
 			
+			JSONObject cheap_station = StationAddress.getStationAddress(routes.get(0).getCourierID());
+			
 			RouteBuilder cheapestRoute = new RouteBuilder();
 			cheapestRoute.setDistance(routes.get(0).getDistance());
 			cheapestRoute.setDuration(routes.get(0).getDuration());
@@ -198,12 +200,10 @@ public class RouteRecommend extends HttpServlet {
 			cheapestRoute.setCourier(routes.get(0).getCourierID());
 			
 			JSONObject cheapRoute = cheapestRoute.build().toJSONObject();
-			cheapRoute.put("size", size);
 			
+			cheapRoute.put("size", size);
 			cheapRoute.put("way_point", waypointInfo);
 			cheapRoute.put("destination_point", destPointInfo);
-			
-			JSONObject cheap_station = StationAddress.getStationAddress(routes.get(0).getCourierID());
 			cheapRoute.put("station_point", cheap_station);
 			
 			int cheap_duration = calculateReturnTime(routes.get(0), cheap_station, destination, destination_place);
@@ -219,7 +219,7 @@ public class RouteRecommend extends HttpServlet {
 		} 
 	}
 	
-	// The time spent when machine returns from destination to corresponding station
+	// The time spent when courier returns from destination to corresponding station
 	private int calculateReturnTime(Route route, JSONObject station, Address destination, Address destination_place) throws JSONException {
 		int duration = 0;
 		if (route.getMode() == TravelMode.FLYING) {
