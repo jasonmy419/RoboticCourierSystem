@@ -421,11 +421,12 @@ public class DBConnection {
 		}
 		JSONArray array = new JSONArray();
 		try {
-			String sql = "SELECT street_number, street_name, city FROM stations";
+			String sql = "SELECT station_id, street_number, street_name, city FROM stations";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				JSONObject obj = new JSONObject();
+				obj.put("station_id", rs.getString("station_id"));
 				obj.put("street_number", rs.getString("street_number"));
 				obj.put("street_name", rs.getString("street_name"));
 				obj.put("city", rs.getString("city"));
