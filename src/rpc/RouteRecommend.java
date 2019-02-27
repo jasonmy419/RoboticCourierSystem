@@ -197,6 +197,11 @@ public class RouteRecommend extends HttpServlet {
 			cheapRoute.put("destination_point", destPointInfo);
 			cheapRoute.put("station_point", StationAddress.getStationAddress(routes.get(0).getCourierID()));
 			
+			JSONObject newObj = StationAddress.getStationAddress(routes.get(0).getCourierID());
+			Address station_place = new AddressBuilder().parseJson(newObj, 2);
+			DirectionsAPI directionsAPI = new DirectionsAPI();
+			int dur = directionsAPI.returnDuration(destination_place, station_place);
+			cheapRoute.put("courier_return_time", dur);
 			res.put(cheapRoute);
 			
 			
