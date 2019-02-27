@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 
 import org.json.JSONObject;
 
+import db.DBConnection;
 import entity.TravelMode;
 import entity.ItemSize;
 import external.CalculateFlightDistance;
@@ -33,5 +34,24 @@ public class CalculatePrice {
 	    double newPrice = Double.parseDouble(priceStr);
 	    
 		return newPrice;	
+	}
+	
+	// Add some factors which can make price fluctuation
+	public static double priceFluctuation(double price, String station_id, TravelMode mode) {
+//		System.out.println("Original price is " + price);
+		double ratio = CourierAvailabilityRatio.priceFluctuation(station_id, mode);
+		if (ratio < 0.1) {
+			price *= 1.2;
+		}
+		else if (ratio < 0.2) {
+			price *= 1.1;
+		}
+//		System.out.println("Current price is " + price);
+		
+		DecimalFormat df = new DecimalFormat("#.00");
+	    String priceStr = df.format(price);
+//	    System.out.println("price is "+ priceStr); 
+	    price = Double.parseDouble(priceStr);
+		return price;
 	}
 }
