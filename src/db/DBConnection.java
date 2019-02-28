@@ -203,6 +203,30 @@ public class DBConnection {
 		return stationList;
 	}
 	
+	public void setCoupon(String userId, int coupon) {
+		
+		if (conn == null) {
+			System.err.println("DB connection failed from src/db/DBConnection -> setCoupon");
+			return;
+		}
+		
+		try {
+			String sql = "UPDATE users SET coupon = ? WHERE user_id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, coupon);
+			stmt.setString(2, userId);
+			int rowsUpdated = stmt.executeUpdate();
+			if (rowsUpdated > 0) {
+				System.out.println("An existing user "+ userId +", was updated successfully!");
+			}
+			return;
+		}  catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("error from src/db/DBConnection -> setCoupon: " + e.getMessage());
+		}
+		
+	}
+	
 	public void setCourierTime(Timestamp courierTime, String courierId) {
 		if (conn == null) {
 			System.err.println("DB connection failed from src/db/DBConnection -> setCourierTime");

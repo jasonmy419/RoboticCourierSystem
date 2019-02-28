@@ -1,6 +1,7 @@
 package rpc;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.UUID;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -23,7 +24,7 @@ import util.Tool;
 @WebServlet("/orders")
 public class Reservation extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	// private static DecimalFormat df = new DecimalFormat(".##");
+	private static DecimalFormat df = new DecimalFormat(".##");
     /**
      * @see HttpServlet#HttpServlet()
      */
