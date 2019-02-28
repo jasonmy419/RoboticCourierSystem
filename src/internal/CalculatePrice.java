@@ -39,7 +39,7 @@ public class CalculatePrice {
 	// Add some factors which can make price fluctuation
 	public static double priceFluctuation(double price, String station_id, TravelMode mode) {
 //		System.out.println("Original price is " + price);
-		double ratio = CourierAvailabilityRatio.priceFluctuation(station_id, mode);
+		double ratio = CourierAvailabilityRatio.courierRatio(station_id, mode);
 		if (ratio < 0.1) {
 			price *= 1.2;
 		}
