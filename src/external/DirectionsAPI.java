@@ -21,6 +21,7 @@ import entity.Polyline.PolylineBuilder;
 import entity.Route;
 import entity.Route.RouteBuilder;
 import internal.CalculatePrice;
+import internal.CourierAvailabilityRatio;
 import internal.GetAvailableCourier;
 import internal.StationAddress;
 import entity.State;
@@ -210,7 +211,8 @@ public class DirectionsAPI {
 			price = CalculatePrice.priceFluctuation(price, station_id, TravelMode.WALKING);
 			
 			routeBuilder.setPrice(price);
-			
+			double courier_ratio = CourierAvailabilityRatio.courierRatio(station_id, TravelMode.FLYING);
+			routeBuilder.setCourierRatio(courier_ratio);
 
 		}
 
