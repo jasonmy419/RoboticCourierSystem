@@ -49,6 +49,7 @@ public class DBConnection {
 	
 	// Check the ratio of available couriers to total couriers in particular station
 	public double getCourierRatio (String station_id, String type) {
+		System.out.println("Type in db: " + type);
 		if (conn == null) {
 			return 0;
 		}
@@ -72,6 +73,8 @@ public class DBConnection {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+//		System.out.println("totalCount in db " + totalCount);
+//		System.out.println("availableCount in db " + availableCount);
 		if (totalCount == 0) return 0;
 		return availableCount * 1.0 / totalCount;
 	}
