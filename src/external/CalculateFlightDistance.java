@@ -15,6 +15,7 @@ import entity.Polyline.PolylineBuilder;
 import entity.Route;
 import entity.Route.RouteBuilder;
 import internal.CalculatePrice;
+import internal.CourierAvailabilityRatio;
 import entity.TravelMode;
 import entity.ItemSize;
 import internal.GetAvailableCourier;
@@ -73,6 +74,7 @@ public class CalculateFlightDistance {
 		
 		String courierID = GetAvailableCourier.getAvailableCourierByPlace(origin.getStreetNum(), 
 				origin.getStreetName(), origin.getCity(), "Air");
+		double courier_ratio = CourierAvailabilityRatio.courierRatio(station_id, TravelMode.FLYING);
 		
 		RouteBuilder builder = new RouteBuilder();
 		builder.setDistance(first.getDistance() + second.getDistance());
@@ -82,6 +84,7 @@ public class CalculateFlightDistance {
 		builder.setPolylineOverview(object);
 		builder.setPrice(price);
 		builder.setCourier(courierID);
+		builder.setCourierRatio(courier_ratio);
 				
 		routes.add(builder.build());
 		
