@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -210,7 +209,7 @@ public class DBTableCreation {
 					+")";
 			statement.executeUpdate(sql);
 
-			Timestamp end = new Timestamp((new Date()).getTime() + 300000);
+			// Timestamp end = new Timestamp((new Date()).getTime() + 300000);
 			sql = "INSERT INTO orders VALUES('sfogbwklskansbbvncs012e','123','xyz','111','D',"
 					+ " 'lavieenrose', 'emanon', ?" 
 					+ ", 996.0, 11.25, 29.83, 'k}qcFjushVf@QFABABAF?D?D@RBB@D?J?N?B?n@JLJJ@LDTDNDNDFBFBDBDBFBFBHB',"

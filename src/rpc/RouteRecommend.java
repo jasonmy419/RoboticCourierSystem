@@ -158,7 +158,7 @@ public class RouteRecommend extends HttpServlet {
 			});
 			
 			JSONObject fast_station = StationAddress.getStationAddress(routes.get(0).getCourierID());
-			double fast_ratio = routes.get(0).getCourierRatio();
+			// double fast_ratio = routes.get(0).getCourierRatio();
 
 			RouteBuilder fastestRoute = new RouteBuilder();
 			fastestRoute.setDistance(routes.get(0).getDistance());

@@ -2,14 +2,8 @@ package internal;
 
 import java.text.DecimalFormat;
 
-import org.json.JSONObject;
-
-import db.DBConnection;
 import entity.TravelMode;
 import entity.ItemSize;
-import external.CalculateFlightDistance;
-import external.DirectionsAPI;
-import rpc.RpcHelper;
 
 public class CalculatePrice {
 

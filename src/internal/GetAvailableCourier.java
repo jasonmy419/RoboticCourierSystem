@@ -1,9 +1,5 @@
 package internal;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
 import db.DBConnection;
 
 public class GetAvailableCourier {
