@@ -158,6 +158,7 @@ public class RouteRecommend extends HttpServlet {
 			});
 			
 			JSONObject fast_station = StationAddress.getStationAddress(routes.get(0).getCourierID());
+			double fast_ratio = routes.get(0).getCourierRatio();
 
 			RouteBuilder fastestRoute = new RouteBuilder();
 			fastestRoute.setDistance(routes.get(0).getDistance());
@@ -167,6 +168,7 @@ public class RouteRecommend extends HttpServlet {
 			fastestRoute.setRoute(routes.get(0).getRoute());
 			fastestRoute.setPrice(routes.get(0).getPrice());
 			fastestRoute.setCourier(routes.get(0).getCourierID());
+			fastestRoute.setCourierRatio(routes.get(0).getCourierRatio());
 			
 			JSONObject fastRoute = fastestRoute.build().toJSONObject();
 			
@@ -178,7 +180,7 @@ public class RouteRecommend extends HttpServlet {
 			int fast_duration = calculateReturnTime(routes.get(0), fast_station, destination, destination_place);
 			fastRoute.put("courier_return_time", fast_duration);
 			
-			res.put(fastRoute);
+			
 			
 			// Sort the route based on distance
 			Collections.sort(routes, new Comparator<Route>() {
@@ -189,6 +191,7 @@ public class RouteRecommend extends HttpServlet {
 			});
 			
 			JSONObject cheap_station = StationAddress.getStationAddress(routes.get(0).getCourierID());
+			double cheap_ratio = routes.get(0).getCourierRatio();
 			
 			RouteBuilder cheapestRoute = new RouteBuilder();
 			cheapestRoute.setDistance(routes.get(0).getDistance());
@@ -198,6 +201,7 @@ public class RouteRecommend extends HttpServlet {
 			cheapestRoute.setPolylineOverview(routes.get(0).getPolyline());
 			cheapestRoute.setPrice(routes.get(0).getPrice());
 			cheapestRoute.setCourier(routes.get(0).getCourierID());
+			cheapestRoute.setCourierRatio(routes.get(0).getCourierRatio());
 			
 			JSONObject cheapRoute = cheapestRoute.build().toJSONObject();
 			
@@ -208,8 +212,47 @@ public class RouteRecommend extends HttpServlet {
 			
 			int cheap_duration = calculateReturnTime(routes.get(0), cheap_station, destination, destination_place);
 			cheapRoute.put("courier_return_time", cheap_duration);
-			res.put(cheapRoute);
 			
+			for (int i = 0; i < routes.size(); i++) {
+				System.out.println("Price is" + routes.get(i).getCourierRatio());
+			}
+			// Recommend route
+			JSONObject recommend_route = null;
+			for (int i = 0; i < routes.size(); i++) {
+//				System.out.println("Routes ratio is RRR " + routes.get(i).getCourierRatio() + "," + routes.get(i).getPrice());
+				if (routes.get(i).getDuration() == fast_duration) break;
+				if (routes.get(i).getCourierRatio() <= cheap_ratio) continue;
+				JSONObject recommend_station = StationAddress.getStationAddress(routes.get(i).getCourierID());
+				
+				RouteBuilder recommendRoute = new RouteBuilder();
+				recommendRoute.setDistance(routes.get(i).getDistance());
+				recommendRoute.setDuration(routes.get(i).getDuration());
+				recommendRoute.setRoute(routes.get(i).getRoute());
+				recommendRoute.setTravelMode(routes.get(i).getMode());
+				recommendRoute.setPolylineOverview(routes.get(i).getPolyline());
+				recommendRoute.setPrice(routes.get(i).getPrice());
+				recommendRoute.setCourier(routes.get(i).getCourierID());
+				recommendRoute.setCourierRatio(routes.get(i).getCourierRatio());
+				
+				recommend_route = recommendRoute.build().toJSONObject();
+				
+				recommend_route.put("size", size);
+				recommend_route.put("way_point", waypointInfo);
+				recommend_route.put("destination_point", destPointInfo);
+				recommend_route.put("station_point", recommend_station);
+				int recommend_duration = calculateReturnTime(routes.get(i), recommend_station, destination, destination_place);
+				recommend_route.put("courier_return_time", recommend_duration);
+				recommend_route.put("isRecommended", true);
+				break;
+			}
+			
+			fastRoute.put("isRecommended", (recommend_route == null) ? true : false);
+			res.put(fastRoute);
+			cheapRoute.put("isRecommended", false);
+			res.put(cheapRoute);
+			if (recommend_route != null) {
+				res.put(recommend_route);
+			}
 			
 			System.out.println(res.length());
 			RpcHelper.writeJsonArray(response, res);
