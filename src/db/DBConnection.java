@@ -8,9 +8,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 import org.json.JSONArray;
@@ -367,7 +365,7 @@ public class DBConnection {
 
 			String cardAddress = null;
 			int zipcode = -1;
-			JSONObject obj = new JSONObject();
+			// JSONObject obj = new JSONObject();
 			while (rs.next()) {
 				cardAddress =  rs.getString("address_line1");
 				zipcode =  rs.getInt("zipcode");
@@ -537,7 +535,7 @@ public class DBConnection {
 		}
 		String name = "";
 
-		Set<String> categories = new HashSet<>();
+		// Set<String> categories = new HashSet<>();
 		try {
 			String sql = "SELECT first_name, last_name FROM users WHERE user_id = ? ";
 			PreparedStatement statement = conn.prepareStatement(sql);

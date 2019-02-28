@@ -60,7 +60,7 @@ public class Signup extends HttpServlet {
 			String streetNum = input.getString("street_num");
 			String streetName = input.getString("street_name");
 			String city = input.getString("city");
-			String state = input.getString("state");
+			// String state = input.getString("state");
 			String zipCode = input.getString("zip_code");
 			
 			// Addr
