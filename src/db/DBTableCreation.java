@@ -67,6 +67,7 @@ public class DBTableCreation {
 
 			sql = "CREATE TABLE address ("
 					+ "address_id VARCHAR(255) NOT NULL,"
+					+ "user_id VARCHAR(255) NOT NULL,"
 					+ "street_num VARCHAR(255)," 
 					+ "street_name VARCHAR(255),"
 					+ "city VARCHAR(255),"
@@ -76,7 +77,7 @@ public class DBTableCreation {
 			statement.executeUpdate(sql);
 
 
-			sql = "INSERT INTO address VALUES('11', '32', 'angle st', 'LA', 'CA')";
+			sql = "INSERT INTO address VALUES('11', '167','32', 'angle st', 'LA', 'CA')";
 			statement.executeUpdate(sql);
 
 			sql = "CREATE TABLE stations ("

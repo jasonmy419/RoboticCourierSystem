@@ -205,7 +205,7 @@ public class DBConnection {
 		return stationList;
 	}
 	
-	public String setAddress(String streetNumber, String streetName, String city) {
+	public String setAddress(String streetNumber, String streetName, String city, String userId) {
 		
 		if (conn == null) {
 			System.err.println("DB connection failed from src/db/DBConnection -> setAddress");
@@ -213,17 +213,41 @@ public class DBConnection {
 		}
 		
 		try {
-			String sql = "INSERT IGNORE INTO address VALUES(?, ?, ?, ?, ?)";
-			PreparedStatement ps = conn.prepareStatement(sql);
-			String addressId = UUID.randomUUID().toString();
-			ps.setString(1,addressId);
-			ps.setString(2, streetNumber);
-			ps.setString(3, streetName);
-			ps.setString(4, city);
-			ps.setString(5, "CA");
-			ps.execute();
-			return addressId;
+			String sql = "SELECT address_id FROM address WHERE user_id = ? AND street_num = ? AND street_name= ? "
+					+ "AND city = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, userId);
+			stmt.setString(2, streetNumber);
+			stmt.setString(3, streetName);
+			stmt.setString(4, city);
 			
+			ResultSet rs = stmt.executeQuery();
+			String addressId = null;
+			JSONArray arr = new JSONArray();
+			JSONObject obj = new JSONObject();
+			while (rs.next()) {
+				addressId = rs.getString("address_id");
+				obj.put("address_id", addressId);
+				arr.put(obj);
+				System.out.println(obj);
+			}
+			
+			if (addressId != null) {
+				return addressId;
+			}  else {
+				sql = "INSERT IGNORE INTO address VALUES(?, ?, ?, ?, ?, ?)";
+				stmt = conn.prepareStatement(sql);
+				addressId = UUID.randomUUID().toString();
+				stmt.setString(1, addressId);
+				stmt.setString(2, userId);
+				stmt.setString(3, streetNumber);
+				stmt.setString(4, streetName);
+				stmt.setString(5, city);
+				stmt.setString(6, "CA");
+				stmt.execute();
+				return addressId;
+			}
+
 		}  catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("error from src/db/DBConnection -> setAddress: " + e.getMessage());

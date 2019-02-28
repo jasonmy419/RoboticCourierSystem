@@ -64,22 +64,23 @@ public class Reservation extends HttpServlet {
 			String itemId = UUID.randomUUID().toString();
 			String orderId = UUID.randomUUID().toString();
 			boolean complete = false;
+			String userId = input.getString("user_id");
 			
 			JSONArray arr = (JSONArray)input.get("waypoint");
 			String startStreeNumber = arr.get(0).toString();
 			String startStreeName = arr.get(1).toString();
 			String startCity = arr.get(2).toString();
-			String startAddressId = conn.setAddress(startStreeNumber, startStreeName, startCity);
+			String startAddressId = conn.setAddress(startStreeNumber, startStreeName, startCity, userId);
 			
 			
 			arr = (JSONArray)input.get("destination");
 			String endStreeNumber = arr.get(0).toString();
 			String endStreeName = arr.get(1).toString();
 			String endCity = arr.get(2).toString();
-			String endAddressId = conn.setAddress(endStreeNumber, endStreeName, endCity);
+			String endAddressId = conn.setAddress(endStreeNumber, endStreeName, endCity, userId);
 			
 			String courierId = input.getString("courier_id");
-			String userId = input.getString("user_id");
+			
 			
 			Order ord = new Order.OrderBuilder()
 					 .userId(userId)
