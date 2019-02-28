@@ -6,7 +6,7 @@ import entity.TravelMode;
 public class CourierAvailabilityRatio {
 
 	// Ratio of particular type courier in one station
-	public static double priceFluctuation(String station_id, TravelMode mode) {
+	public static double courierRatio(String station_id, TravelMode mode) {
 		DBConnection conn = new DBConnection();
 		double ratio = 0;
 		try {
