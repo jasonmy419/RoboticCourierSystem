@@ -16,7 +16,7 @@ public class Route {
 	private JSONObject polyline;
 	private double price;
 	private String courierID;
-	private double courierRatio;
+	private double ratio;
 	
 	private Route (RouteBuilder builder) {
 		this.duration = builder.duration;
@@ -26,11 +26,11 @@ public class Route {
 		this.polyline = builder.polyline;
 		this.price = builder.price;
 		this.courierID = builder.courierID;
-		this.courierRatio = courierRatio;
+		this.ratio = builder.ratio;
 	}
 	
 	public double getCourierRatio() {
-		return this.courierRatio;
+		return this.ratio;
 	}
 	
 	public String getCourierID() {
@@ -72,7 +72,7 @@ public class Route {
 			obj.put("overview_polyline", polyline);
 			obj.put("price", price);
 			obj.put("courier", courierID);
-			obj.put("courier_ratio", courierRatio);
+			obj.put("courier_ratio", ratio);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
