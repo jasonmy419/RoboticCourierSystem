@@ -52,10 +52,19 @@ public class Reservation extends HttpServlet {
 			JSONObject input = RpcHelper.readJSONObject(request);
 			
 			JSONObject detail = (JSONObject) input.get("detail");
-			double duration = detail.getDouble("duration");
+			double returnTime = detail.getDouble("courier_return_time");
 			double distance = detail.getDouble("distance");
+			double duration = detail.getDouble("duration");
 			String type = detail.getString("mode").equals("FLYING") ? "D" : "R";
+			String courierId = detail.getString("courier");
 			double price = detail.getDouble("price");
+			boolean isRecommended = detail.getBoolean("isRecommended");
+			
+			Timestamp courierTime = new Timestamp((new Date()).getTime() 
+												  + (long)duration*1000 
+												  + (long)returnTime*1000);
+			
+			conn.setCourierTime(courierTime, courierId);
 			
 			Timestamp end = new Timestamp((new Date()).getTime() + (long)duration*1000);
 			JSONObject obj = (JSONObject) detail.get("overview_polyline");
@@ -79,9 +88,6 @@ public class Reservation extends HttpServlet {
 			String endCity = arr.get(2).toString();
 			String endAddressId = conn.setAddress(endStreeNumber, endStreeName, endCity, userId);
 			
-			String courierId = input.getString("courier_id");
-			
-			
 			Order ord = new Order.OrderBuilder()
 					 .userId(userId)
 					 .orderId(orderId)
@@ -96,6 +102,7 @@ public class Reservation extends HttpServlet {
 					 .routePrice(price)
 					 .routePath(routePath)
 					 .complete(complete)
+					 .isRecommended(isRecommended)
 					 .build();
 	
 			System.out.println(ord.toString());

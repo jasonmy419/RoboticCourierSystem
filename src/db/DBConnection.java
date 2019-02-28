@@ -205,6 +205,28 @@ public class DBConnection {
 		return stationList;
 	}
 	
+	public void setCourierTime(Timestamp courierTime, String courierId) {
+		if (conn == null) {
+			System.err.println("DB connection failed from src/db/DBConnection -> setCourierTime");
+			return;
+		}
+		try {
+			String sql = "UPDATE couriers SET time = ? WHERE courier_id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setTimestamp(1, courierTime);
+			stmt.setString(2, courierId);
+			int rowsUpdated = stmt.executeUpdate();
+			if (rowsUpdated > 0) {
+				System.out.println("An existing courier: "+ courierId +", was updated successfully!");
+			}
+			return;
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("error from src/db/DBConnection -> setCourierTime: " + e.getMessage());
+		}
+	}
+	
 	public String setAddress(String streetNumber, String streetName, String city, String userId) {
 		
 		if (conn == null) {
@@ -265,7 +287,7 @@ public class DBConnection {
 
 		try {
 
-			String sql = "INSERT IGNORE INTO orders VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			String sql = "INSERT IGNORE INTO orders VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, ord.getOrderId());
 			ps.setString(2, ord.getUserId());
@@ -280,6 +302,7 @@ public class DBConnection {
 			ps.setDouble(11, ord.getRoutePrice());
 			ps.setString(12, ord.getRoutePath());
 			ps.setBoolean(13, ord.isComplete());
+			ps.setBoolean(14, ord.isRecommended());
 			ps.execute();
 
 		} catch (Exception e) {

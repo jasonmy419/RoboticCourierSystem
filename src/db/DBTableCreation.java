@@ -206,15 +206,16 @@ public class DBTableCreation {
 					+"route_distance DOUBLE NOT NULL,"
 					+"route_price DOUBLE NOT NULL,"
 					+"route_path VARCHAR(255) NOT NULL,"
-					+"complete BOOLEAN"
+					+"complete BOOLEAN,"
+					+"recommended BOOLEAN"
 					+")";
 			statement.executeUpdate(sql);
 
-			Timestamp end = new Timestamp((new Date()).getTime() + 300000);
+			Timestamp end = new Timestamp((new Date()).getTime());
 			sql = "INSERT INTO orders VALUES('sfogbwklskansbbvncs012e','123','xyz','111','D',"
 					+ " 'lavieenrose', 'emanon', ?" 
 					+ ", 996.0, 11.25, 29.83, 'k}qcFjushVf@QFABABAF?D?D@RBB@D?J?N?B?n@JLJJ@LDTDNDNDFBFBDBDBFBFBHB',"
-					+ "TRUE)";
+					+ "TRUE, FALSE)";
 			stmt = conn.prepareStatement(sql);
 			stmt.setTimestamp(1, s);
 			stmt.executeUpdate();
