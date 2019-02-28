@@ -1,9 +1,9 @@
 import React from 'react';
-import { Form, Input, Button, Select, Card, message, Radio } from 'antd';
-import { API_ROOT, proxyurl, NUMBER, WORD, PRICE } from "../constants";
-import { Link } from 'react-router-dom';
+import { Form, Input, Button, Card, message, Radio, Spin, Select } from 'antd';
+import { API_ROOT, proxyurl, NUMBER, WORD } from "../constants";
 import { RouteInfo } from "./RouteInfo";
 import NumberFormat from 'react-number-format';
+import robotic from "../assets/images/robotic.svg"
 
 
 class OrderInfoForm extends React.Component {
@@ -13,25 +13,50 @@ class OrderInfoForm extends React.Component {
         routes: [],
         price: 0.00,
         chosenRoute: '',
+        beforeRoute: true,
+        isLoading: true,
+        isSelectedRoute: false,
+        isFlying: true,
     }
 
-    // handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     this.props.form.validateFieldsAndScroll((err, values) => {
-    //         if (!err) {
-    //             console.log('Received values of form: ', values);
-    //             this.props.history.push('/');
-    //         }
-    //     });
-    // }
-    // onChange = (e) => {
-    //     console.log('radio checked', e.target.value);
-    //     this.setState({
-    //         value: e.target.value,
-    //     });
-    // }
+    changeAddress1 = (e) => {
+        let address = this.isValidAddress(e.target.value);
+        if (address) {
+            console.log('Validaddress1: ', address);
+            this.setState({pickUpAddr : address});
+        }
+        this.reset();
+    }
+
+    changeAddress2 = (e) => {
+        let address = this.isValidAddress(e.target.value);
+        if (address) {
+            console.log('Validaddress2: ', address);
+            this.setState({deliveryAddr : address});
+        }
+        this.reset();
+    }
+
+    selectSize = (e) => {
+        console.log('size: ', e.target.value);
+        this.reset();
+    }
+
+    reset = () => {
+        if (!this.state.beforeRoute) {
+            this.setState({ beforeRoute : true });
+        }
+        if (!this.state.isLoading) {
+            this.setState({ isLoading : true });
+        }
+        if (this.state.isSelectedRoute) {
+            this.setState({ isSelectedRoute : false});
+        }
+    }
 
     handleSubmit = (e) => {
+        this.setState({ beforeRoute : false });
+        this.props.handleResponse([]);
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
@@ -96,6 +121,7 @@ class OrderInfoForm extends React.Component {
                         console.log(data);
                         message.success('Sending Succeed!');
                         this.setState({ routes : data ? data : [] });
+                        this.setState({ isLoading : false });
                         console.log(this.state.routes);
                         // this.props.handleResponse(data);
                         // this.props.history.push('/payment');
@@ -131,7 +157,7 @@ class OrderInfoForm extends React.Component {
         else { return [street[0], street[1]]; }
     }
 
-    onClick = () => {
+    onPlaceOrder = () => {
         // console.log(JSON.stringify({
         //     'waypoint': this.state.pickUpAddr,
         //     'destination': this.state.deliveryAddr,
@@ -168,19 +194,42 @@ class OrderInfoForm extends React.Component {
             });
     }
 
-    // getPrice = (price) => {
-    //     return price.match(PRICE);
-    // }
-
-    onChange = (e) => {
+    onSelectRoute = (e) => {
         console.log(`radio checked:${e.target.value}`);
         this.setState({price : e.target.value});
         this.setState({chosenRoute : e.target.value});
         this.props.handleResponse(this.state.routes.filter((route) => route.price === e.target.value));
     }
 
-    onSelect = (e) => {
-        console.log(`radio checked:${e.target.value}`);
+    onSelectRoute1 = (value) => {
+        console.log(`selected ${value}`);
+        this.setState({price : value[0]});
+        this.setState({chosenRoute : value[0]});
+        this.setState({ isSelectedRoute : true });
+        console.log(`selected... ${value[1]}`);
+        if (value[1] === "FLYING") {
+            this.setState({ isFlying : true });
+        } else {
+            this.setState({ isFlying : false });
+        }
+        this.props.handleResponse(this.state.routes.filter((route) => route.price === value[0]));
+    }
+
+    // setMode = (value) => {
+    //     if (!this.state.beforeRoute) {
+    //         if (value === "FLYING" && !this.state.isFlying) {
+    //             this.setState({ isFlying : true });
+    //         } else if (value === "WALKING" && this.state.isFlying) {
+    //             this.setState({ isFlying : false });
+    //         }
+    //     }
+    // }
+
+    getDuration = (time) => {
+        const hour = parseInt(time / 3600);
+        const minute = parseInt((time % 3600) / 60);
+        const second = (time % 60);
+        return hour == 0 ? minute + ":" + second : hour + ":" + minute + ":" + second;
     }
 
     render() {
@@ -209,6 +258,8 @@ class OrderInfoForm extends React.Component {
             },
         };
 
+        const recommendLabel = ["Shortest Time", "Lowest Price", "Recommended"];
+
         return (
             <Card className="order">
                 <h1>Let's find out the best option for you!</h1>
@@ -220,7 +271,7 @@ class OrderInfoForm extends React.Component {
                         {getFieldDecorator('pickingUpAddress', {
                             rules: [{ required: true, message: 'Please input your picking up address!', whitespace: true }],
                         })(
-                            <Input placeholder="#Building Street, City"/>
+                            <Input placeholder="#Building Street, City" onChange={this.changeAddress1}/>
                         )}
                     </Form.Item>
                     <Form.Item
@@ -230,7 +281,7 @@ class OrderInfoForm extends React.Component {
                         {getFieldDecorator('deliveryAddress', {
                             rules: [{ required: true, message: 'Please input your delivery address!', whitespace: true }],
                         })(
-                            <Input placeholder="#Building Street, City"/>
+                            <Input placeholder="#Building Street, City" onChange={this.changeAddress2}/>
                         )}
                     </Form.Item>
                     <Form.Item
@@ -240,37 +291,63 @@ class OrderInfoForm extends React.Component {
                         {getFieldDecorator('itemSize', {
                             rules: [{ required: true, message: 'Please select your item size!'}],
                         })(
-                            <Radio.Group onChange={this.onSelect}>
-                                <Radio value="SMALL" htmlType="submit">Small</Radio>
+                            <Radio.Group onChange={this.selectSize} checked={false}>
+                                <Radio value="SMALL">Small</Radio>
                                 <Radio value="MEDIUM">Medium</Radio>
                                 <Radio value="LARGE">Large</Radio>
                             </Radio.Group>
                         )}
                     </Form.Item>
-                    <Form.Item
+                    {this.state.beforeRoute ? (
+                        <Form.Item {...tailFormItemLayout}>
+                            {/*<Button type="primary" htmlType="submit" className="button">*/}
+                            <Button type="primary" htmlType="submit">
+                                    Show Route
+                            </Button>
+                        </Form.Item>
+                    ) : this.state.isLoading ? (
+                        <Form.Item>
+                            <Spin size="large" tip="We're calculating the best route for you, please be patient..."/>
+                        </Form.Item>) : (
+
+                        <Form.Item
                         {...formItemLayout}
-                        label="Recommended Routes"
+                        label="Routes"
                     >
-                        {getFieldDecorator('radio-button')(
-                            <Radio.Group buttonStyle="solid" onChange={this.onChange}>
-                                {this.state.routes.map((route) => <RouteInfo route={route} key={route.price}/>)}
-                            </Radio.Group>
+                        {getFieldDecorator('route-select', {
+                            rules: [{ required: true, message: 'Please select a route!'}],
+                        })(
+                            /*<Radio.Group buttonStyle="solid" onChange={this.onSelectRoute}>*/
+                                /*{this.state.routes.map((route, index) => <RouteInfo route={route} key={index} index={index}/>)}*/
+                            /*</Radio.Group>*/
+                            <Select onChange={this.onSelectRoute1}
+                                    placeholder="Select a route">
+                                {this.state.routes.map((route, index) =>
+                                    <Select.Option value={[route.price, route.mode]} key={index}>
+                                        {recommendLabel[index]} {": delivery in "} {this.getDuration(route.duration)}
+                                    </Select.Option>)}
+                            </Select>
                         )}
-                    </Form.Item>
-                    <Form.Item
-                        {...formItemLayout}
-                        label="Price: "
-                    >
-                        <NumberFormat value={this.state.price} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} />
-                    </Form.Item>
-                    <Form.Item {...tailFormItemLayout}>
-                        <Button type="primary" htmlType="submit" className="button">
-                            Show Route
-                        </Button>
-                        <Button type="primary" className="button" onClick={this.onClick}>
-                            Place Order
-                        </Button>
-                    </Form.Item>
+                    </Form.Item>)}
+                    {this.state.isSelectedRoute ? (
+                        <div>
+                            <Form.Item>
+                                {this.state.isFlying ? (<img  className="image" src="https://cdn1.iconfinder.com/data/icons/business-e-commerce-logistics-solid-set-1/91/Business_E-commerce__Logistics_15-512.png" />)
+                                : (<img  className="image" src={robotic}/>)}
+                            </Form.Item>
+                            <Form.Item
+                                {...formItemLayout}
+                                label="Price: "
+                            >
+                                <NumberFormat value={this.state.price} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} />
+                            </Form.Item>
+                            <Form.Item {...tailFormItemLayout}>
+                                <Button type="primary" onClick={this.onPlaceOrder}>
+                                    Place Order
+                                </Button>
+                            </Form.Item>
+                        </div>
+                    ) : null }
                 </Form>
             </Card>
         );

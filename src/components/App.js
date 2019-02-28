@@ -23,15 +23,9 @@ class App extends Component {
     console.log("app constructor ran")
     super(props);
     this.state = {
-      isLoggedIn: true,
+      isLoggedIn: Boolean(localStorage.getItem(USER_ID))? true : false,
     }
-    // this.validateSession();
   }
-
-  // componentWillMount() {
-  //   console.log(`componentWillMount - this.state.isLoggedIn: ${this.state.isLoggedIn} `);
-  //   this.validateSession();
-  // }
 
   validateSession = () => {
     console.log("validate session function ran")
@@ -78,33 +72,29 @@ class App extends Component {
   }
 
   handleLogout = () => {
-    fetch(`${API_ROOT}/logout`, {
-      method: 'POST',
-      //credentials: 'include'
-    }).then((response) => {
-      if(response){
-        return response.text();
-      }
-      throw new Error(response.statusText);
-    }).then((data) => {
-      console.log(data);
-      return JSON.parse(data);
-    }).then((json) => {
-      if(json.status === "OK"){
-        console.log("Login successfully")
-        this.props.handleSuccessfulLogin(json.user_id);
-      } else {
-        console.log("Login successfully");
-      }
-    }).catch((err) => {
-      console.log(err);
-      message.error('Login Fail');
-    });
-
-    console.log("logged out successfully");
     localStorage.removeItem(USER_ID);
-    this.setState({ isLoggedIn: false });
-
+    this.setState({isLoggedIn: false});
+    // fetch(`${API_ROOT}/logout`, {
+    //   method: 'POST',
+    // }).then((response) => {
+    //   if(response){
+    //     return response.text();
+    //   }
+    //   throw new Error(response.statusText);
+    // }).then((data) => {
+    //   console.log(data);
+    //   return JSON.parse(data);
+    // }).then((json) => {
+    //   if(json.status === "OK"){
+    //     console.log("Logout successfully")
+    //     localStorage.removeItem(USER_ID);
+    //     this.setState({isLoggedIn: false});
+    //   } else {
+    //     console.log("invalid operation");
+    //   }
+    // }).catch((err) => {
+    //   console.log(err);
+    // });
   }
 
   render() {

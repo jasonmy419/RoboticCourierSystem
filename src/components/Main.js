@@ -13,10 +13,14 @@ import {UserProfile} from "./UserProfile";
 
 export class Main extends React.Component {
     state={
-        orderID: ""
+        orderID: "",
+        response: []
     }
     handlerOrderID = (orderID) =>{
         this.setState({orderID: orderID});
+    }
+    handlerResponse = (response) =>{
+        this.setState({response: response});
     }
     getExactpath = () => {
         return this.props.isLoggedIn ? <Redirect to="/home"/> : <Redirect to="/login"/>;
@@ -25,7 +29,7 @@ export class Main extends React.Component {
         return this.props.isLoggedIn ? <Redirect to="/home"/> : <Login handleSuccessfulLogin={this.props.handleSuccessfulLogin}/>;
     }
     getHome = (props) => {
-        return this.props.isLoggedIn ? <Home {...props} /> : <Redirect to="/login"/>;
+        return this.props.isLoggedIn ? <Home {...props} handlerResponse = {this.handlerResponse} /> : <Redirect to="/login"/>;
     }
     getOrders = () => {
         return this.props.isLoggedIn ? <Orders/> : <Redirect to="/login"/>;
@@ -37,7 +41,7 @@ export class Main extends React.Component {
         return this.props.isLoggedIn ? <Payment handlerOrderID = {this.handlerOrderID} {...props}/> : <Redirect to="/login"/>;
     }
     getConfirmation = () => {
-        return <ConfirmationPage orderID = {this.state.orderID}/>
+        return <ConfirmationPage response = {this.state.response} orderID = {this.state.orderID}/>
     }
 
     render() {
@@ -52,7 +56,7 @@ export class Main extends React.Component {
                         <Route path="/home" render={this.getHome}/>
                         <Route path="/payment" render={this.getPayment}/>
                         <Route path="/profile" render={this.getUserProfile}/>
-                        <Route path="/payment" component={Payment}/>
+                        {/*<Route path="/payment" component={Payment}/>*/}
                         <Route path="/confirmation" render={this.getConfirmation}/>
                         <Route path="/orders" render={this.getOrders}/>
                         <Route render={this.getLogin}/>

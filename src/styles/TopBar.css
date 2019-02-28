@@ -2,7 +2,7 @@
     float: right;
     padding-top: 12px;
     padding-right: 20px;
-    color: cornflowerblue;
+    color: #7289da;
     font-size: 18px;
     font-family: 'Lato', sans-serif;
 }
@@ -10,7 +10,7 @@
     float: right;
     padding-top: 12px;
     padding-right: 20px;
-    color: cornflowerblue;
+    color: #7289da;
     font-size: 18px;
     font-family: 'Lato', sans-serif;
 }
@@ -25,7 +25,7 @@
 .App-logo{
     margin-left: 5px;
     margin-right: 8px;
-    color: cornflowerblue;
+    color: #7289da;
 }
 a {
     text-decoration: none !important;

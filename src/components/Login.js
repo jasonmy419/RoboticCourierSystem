@@ -17,15 +17,10 @@ class NormalLoginForm extends React.Component {
       //   resolve(response);
       // });
 
-<<<<<<< HEAD
-      // send request, uncomment for final use
+
+      //send request, uncomment for final use
       fetch(`${API_ROOT}/login`, {
-=======
-      //gsend request, uncomment for final use
-      const promise = fetch(`${API_ROOT}/login`, {
->>>>>>> 51b7ed514326d2448c9d359345fa36c1d97e4c3c
         method: 'POST',
-        credentials: "include",
         body: JSON.stringify({
           user_id: values.username,
           password: md5(values.username + md5(values.password))
@@ -47,11 +42,7 @@ class NormalLoginForm extends React.Component {
         }
       }).catch((err) => {
         console.log(err);
-<<<<<<< HEAD
         message.error('Failed to access to the website');
-=======
-        message.error('Login Failed');
->>>>>>> 51b7ed514326d2448c9d359345fa36c1d97e4c3c
       });
     }
     });

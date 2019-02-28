@@ -6,25 +6,23 @@
   animation: App-logo-spin infinite 20s linear;
   height: 50px;
   float:left;
-  color: cornflowerblue;
+  color: #7289da;
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #2d2d2d;
   font-size: calc(10px + 2vmin);
   height: 50px;
 }
 .App-title{
   float:left;
   padding-top: 7px;
-  color: cornflowerblue;
+  color: #7289da;
   font-size: 25px;
   font-weight: 600;
   font-family: 'Gloria Hallelujah', cursive;
 }
-.App-link {
-  color: #61dafb;
-}
+
 
 /*@keyframes App-logo-spin {*/
   /*from {*/
