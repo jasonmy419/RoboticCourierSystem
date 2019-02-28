@@ -307,7 +307,7 @@ class OrderInfoForm extends React.Component {
                         </Form.Item>
                     ) : this.state.isLoading ? (
                         <Form.Item>
-                            <Spin size="large" tip="Loading..."/>
+                            <Spin size="large" tip="We're calculating the best route for you, please be patient..."/>
                         </Form.Item>) : (
 
                         <Form.Item
