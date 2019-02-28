@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,7 +16,7 @@ public class RpcHelper {
 	// Writes a JSONArray to http response.
 		public static void writeJsonArray(HttpServletResponse response, JSONArray array) throws IOException {
 			response.setContentType("application/json");
-			response.setHeader("Access-Control-Allow-Origin", "*");
+			response.addHeader("Access-Control-Allow-Origin", "*");
 			PrintWriter out = response.getWriter();
 			out.print(array);
 			out.close();
@@ -31,6 +32,7 @@ public class RpcHelper {
 			out.close();
 
 		}
+		
 
 		public static JSONObject readJSONObject(HttpServletRequest request) {
 			
