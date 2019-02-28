@@ -3,6 +3,7 @@ import { Form, Input, Button, Card, message, Radio, Spin, Select } from 'antd';
 import { API_ROOT, proxyurl, NUMBER, WORD } from "../constants";
 import { RouteInfo } from "./RouteInfo";
 import NumberFormat from 'react-number-format';
+import robotic from "../assets/images/robotic.svg"
 
 
 class OrderInfoForm extends React.Component {
@@ -14,6 +15,8 @@ class OrderInfoForm extends React.Component {
         chosenRoute: '',
         beforeRoute: true,
         isLoading: true,
+        isSelectedRoute: false,
+        isFlying: true,
     }
 
     changeAddress1 = (e) => {
@@ -46,10 +49,14 @@ class OrderInfoForm extends React.Component {
         if (!this.state.isLoading) {
             this.setState({ isLoading : true });
         }
+        if (this.state.isSelectedRoute) {
+            this.setState({ isSelectedRoute : false});
+        }
     }
 
     handleSubmit = (e) => {
         this.setState({ beforeRoute : false });
+        this.props.handleResponse([]);
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
@@ -196,10 +203,27 @@ class OrderInfoForm extends React.Component {
 
     onSelectRoute1 = (value) => {
         console.log(`selected ${value}`);
-        this.setState({price : value});
-        this.setState({chosenRoute : value});
-        this.props.handleResponse(this.state.routes.filter((route) => route.price === value));
+        this.setState({price : value[0]});
+        this.setState({chosenRoute : value[0]});
+        this.setState({ isSelectedRoute : true });
+        console.log(`selected... ${value[1]}`);
+        if (value[1] === "FLYING") {
+            this.setState({ isFlying : true });
+        } else {
+            this.setState({ isFlying : false });
+        }
+        this.props.handleResponse(this.state.routes.filter((route) => route.price === value[0]));
     }
+
+    // setMode = (value) => {
+    //     if (!this.state.beforeRoute) {
+    //         if (value === "FLYING" && !this.state.isFlying) {
+    //             this.setState({ isFlying : true });
+    //         } else if (value === "WALKING" && this.state.isFlying) {
+    //             this.setState({ isFlying : false });
+    //         }
+    //     }
+    // }
 
     getDuration = (time) => {
         const hour = parseInt(time / 3600);
@@ -233,6 +257,8 @@ class OrderInfoForm extends React.Component {
                 },
             },
         };
+
+        const recommendLabel = ["Shortest Time", "Lowest Price", "Recommended"];
 
         return (
             <Card className="order">
@@ -283,7 +309,7 @@ class OrderInfoForm extends React.Component {
                         <Form.Item>
                             <Spin size="large" tip="Loading..."/>
                         </Form.Item>) : (
-                        <div>
+
                         <Form.Item
                         {...formItemLayout}
                         label="Routes"
@@ -297,23 +323,31 @@ class OrderInfoForm extends React.Component {
                             <Select onChange={this.onSelectRoute1}
                                     placeholder="Select a route">
                                 {this.state.routes.map((route, index) =>
-                                    <Select.Option value={route.price} key={index}>{route.mode} {this.getDuration(route.duration)}</Select.Option>)}
+                                    <Select.Option value={[route.price, route.mode]} key={index}>
+                                        {recommendLabel[index]} {": delivery in "} {this.getDuration(route.duration)}
+                                    </Select.Option>)}
                             </Select>
                         )}
-                    </Form.Item>
-                        <Form.Item
-                        {...formItemLayout}
-                        label="Price: "
-                        >
-                        <NumberFormat value={this.state.price} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} />
-                        </Form.Item>
-                        <Form.Item {...tailFormItemLayout}>
-                            <Button type="primary" onClick={this.onPlaceOrder}>
-                            Place Order
-                            </Button>
-                         </Form.Item>
-                    </div>
-                        )}
+                    </Form.Item>)}
+                    {this.state.isSelectedRoute ? (
+                        <div>
+                            <Form.Item>
+                                {this.state.isFlying ? (<img  className="image" src="https://cdn1.iconfinder.com/data/icons/business-e-commerce-logistics-solid-set-1/91/Business_E-commerce__Logistics_15-512.png" />)
+                                : (<img  className="image" src={robotic}/>)}
+                            </Form.Item>
+                            <Form.Item
+                                {...formItemLayout}
+                                label="Price: "
+                            >
+                                <NumberFormat value={this.state.price} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} />
+                            </Form.Item>
+                            <Form.Item {...tailFormItemLayout}>
+                                <Button type="primary" onClick={this.onPlaceOrder}>
+                                    Place Order
+                                </Button>
+                            </Form.Item>
+                        </div>
+                    ) : null }
                 </Form>
             </Card>
         );
