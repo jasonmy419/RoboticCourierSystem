@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { RouteInfo } from "./RouteInfo";
 import NumberFormat from 'react-number-format';
 
+
 class OrderInfoForm extends React.Component {
     state = {
         pickUpAddr: [],
@@ -13,6 +14,7 @@ class OrderInfoForm extends React.Component {
         price: 0.00,
         chosenRoute: '',
     }
+
     // handleSubmit = (e) => {
     //     e.preventDefault();
     //     this.props.form.validateFieldsAndScroll((err, values) => {
@@ -43,13 +45,26 @@ class OrderInfoForm extends React.Component {
                 } else if (!tmpDelivery) {
                     message.error('Delivery address is invalid!');
                     return;
-                } else {
+                }
                     this.setState({
                         pickUpAddr : tmpPickingUp,
                         deliveryAddr : tmpDelivery
-                    })
-                }
+                    });
                 // send request
+                console.log("route",JSON.stringify({
+                    waypoint: {
+                        street_number: tmpPickingUp[0],
+                        street_name: tmpPickingUp[1],
+                        city: tmpPickingUp[2],
+                    },
+                    destination: {
+                        street_number: tmpDelivery[0],
+                        street_name: tmpDelivery[1],
+                        city: tmpDelivery[2],
+                    },
+                    size: values.itemSize,
+                    user_id: "123"
+                }))
                 fetch(`${API_ROOT}/routeRecommend`, {
                     method: 'POST',
                     // body: JSON.stringify({
@@ -57,17 +72,18 @@ class OrderInfoForm extends React.Component {
                     //     password: values.deliveryAddress,
                     // }),
                     body: JSON.stringify({
-                            'waypoint': {
-                                street_number: this.state.pickUpAddr[0],
-                                street_name: this.state.pickUpAddr[1],
-                                city: this.state.pickUpAddr[2],
-                            },
-                            'destination': {
-                                street_number: this.state.deliveryAddr[0],
-                                street_name: this.state.deliveryAddr[1],
-                                city: this.state.deliveryAddr[2],
-                            },
-                            'size': values.itemSize,
+                        waypoint: {
+                            street_number: tmpPickingUp[0],
+                            street_name: tmpPickingUp[1],
+                            city: tmpPickingUp[2],
+                        },
+                        destination: {
+                            street_number: tmpDelivery[0],
+                            street_name: tmpDelivery[1],
+                            city: tmpDelivery[2],
+                        },
+                            size: values.itemSize,
+                            user_id: "123"
                         }
                     ),
                 }).then((response) => {
@@ -82,7 +98,7 @@ class OrderInfoForm extends React.Component {
                         this.setState({ routes : data ? data : [] });
                         console.log(this.state.routes);
                         // this.props.handleResponse(data);
-                        //this.props.history.push('/payment');
+                        // this.props.history.push('/payment');
                     })
                     .catch((e) => {
 
@@ -116,45 +132,40 @@ class OrderInfoForm extends React.Component {
     }
 
     onClick = () => {
-        // this.props.history.push('/payment');
-        console.log(JSON.stringify({
-            'waypoint': this.state.pickUpAddr,
-            'destination': this.state.deliveryAddr,
-            // 'key' : this.state.chosenRoute,
-            ...this.state.routes.filter((route) => route.price === this.state.chosenRoute),
-        }));
+        // console.log(JSON.stringify({
+        //     'waypoint': this.state.pickUpAddr,
+        //     'destination': this.state.deliveryAddr,
+        //     'detail' : {...this.state.routes.filter((route) => route.price === this.state.price)[0]},
+        //     'user_id' : "123",
+        //     'courier_id' : "abc",
+        // }));
         // send request
-        // fetch(`${API_ROOT}/routeRecommend`, {
-        //     method: 'POST',
-        //     // body: JSON.stringify({
-        //     //     username: values.pickingUpAddress,
-        //     //     password: values.deliveryAddress,
-        //     // }),
-        //     body: JSON.stringify({
-        //             'waypoint': this.state.pickUpAddr,
-        //             'destination': this.state.deliveryAddr,
-        //             ...this.state.routes.filter((route) => route.price === e.target.value),
-        //         }
-        //     ),
-        // }).then((response) => {
-        //     if (response.ok) {
-        //         return response.json();
-        //     }
-        //     throw new Error(response.statusText);
-        // })
-        //     .then((data) => {
-        //         console.log(data);
-        //         message.success('Sending Succeed!');
-        //         this.setState({ routes : data ? data : [] });
-        //         console.log(this.state.routes);
-        //         // this.props.handleResponse(data);
-        //         //this.props.history.push('/payment');
-        //     })
-        //     .catch((e) => {
-        //
-        //         console.log(e);
-        //         message.error('Sending Failed.');
-        //     });
+        fetch(`${API_ROOT}/orders`, {
+            method: 'POST',
+
+            body: JSON.stringify({
+                    'waypoint': this.state.pickUpAddr,
+                    'destination': this.state.deliveryAddr,
+                    'detail' : {...this.state.routes.filter((route) => route.price === this.state.price)[0]},
+                    'user_id' : "123",
+                    'courier_id' : "abc",
+                }
+            ),
+        }).then((response) => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error(response.statusText);
+        })
+            .then((data) => {
+                console.log(data);
+                this.props.history.push('/payment');
+            })
+            .catch((e) => {
+
+                console.log(e);
+                message.error('Sending Failed.');
+            });
     }
 
     // getPrice = (price) => {
@@ -166,6 +177,10 @@ class OrderInfoForm extends React.Component {
         this.setState({price : e.target.value});
         this.setState({chosenRoute : e.target.value});
         this.props.handleResponse(this.state.routes.filter((route) => route.price === e.target.value));
+    }
+
+    onSelect = (e) => {
+        console.log(`radio checked:${e.target.value}`);
     }
 
     render() {
@@ -196,6 +211,7 @@ class OrderInfoForm extends React.Component {
 
         return (
             <Card className="order">
+                <h1>Let's find out the best option for you!</h1>
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Item
                         {...formItemLayout}
@@ -224,8 +240,8 @@ class OrderInfoForm extends React.Component {
                         {getFieldDecorator('itemSize', {
                             rules: [{ required: true, message: 'Please select your item size!'}],
                         })(
-                            <Radio.Group>
-                                <Radio value="SMALL">Small</Radio>
+                            <Radio.Group onChange={this.onSelect}>
+                                <Radio value="SMALL" htmlType="submit">Small</Radio>
                                 <Radio value="MEDIUM">Medium</Radio>
                                 <Radio value="LARGE">Large</Radio>
                             </Radio.Group>
@@ -248,7 +264,7 @@ class OrderInfoForm extends React.Component {
                         <NumberFormat value={this.state.price} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} />
                     </Form.Item>
                     <Form.Item {...tailFormItemLayout}>
-                        <Button type="primary" htmlType="submit">
+                        <Button type="primary" htmlType="submit" className="button">
                             Show Route
                         </Button>
                         <Button type="primary" className="button" onClick={this.onClick}>

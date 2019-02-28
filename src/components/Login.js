@@ -11,14 +11,19 @@ class NormalLoginForm extends React.Component {
     if (!err) {
       console.log('Received values of form: ', values);
 
-      // //for test purpose, comment for final use
+      //for test purpose, comment for final use
       // const response = '{"status": "OK", "user_id": "Jizhou"}';
       // const promise = new Promise((resolve, reject) => {
       //   resolve(response);
       // });
 
+<<<<<<< HEAD
       // send request, uncomment for final use
       fetch(`${API_ROOT}/login`, {
+=======
+      //gsend request, uncomment for final use
+      const promise = fetch(`${API_ROOT}/login`, {
+>>>>>>> 51b7ed514326d2448c9d359345fa36c1d97e4c3c
         method: 'POST',
         credentials: "include",
         body: JSON.stringify({
@@ -42,7 +47,11 @@ class NormalLoginForm extends React.Component {
         }
       }).catch((err) => {
         console.log(err);
+<<<<<<< HEAD
         message.error('Failed to access to the website');
+=======
+        message.error('Login Failed');
+>>>>>>> 51b7ed514326d2448c9d359345fa36c1d97e4c3c
       });
     }
     });

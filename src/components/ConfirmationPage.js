@@ -32,7 +32,7 @@ export class ConfirmationPage extends Component {
     description3 = "Your item has arrived the destination";
 
     render() {
-        console.log('render');
+        console.log('confirm', this.props.orderID);
         return (
             <div className="Confirmation">
                 <div className="text">

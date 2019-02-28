@@ -2,8 +2,10 @@
 import React from 'react';
 import {withScriptjs, withGoogleMap, GoogleMap, Polyline} from "react-google-maps";
 // import { AroundMarker } from './AroundMarker';
+// import { fitBounds } from 'google-map'
 import {SF_COORD} from "../constants";
 import {CustomizedMarker} from "./CustomizedMarker"
+import {StationMarker} from "./StationMarker";
 
 class NormalAroundMap extends React.Component {
 
@@ -49,19 +51,17 @@ class NormalAroundMap extends React.Component {
     // }
     getMapRef = (instance) => {
         this.map = instance;
+        // instance.fitBounds(instance.getBounds());
     }
     // state ={
     //     isRouteGiven: true
     // }
-    getCenter = (dest, waypoint) => {
+    getCenter = (dest, waypoint,station) => {
         if(this.props.response.length > 0){
-            const destLat = this.props.response[0].destination_point.destination_point_lat;
-            const destLon = this.props.response[0].destination_point.destination_point_lon;
-            const wayptLat = this.props.response[0].way_point.way_point_lat;
-            const wayptLon = this.props.response[0].way_point.way_point_lon;
-            const center = {lat: (dest.lat + waypoint.lat)/2, lng: (dest.lon + waypoint.lon)/2};
+            const center = {lat: (dest.lat + waypoint.lat+station.lat)/3, lng: (dest.lon + waypoint.lon+station.lon)/3};
             return(center);
         }
+
         return(SF_COORD);
     }
 
@@ -82,12 +82,26 @@ class NormalAroundMap extends React.Component {
                 stName: this.props.response[0].way_point.street_name,
                 stNum: this.props.response[0].way_point.street_number
             } : null;
+        const station = this.props.response.length > 0 ? {
+            city: this.props.response[0].station_point.city,
+            lat: this.props.response[0].station_point.station_lat,
+            lon: this.props.response[0].station_point.station_lon,
+            stName: this.props.response[0].station_point.street_name,
+            stNum: this.props.response[0].station_point.street_number
+        } : null;
         const decodedPath = this.props.response.length > 0 ? new window.google.maps.geometry.encoding.decodePath(
              this.props.response[0].overview_polyline.points
             ):null;
         return (
+<<<<<<< HEAD
 
             <GoogleMap
+=======
+
+
+            <GoogleMap
+                center = {this.getCenter(dest, waypoint,station)}
+>>>>>>> 51b7ed514326d2448c9d359345fa36c1d97e4c3c
                 ref={this.getMapRef}
                 defaultZoom={13}
                 defaultCenter={SF_COORD}
@@ -107,6 +121,7 @@ class NormalAroundMap extends React.Component {
                 }
                 {this.props.response.length > 0 ? <CustomizedMarker point = {dest} point_type="destination"></CustomizedMarker> : null}
                 {this.props.response.length > 0 ?<CustomizedMarker point = {waypoint} point_type="waypoint"></CustomizedMarker> : null}
+                {this.props.response.length > 0 ? <StationMarker point = {station} point_type="station"></StationMarker> : null}
 
             </GoogleMap>
         );
