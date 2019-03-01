@@ -71,6 +71,7 @@ public class RouteRecommend extends HttpServlet {
 			Address waypoint, destination;
 			Address waypoint_place, destination_place;
 			ItemSize size;
+			String userid;
 			
 			StationAddress address = new StationAddress();
 			JSONArray array = address.getAddress();
@@ -88,8 +89,12 @@ public class RouteRecommend extends HttpServlet {
 			
 			System.out.println(originArray[0].getStreetName() + originArray[0].getStreetNum() + originArray[0].getCity());
 			
-			// Parse item size
+			// Parse item size and userid
 			size = ItemSize.valueOf(input.getString("size"));
+			userid = input.getString("userid");
+			
+			// Get user's latest coupon ratio
+			double coupon_ratio = CalculatePrice.getCoupon(userid);
 			
 			// choose the transfer mode
 			List<Route> buffer_routes = new ArrayList<>();	
@@ -159,6 +164,8 @@ public class RouteRecommend extends HttpServlet {
 			
 			JSONObject fast_station = StationAddress.getStationAddress(routes.get(0).getCourierID());
 			// double fast_ratio = routes.get(0).getCourierRatio();
+			double fast_oldPrice = routes.get(0).getPrice();
+			double fast_newPrice = fast_oldPrice * (1 - coupon_ratio);
 
 			RouteBuilder fastestRoute = new RouteBuilder();
 			fastestRoute.setDistance(routes.get(0).getDistance());
@@ -166,7 +173,7 @@ public class RouteRecommend extends HttpServlet {
 			fastestRoute.setPolylineOverview(routes.get(0).getPolyline());
 			fastestRoute.setTravelMode(routes.get(0).getMode());
 			fastestRoute.setRoute(routes.get(0).getRoute());
-			fastestRoute.setPrice(routes.get(0).getPrice());
+			fastestRoute.setPrice(fast_newPrice);
 			fastestRoute.setCourier(routes.get(0).getCourierID());
 			fastestRoute.setCourierRatio(routes.get(0).getCourierRatio());
 			
@@ -176,6 +183,7 @@ public class RouteRecommend extends HttpServlet {
 			fastRoute.put("way_point", waypointInfo);
 			fastRoute.put("destination_point", destPointInfo);
 			fastRoute.put("station_point", fast_station);
+			fastRoute.put("old_price", fast_oldPrice);
 			
 			int fast_duration = calculateReturnTime(routes.get(0), fast_station, destination, destination_place);
 			fastRoute.put("courier_return_time", fast_duration);
@@ -191,7 +199,9 @@ public class RouteRecommend extends HttpServlet {
 			});
 			
 			JSONObject cheap_station = StationAddress.getStationAddress(routes.get(0).getCourierID());
-			double cheap_ratio = routes.get(0).getCourierRatio();
+			double cheap_ratio = routes.get(0).getCourierRatio();			
+			double cheap_oldPrice = routes.get(0).getPrice();
+			double cheap_newPrice = cheap_oldPrice * (1 - coupon_ratio);
 			
 			RouteBuilder cheapestRoute = new RouteBuilder();
 			cheapestRoute.setDistance(routes.get(0).getDistance());
@@ -199,7 +209,7 @@ public class RouteRecommend extends HttpServlet {
 			cheapestRoute.setRoute(routes.get(0).getRoute());
 			cheapestRoute.setTravelMode(routes.get(0).getMode());
 			cheapestRoute.setPolylineOverview(routes.get(0).getPolyline());
-			cheapestRoute.setPrice(routes.get(0).getPrice());
+			cheapestRoute.setPrice(cheap_newPrice);
 			cheapestRoute.setCourier(routes.get(0).getCourierID());
 			cheapestRoute.setCourierRatio(routes.get(0).getCourierRatio());
 			
@@ -209,13 +219,14 @@ public class RouteRecommend extends HttpServlet {
 			cheapRoute.put("way_point", waypointInfo);
 			cheapRoute.put("destination_point", destPointInfo);
 			cheapRoute.put("station_point", cheap_station);
+			cheapRoute.put("old_price", cheap_oldPrice);
 			
 			int cheap_duration = calculateReturnTime(routes.get(0), cheap_station, destination, destination_place);
 			cheapRoute.put("courier_return_time", cheap_duration);
 			
-			for (int i = 0; i < routes.size(); i++) {
-				System.out.println("Price is" + routes.get(i).getCourierRatio());
-			}
+//			for (int i = 0; i < routes.size(); i++) {
+//				System.out.println("Price is" + routes.get(i).getCourierRatio());
+//			}
 			// Recommend route
 			JSONObject recommend_route = null;
 			for (int i = 0; i < routes.size(); i++) {
@@ -223,6 +234,8 @@ public class RouteRecommend extends HttpServlet {
 				if (routes.get(i).getDuration() == fast_duration) break;
 				if (routes.get(i).getCourierRatio() <= cheap_ratio) continue;
 				JSONObject recommend_station = StationAddress.getStationAddress(routes.get(i).getCourierID());
+				double recommend_oldPrice = routes.get(i).getPrice();
+				double recommend_newPrice = recommend_oldPrice * (1 - coupon_ratio);
 				
 				RouteBuilder recommendRoute = new RouteBuilder();
 				recommendRoute.setDistance(routes.get(i).getDistance());
@@ -230,7 +243,7 @@ public class RouteRecommend extends HttpServlet {
 				recommendRoute.setRoute(routes.get(i).getRoute());
 				recommendRoute.setTravelMode(routes.get(i).getMode());
 				recommendRoute.setPolylineOverview(routes.get(i).getPolyline());
-				recommendRoute.setPrice(routes.get(i).getPrice());
+				recommendRoute.setPrice(recommend_newPrice);
 				recommendRoute.setCourier(routes.get(i).getCourierID());
 				recommendRoute.setCourierRatio(routes.get(i).getCourierRatio());
 				
@@ -240,6 +253,8 @@ public class RouteRecommend extends HttpServlet {
 				recommend_route.put("way_point", waypointInfo);
 				recommend_route.put("destination_point", destPointInfo);
 				recommend_route.put("station_point", recommend_station);
+				recommend_route.put("old_price", recommend_oldPrice);
+				
 				int recommend_duration = calculateReturnTime(routes.get(i), recommend_station, destination, destination_place);
 				recommend_route.put("courier_return_time", recommend_duration);
 				recommend_route.put("isRecommended", true);
