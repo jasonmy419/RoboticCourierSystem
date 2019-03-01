@@ -1,6 +1,7 @@
 package rpc;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -123,6 +124,9 @@ public class RouteRecommend extends HttpServlet {
 				}
 			}
 			
+			for (Route r : routes) {
+				System.out.println("IDDDD is" + r.getCourierID());
+			}
 			// Show error warning when no routes recommended!
 			if (routes.size() == 0) {
 				JSONObject errorWarning = new JSONObject();
@@ -154,6 +158,11 @@ public class RouteRecommend extends HttpServlet {
 			destPointInfo.put("street_name", destination_place.getStreetName());
 			destPointInfo.put("city", destination_place.getCity());
 			
+			DecimalFormat df = new DecimalFormat("#.00");
+//		    String priceStr = df.format(price);
+////		    System.out.println("price is "+ priceStr); 
+//		    price = Double.parseDouble(priceStr);
+		    
 			// Sort the route based on duration
 			Collections.sort(routes, new Comparator<Route>() {
 				@Override
@@ -166,6 +175,8 @@ public class RouteRecommend extends HttpServlet {
 			// double fast_ratio = routes.get(0).getCourierRatio();
 			double fast_oldPrice = routes.get(0).getPrice();
 			double fast_newPrice = fast_oldPrice * (1 - coupon_ratio);
+			String fast_tmp = df.format(fast_newPrice);
+			fast_newPrice = Double.parseDouble(fast_tmp);
 
 			RouteBuilder fastestRoute = new RouteBuilder();
 			fastestRoute.setDistance(routes.get(0).getDistance());
@@ -202,6 +213,8 @@ public class RouteRecommend extends HttpServlet {
 			double cheap_ratio = routes.get(0).getCourierRatio();			
 			double cheap_oldPrice = routes.get(0).getPrice();
 			double cheap_newPrice = cheap_oldPrice * (1 - coupon_ratio);
+			String cheap_tmp = df.format(cheap_newPrice);
+			cheap_newPrice = Double.parseDouble(cheap_tmp);
 			
 			RouteBuilder cheapestRoute = new RouteBuilder();
 			cheapestRoute.setDistance(routes.get(0).getDistance());
@@ -235,6 +248,8 @@ public class RouteRecommend extends HttpServlet {
 				JSONObject recommend_station = StationAddress.getStationAddress(routes.get(i).getCourierID());
 				double recommend_oldPrice = routes.get(i).getPrice();
 				double recommend_newPrice = recommend_oldPrice * (1 - coupon_ratio);
+				String rec_tmp = df.format(recommend_newPrice);
+				recommend_newPrice = Double.parseDouble(rec_tmp);
 				
 				RouteBuilder recommendRoute = new RouteBuilder();
 				recommendRoute.setDistance(routes.get(i).getDistance());
