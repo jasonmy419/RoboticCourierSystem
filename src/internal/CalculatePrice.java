@@ -56,7 +56,7 @@ public class CalculatePrice {
 		double coupon = 0;
 		try {
 			coupon = conn.getCoupon(userId);
-//			conn.setCoupon(userId, 0);
+			conn.setCoupon(userId, 0);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
