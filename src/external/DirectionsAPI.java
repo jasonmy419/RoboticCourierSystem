@@ -13,40 +13,36 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import entity.Address;
-import entity.Address.AddressBuilder;
-import entity.Address.GeoResponseType;
-import entity.Address.InputType;
 import entity.Route;
 import entity.Route.RouteBuilder;
 import internal.CalculatePrice;
 import internal.CourierAvailabilityRatio;
 import internal.GetAvailableCourier;
 import internal.StationAddress;
-import entity.State;
 import entity.TravelMode;
 import entity.ItemSize;
 
-public class DirectionsAPI {
+public class DirectionsAPI implements GoogleMapAPI {
 
 	private static final String METHOD = "/directions";
 	private static final boolean ALTERNATIVES = true;
 	private static final String TRAVEL_MODE = "walking";
-	
-	public List<Route> getRouteInfo(Address origin, Address destination, Address waypoint, ItemSize size){
+
+	public List<Route> getRouteInfo(Address origin, Address destination, Address waypoint, ItemSize size) {
 		List<Route> routes = new ArrayList<>();
 		List<RouteBuilder> builders = directions(origin, destination, waypoint, true);
-		
-		for(RouteBuilder builder: builders) {
+
+		for (RouteBuilder builder : builders) {
 			getExtraRouteInfo(builder, origin, size);
 			routes.add(builder.build());
 		}
 		return routes;
 	}
-	
+
 	public int getReturnDuration(Address origin, Address destination) {
 		int duration = Integer.MAX_VALUE;
 		List<RouteBuilder> builders = directions(origin, destination, null, false);
-		for(RouteBuilder builder: builders) {
+		for (RouteBuilder builder : builders) {
 			duration = Math.min(duration, builder.getDuration());
 		}
 		return duration;
@@ -63,11 +59,13 @@ public class DirectionsAPI {
 		GeocodingAPI api = new GeocodingAPI();
 		api.geocoding(origin);
 		api.geocoding(destination);
-		
-		if(enable) api.geocoding(waypoint);
+
+		if (enable)
+			api.geocoding(waypoint);
 
 		String query = String.format("%s&mode=%s&alternatives=%s&key=%s&avoid=tolls|highways|ferries",
-				this.generateQuery(origin, waypoint, destination, enable), TRAVEL_MODE, ALTERNATIVES, GoogleMapAPIUtil.API_KEY);
+				this.generateQuery(origin, waypoint, destination, enable), TRAVEL_MODE, ALTERNATIVES,
+				GoogleMapAPIUtil.API_KEY);
 		String url = GoogleMapAPIUtil.PREFIX + METHOD + GoogleMapAPIUtil.OUTPUT_FORMAT + "?" + query;
 
 		try {
@@ -111,8 +109,7 @@ public class DirectionsAPI {
 		return routes;
 	}
 
-	private RouteBuilder routeParse(JSONObject object)
-			throws JSONException, UnsupportedEncodingException {
+	private RouteBuilder routeParse(JSONObject object) throws JSONException, UnsupportedEncodingException {
 
 		RouteBuilder routeBuilder = new RouteBuilder();
 		int distanceSum = 0;
@@ -138,14 +135,14 @@ public class DirectionsAPI {
 		routeBuilder.setDuration(durationSum);
 		routeBuilder.setDistance(distanceSum);
 		routeBuilder.setTravelMode(TravelMode.WALKING);
-		
+
 		if (!object.isNull("overview_polyline")) {
 			routeBuilder.setPolylineOverview(object.getJSONObject("overview_polyline"));
 		}
-		
+
 		return routeBuilder;
 	}
-	
+
 	private String generateQuery(Address origin, Address waypoint, Address destination, boolean enable) {
 		// all 3 input should follow same format
 		String prefix = null;
@@ -153,19 +150,20 @@ public class DirectionsAPI {
 
 		switch (origin.getResponseType()) {
 		case PLACE_ID:
-			if(enable) {
+			if (enable) {
 				prefix = "origin=place_id:%s&destination=place_id:%s&waypoints=place_id:%s";
 				query = String.format(prefix, origin.getPlaceID(), destination.getPlaceID(), waypoint.getPlaceID());
-			}else {
+			} else {
 				prefix = "origin=place_id:%s&destination=place_id:%s";
 				query = String.format(prefix, origin.getPlaceID(), destination.getPlaceID());
 			}
 			break;
 		case COORDINATE:
-			if(enable) {
+			if (enable) {
 				prefix = "origin=%s&destination=%s&waypoints=%s";
-				query = String.format(prefix, origin.getCoordinate(), destination.getCoordinate(), waypoint.getCoordinate());
-			}else {
+				query = String.format(prefix, origin.getCoordinate(), destination.getCoordinate(),
+						waypoint.getCoordinate());
+			} else {
 				prefix = "origin=%s&destination=%s";
 				query = String.format(prefix, origin.getCoordinate(), destination.getCoordinate());
 			}
@@ -175,14 +173,14 @@ public class DirectionsAPI {
 		}
 		return query;
 	}
-	
+
 	private void getExtraRouteInfo(RouteBuilder builder, Address origin, ItemSize size) {
 		double price = CalculatePrice.getPrice(builder.getDuration(), builder.getDistance(), TravelMode.WALKING, size);
 		String station_id = StationAddress.getStationAddressByPlaceID(origin.getStreetNum(), origin.getStreetName(),
 				origin.getCity());
 		price = CalculatePrice.priceFluctuation(price, station_id, TravelMode.WALKING);
 		builder.setPrice(price);
-		
+
 		double courier_ratio = CourierAvailabilityRatio.courierRatio(station_id, TravelMode.FLYING);
 		builder.setCourierRatio(courier_ratio);
 
@@ -190,29 +188,4 @@ public class DirectionsAPI {
 				origin.getCity(), "Robot");
 		builder.setCourier(courierID);
 	}
-
-//	public static void main(String args[]) throws JSONException {
-//		DirectionsAPI api = new DirectionsAPI();
-//
-//		// 68 Willow Road, Menlo Park, CA
-//		Address origin = new AddressBuilder().setStreetNum("68").setStreetName("Willow Road").setCity("Menlo Park")
-//				.setState(State.CA).setInputType(InputType.ADDRESS_STRING).setResponseType(GeoResponseType.COORDINATE)
-//				.build();
-//
-//		// 383 University Ave, Palo Alto, CA
-//		Address wayPoint = new AddressBuilder().setStreetNum("383").setStreetName("University Ave").setCity("Palo Alto")
-//				.setState(State.CA).setInputType(InputType.ADDRESS_STRING).setResponseType(GeoResponseType.COORDINATE)
-//				.build();
-//
-//		// 1929 Menalto Ave, Menlo Park, CA
-//		Address destination = new AddressBuilder().setStreetNum("1929").setStreetName("Menalto Ave")
-//				.setCity("Menlo Park").setState(State.CA).setInputType(InputType.ADDRESS_STRING)
-//				.setResponseType(GeoResponseType.COORDINATE).build();
-//
-//		List<Route> routes = api.getRouteInfo(origin, destination, wayPoint, ItemSize.MEDIUM);
-//		
-//		for(Route route: routes) {
-//			System.out.println(route.getDistance() + " " + route.getDuration() + " " + route.getPrice());
-//		}
-//	}
 }

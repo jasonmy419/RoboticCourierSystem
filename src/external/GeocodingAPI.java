@@ -157,12 +157,4 @@ public class GeocodingAPI {
 
 		return query;
 	}
-
-	public static void main(String[] args) {
-		double lat = 37.369708;
-		double lon = -121.9294888;
-		
-		GeocodingAPI api = new GeocodingAPI();
-		api.reverseGeocoding(lat, lon);
-	}
 }
