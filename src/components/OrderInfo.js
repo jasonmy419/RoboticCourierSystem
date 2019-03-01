@@ -108,7 +108,7 @@ class OrderInfoForm extends React.Component {
                             city: tmpDelivery[2],
                         },
                             size: values.itemSize,
-                            user_id: "123"
+                            userid : localStorage.getItem(USER_ID),
                         }
                     ),
                 }).then((response) => {
