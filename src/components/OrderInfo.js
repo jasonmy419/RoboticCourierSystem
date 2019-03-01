@@ -320,9 +320,13 @@ class OrderInfoForm extends React.Component {
                             <Select onChange={this.onSelectRoute1}
                                     placeholder="Select a route">
                                 {this.state.routes.map((route, index) =>
-                                    <Select.Option value={[this.getMode(route.mode), route.price, route.mode]} key={index}>
+                                {
+                                    // debugger;
+                                    return <Select.Option value={[this.getMode(route.mode), route.price.toString(), route.mode]} key={index}>
                                         {recommendLabel[index]} {": delivery in "} {this.getDuration(route.duration)}
-                                    </Select.Option>)}
+                                    </Select.Option>}
+                                    )}
+
                             </Select>
                         )}
                     </Form.Item>)}

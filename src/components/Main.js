@@ -15,10 +15,18 @@ export class Main extends React.Component {
     state={
         orderID: "",
         response: [],
-        coupon: true
+        coupon: true,
+        isRouteChosen: false,
+        isPaymentSucceed: false,
     }
     handleCouponDraw = () =>{
         this.setState({coupon: false});
+    }
+    handlerIsRouteChosen = (isRouteChosen) =>{
+        this.setState({isRouteChosen: isRouteChosen});
+    }
+    handlerIsPaymentSucceed = (isPaymentSucceed) =>{
+        this.setState({isPaymentSucceed: isPaymentSucceed});
     }
     handlerOrderID = (orderID) =>{
         this.setState({orderID: orderID});
