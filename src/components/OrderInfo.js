@@ -88,7 +88,7 @@ class OrderInfoForm extends React.Component {
                         city: tmpDelivery[2],
                     },
                     size: values.itemSize,
-                    user_id: "123"
+                    userid : localStorage.getItem(USER_ID)
                 }))
                 fetch(`${API_ROOT}/routeRecommend`, {
                     method: 'POST',
@@ -108,7 +108,7 @@ class OrderInfoForm extends React.Component {
                             city: tmpDelivery[2],
                         },
                             size: values.itemSize,
-                            userid : localStorage.getItem(USER_ID),
+                            userid : localStorage.getItem(USER_ID)
                         }
                     ),
                 }).then((response) => {
@@ -323,7 +323,9 @@ class OrderInfoForm extends React.Component {
                                 {
                                     // debugger;
                                     return <Select.Option value={[this.getMode(route.mode), route.price.toString(), route.mode]} key={index}>
-                                        {recommendLabel[index]} {": delivery in "} {this.getDuration(route.duration)}
+                                        {route.mode === "FLYING" ? (<img  className="image" src="https://cdn1.iconfinder.com/data/icons/business-e-commerce-logistics-solid-set-1/91/Business_E-commerce__Logistics_15-512.png" />)
+                                            : (<img  className="image" src={robotic}/>)}
+                                        <span>{ recommendLabel[index]} {": delivery in "} {this.getDuration(route.duration)}</span>
                                     </Select.Option>}
                                     )}
 
@@ -332,10 +334,10 @@ class OrderInfoForm extends React.Component {
                     </Form.Item>)}
                     {this.state.isSelectedRoute ? (
                         <div>
-                            <Form.Item>
-                                {this.state.isFlying ? (<img  className="image" src="https://cdn1.iconfinder.com/data/icons/business-e-commerce-logistics-solid-set-1/91/Business_E-commerce__Logistics_15-512.png" />)
-                                : (<img  className="image" src={robotic}/>)}
-                            </Form.Item>
+                            {/*<Form.Item>*/}
+                                {/*{this.state.isFlying ? (<img  className="image" src="https://cdn1.iconfinder.com/data/icons/business-e-commerce-logistics-solid-set-1/91/Business_E-commerce__Logistics_15-512.png" />)*/}
+                                {/*: (<img  className="image" src={robotic}/>)}*/}
+                            {/*</Form.Item>*/}
                             <Form.Item
                                 {...formItemLayout}
                                 label="Price: "
