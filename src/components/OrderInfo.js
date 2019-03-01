@@ -189,7 +189,6 @@ class OrderInfoForm extends React.Component {
                 this.props.history.push('/payment');
             })
             .catch((e) => {
-
                 console.log(e);
                 message.error('Sending Failed.');
             });

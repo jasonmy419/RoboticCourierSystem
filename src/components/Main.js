@@ -52,7 +52,7 @@ export class Main extends React.Component {
     getPayment = (props) => {
         if(this.props.isLoggedIn){
             if(this.state.isRouteChosen){
-                return (<Payment isPaymentSucceed = {this.handlerIsPaymentSucceed} handlerOrderID = {this.handlerOrderID} {...props}/>);
+                return (<Payment handlerIsPaymentSucceed = {this.handlerIsPaymentSucceed} handlerOrderID = {this.handlerOrderID} {...props}/>);
             }else{
                 return (<Redirect to="/home"/>);
             }
