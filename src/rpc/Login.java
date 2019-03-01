@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,6 +38,19 @@ public class Login extends HttpServlet {
 		// TODO Auto-generated method stub
 		DBConnection connection = new DBConnection();
 		try {
+			// Test cookies
+			Cookie[] cookies = request.getCookies();
+			if (cookies == null) {
+				System.out.println("no cookies");
+			} else {
+				for (int i = 0; i < cookies.length; i++) {
+					System.out.println(cookies[i].getName());
+				}
+			}
+			System.out.println("Session from cookies ? " + request.isRequestedSessionIdFromCookie());
+			
+			
+			
 			HttpSession session = request.getSession(false);
 
 			JSONObject obj = new JSONObject();
@@ -75,6 +89,10 @@ public class Login extends HttpServlet {
 				HttpSession session = request.getSession();
 				session.setAttribute("user_id", userId);
 				session.setMaxInactiveInterval(6000);
+				// Response with cookie
+				Cookie sessionId = new Cookie("JSESSIONID", session.getId());
+				sessionId.setMaxAge(3600 * 24);
+				response.addCookie(sessionId);
 				obj.put("status", "OK").put("user_id", userId).put("name", connection.getFullname(userId));
 			} else {
 				response.setStatus(401);
@@ -82,6 +100,7 @@ public class Login extends HttpServlet {
 			}
 
 			RpcHelper.writeJsonObject(response, obj);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

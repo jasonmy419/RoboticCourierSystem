@@ -2,6 +2,7 @@ package internal;
 
 import java.text.DecimalFormat;
 
+import db.DBConnection;
 import entity.TravelMode;
 import entity.ItemSize;
 
@@ -47,5 +48,20 @@ public class CalculatePrice {
 //	    System.out.println("price is "+ priceStr); 
 	    price = Double.parseDouble(priceStr);
 		return price;
+	}
+	
+	// Help get coupon from db and reset the user's coupon
+	public static double getCoupon(String userId) {
+		DBConnection conn = new DBConnection();
+		double coupon = 0;
+		try {
+			coupon = conn.getCoupon(userId);
+//			conn.setCoupon(userId, 0);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			conn.close();
+		}
+		return coupon;
 	}
 }

@@ -59,7 +59,7 @@ public class DBTableCreation {
 					+ "first_name VARCHAR(255),"
 					+ "address_id VARCHAR(255),"
 					+ "zipcode VARCHAR(255),"
-					// FIXME
+					+ "coupon INT,"
 					+ "PRIMARY KEY (user_id)"
 					+ ")";
 			statement.executeUpdate(sql);
@@ -75,7 +75,9 @@ public class DBTableCreation {
 					+ ")";
 			statement.executeUpdate(sql);
 
-
+			sql = "INSERT INTO users VALUE('0xDEADBEEF', 'admin', 'EMANON', 'ENIGMA', '0x7FFF', 60616, 5)";
+			statement.executeUpdate(sql);
+			
 			sql = "INSERT INTO address VALUES('11', '167','32', 'angle st', 'LA', 'CA')";
 			statement.executeUpdate(sql);
 
@@ -205,15 +207,16 @@ public class DBTableCreation {
 					+"route_distance DOUBLE NOT NULL,"
 					+"route_price DOUBLE NOT NULL,"
 					+"route_path VARCHAR(255) NOT NULL,"
-					+"complete BOOLEAN"
+					+"complete BOOLEAN,"
+					+"recommended BOOLEAN"
 					+")";
 			statement.executeUpdate(sql);
 
-			// Timestamp end = new Timestamp((new Date()).getTime() + 300000);
+			Timestamp end = new Timestamp((new Date()).getTime());
 			sql = "INSERT INTO orders VALUES('sfogbwklskansbbvncs012e','123','xyz','111','D',"
 					+ " 'lavieenrose', 'emanon', ?" 
 					+ ", 996.0, 11.25, 29.83, 'k}qcFjushVf@QFABABAF?D?D@RBB@D?J?N?B?n@JLJJ@LDTDNDNDFBFBDBDBFBFBHB',"
-					+ "TRUE)";
+					+ "TRUE, FALSE)";
 			stmt = conn.prepareStatement(sql);
 			stmt.setTimestamp(1, s);
 			stmt.executeUpdate();
