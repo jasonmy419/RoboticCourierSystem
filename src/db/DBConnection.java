@@ -71,8 +71,6 @@ public class DBConnection {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-//		System.out.println("totalCount in db " + totalCount);
-//		System.out.println("availableCount in db " + availableCount);
 		if (totalCount == 0) return 0;
 		return availableCount * 1.0 / totalCount;
 	}
@@ -201,6 +199,31 @@ public class DBConnection {
 			e.printStackTrace();
 		}
 		return stationList;
+	}
+	
+	// Get the latest coupon from user
+	public double getCoupon(String userId) {		
+		if (conn == null) {
+			System.err.println("DB connection failed from src/db/DBConnection -> getCoupon");
+			return -1;
+		}
+		int couponNum = 0;
+		try {
+			String sql = "SELECT coupon FROM users WHERE user_id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, userId);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				couponNum = rs.getInt("coupon");
+				System.out.println("HHH Coupon is " + couponNum);
+			}
+			
+		}  catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("error from src/db/DBConnection -> setCoupon: " + e.getMessage());
+		}
+		System.out.println("Coupon is " + couponNum);
+		return couponNum * 1.0 / 100;
 	}
 	
 	public void setCoupon(String userId, int coupon) {
