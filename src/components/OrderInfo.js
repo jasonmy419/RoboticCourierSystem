@@ -108,7 +108,7 @@ class OrderInfoForm extends React.Component {
                             city: tmpDelivery[2],
                         },
                             size: values.itemSize,
-                            user_id: "123"
+                            userid : localStorage.getItem(USER_ID),
                         }
                     ),
                 }).then((response) => {
@@ -158,13 +158,12 @@ class OrderInfoForm extends React.Component {
     }
 
     onPlaceOrder = () => {
-        // console.log(JSON.stringify({
-        //     'waypoint': this.state.pickUpAddr,
-        //     'destination': this.state.deliveryAddr,
-        //     'detail' : {...this.state.routes.filter((route) => route.price === this.state.price)[0]},
-        //     'user_id' : "123",
-        //     'courier_id' : "abc",
-        // }));
+        console.log(JSON.stringify({
+            'waypoint': this.state.pickUpAddr,
+            'destination': this.state.deliveryAddr,
+            'detail' : {...this.state.routes.filter((route) => route.price === this.state.price)[0]},
+            'user_id' : "123",
+        }));
         // send request
         fetch(`${API_ROOT}/orders`, {
             method: 'POST',
