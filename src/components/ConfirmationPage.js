@@ -32,6 +32,10 @@ export class ConfirmationPage extends Component {
     description1 = "We have sent our nearest robot to pick up the item";
     description2 = "Your item has been picked up, delivering to destination";
     description3 = "Your item has arrived the destination";
+    componentDidMount() {
+        this.props.handlerIsRouteChosen(false);
+        this.props.handlerIsPaymentSucceed(false);
+    }
 
     render() {
         console.log('confirm', this.props.orderID);

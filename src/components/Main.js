@@ -41,7 +41,7 @@ export class Main extends React.Component {
         return this.props.isLoggedIn ? <Redirect to="/home"/> : <Login handleSuccessfulLogin={this.props.handleSuccessfulLogin}/>;
     }
     getHome = (props) => {
-        return this.props.isLoggedIn ? <Home {...props} handlerResponse = {this.handlerResponse} /> : <Redirect to="/login"/>;
+        return this.props.isLoggedIn ? <Home {...props} handlerResponse = {this.handlerResponse} handlerIsRouteChosen = {this.handlerIsRouteChosen} /> : <Redirect to="/login"/>;
     }
     getOrders = () => {
         return this.props.isLoggedIn ? <Orders/> : <Redirect to="/login"/>;
@@ -50,12 +50,27 @@ export class Main extends React.Component {
         return this.props.isLoggedIn ? <UserProfile/> : <Redirect to="/login"/>;
     }
     getPayment = (props) => {
-        return this.props.isLoggedIn ? <Payment handlerOrderID = {this.handlerOrderID} {...props}/> : <Redirect to="/login"/>;
+        if(this.props.isLoggedIn){
+            if(this.state.isRouteChosen){
+                return (<Payment isPaymentSucceed = {this.handlerIsPaymentSucceed} handlerOrderID = {this.handlerOrderID} {...props}/>);
+            }else{
+                return (<Redirect to="/home"/>);
+            }
+        }
+        return (<Redirect to="/login"/>);
     }
-    getConfirmation = () => {
-        return <ConfirmationPage response = {this.state.response} orderID = {this.state.orderID} coupon = {this.state.coupon}
-                                 handleCouponDraw = {this.handleCouponDraw}/>
+    getConfirmation = (props) => {
+        if(this.props.isLoggedIn){
+            if(this.state.isPaymentSucceed){
+                return (<ConfirmationPage response = {this.state.response} orderID = {this.state.orderID} coupon = {this.state.coupon} handlerIsPaymentSucceed = {this.handlerIsPaymentSucceed} handlerIsRouteChosen = {this.handlerIsRouteChosen}
+                                          handleCouponDraw = {this.handleCouponDraw}/>);
+            }else{
+                return (<Redirect to="/home"/>);
+            }
+        }
+        return (<Redirect to="/login"/>);
     }
+
 
     render() {
         console.log("main",this.state.orderID);
