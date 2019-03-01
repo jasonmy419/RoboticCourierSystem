@@ -330,7 +330,7 @@ class OrderInfoForm extends React.Component {
                                 {this.state.routes.map((route, index) =>
                                 {
                                     // debugger;
-                                    return <Select.Option value={[this.getMode(route.mode), route.price.toString(), route.mode]} key={index}>
+                                    return <Select.Option value={[this.getMode(route.mode), route.price, route.mode]} key={index}>
                                         {route.mode === "FLYING" ? (<img  className="image" src="https://cdn1.iconfinder.com/data/icons/business-e-commerce-logistics-solid-set-1/91/Business_E-commerce__Logistics_15-512.png" />)
                                             : (<img  className="image" src={robotic}/>)}
                                         <span>{ recommendLabel[index] } {this.checkRecommend(route.isRecommended, index)} {": delivery in "} {this.getDuration(route.duration)}</span>
