@@ -7,7 +7,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,14 +57,17 @@ public class Payment extends HttpServlet {
 		DBConnection conn = new DBConnection();
 		try {
 				JSONObject input = RpcHelper.readJSONObject(request);
-				String userId = request.getParameter("user_id");
 				
-				boolean flag = conn.setPaymentInfo(userId,input);
-							
+				conn.setPaymentInfo(input);
+				
+				String userId = input.getString("user_id");
+				boolean flag = conn.getPaymentInfo(userId);
+				
 				if (flag) {
-					RpcHelper.writeJsonObject(response, new JSONObject().put("payment status:", "success"));
+			        String str = conn.findOrderNumber(userId);
+					RpcHelper.writeJsonObject(response, new JSONObject().put("confirmation_number", str));
 				}  else {
-					RpcHelper.writeJsonObject(response, new JSONObject().put("payment status:", "failed"));
+					RpcHelper.writeJsonObject(response, new JSONObject().put("payment status", "failed"));
 				}
 				
 		} catch(Exception e) {

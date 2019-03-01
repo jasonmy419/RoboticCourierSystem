@@ -1,11 +1,17 @@
 package rpc;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Servlet implementation class Logout
@@ -38,13 +44,27 @@ public class Logout extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		/*
+
 		HttpSession session = request.getSession(false);
-		if (session != null) {
+		if (session != null) { 
 			session.invalidate();
+			try {
+				JSONObject obj = new JSONObject();
+				obj.put("status", "OK");
+				RpcHelper.writeJsonObject(response, obj);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		} else {
+			try {
+				JSONObject obj = new JSONObject();
+				obj.put("status", "Invalid operation");
+				RpcHelper.writeJsonObject(response, obj);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 		}
-		*/
-		response.sendRedirect("index.html");
+
 	}
 
 }

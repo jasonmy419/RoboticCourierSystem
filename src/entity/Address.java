@@ -3,11 +3,9 @@ package entity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import external.GoogleMapAPIUtil;
-
-
 public class Address {
 
+	private String addressId;
 	private String streetNum;
 	private String streetName;
 	private String city;
@@ -23,6 +21,7 @@ public class Address {
 
 	private Address(AddressBuilder builder) {
 
+		this.addressId = builder.addressId;
 		this.streetNum = builder.streetNum;
 		this.streetName = builder.streetName;
 		this.city = builder.city;
@@ -31,19 +30,35 @@ public class Address {
 		this.longitude = builder.longitude;
 		this.placeID = builder.placeID;
 		this.input = builder.input;
-		this.response = builder.response == null ? GeoResponseType.PLACE_ID : builder.response;
+		this.response = builder.response;
 	}
 
+	public String getAddressId() {
+		return addressId;
+	}
+	
 	public String getStreetNum() {
 		return this.streetNum;
 	}
 
+	public void setStreetNum(String streetNum) {
+		this.streetNum = streetNum;
+	}
+	
 	public String getStreetName() {
 		return this.streetName;
+	}
+	
+	public void setStreetName(String streetName) {
+		this.streetName = streetName;
 	}
 
 	public String getCity() {
 		return this.city;
+	}
+	
+	public void setCity(String city) {
+		this.city = city;
 	}
 
 	public State getState() {
@@ -86,27 +101,8 @@ public class Address {
 		return this.response;
 	}
 
-	public String getGeoQuery() {
-		String addr = null;
-		String prefix = null;
-		switch (this.input) {
-		case ADDRESS_STRING:
-			addr = parseString();
-			prefix = "address=%s&key=%s";
-			break;
-		case PLACE_ID:
-			break;
-		case COORDINATE:
-			addr = parseCoordinate();
-			prefix = "latlng=%s&key=%s";
-			break;
-		}
-
-		String query = String.format(prefix, addr, GoogleMapAPIUtil.API_KEY);
-		return query;
-	}
-
-	private String parseCoordinate() {
+	public String getCoordinate() {
+		// lat,lon
 		StringBuilder sb = new StringBuilder();
 		sb.append(this.getLatitude());
 		sb.append(',');
@@ -115,7 +111,7 @@ public class Address {
 		return sb.toString();
 	}
 
-	private String parseString() {
+	public String getParsedString() {
 		// String template = "1600+Amphitheatre+Parkway,+Mountain+View,+CA";
 		StringBuilder sb = new StringBuilder();
 		sb.append(this.getStreetNum());
@@ -144,6 +140,7 @@ public class Address {
 
 	public static class AddressBuilder {
 
+		private String addressId;
 		private String streetNum;
 		private String streetName;
 		private String city;
@@ -157,6 +154,11 @@ public class Address {
 		private InputType input;
 		private GeoResponseType response;
 
+		public AddressBuilder setAddressId(String addressId) {
+			this.addressId= addressId;
+			return this;
+		}
+		
 		public AddressBuilder setStreetNum(String streetNum) {
 			this.streetNum = streetNum;
 			return this;
@@ -207,16 +209,13 @@ public class Address {
 		}
 
 		public Address parseJson(JSONObject object, int input) {
-			
+
 			AddressBuilder address = new AddressBuilder();
 			try {
-				address.setStreetNum(object.getString("street_number"))
-				.setStreetName(object.getString("street_name"))
-				.setCity(object.getString("city"))
-				.setState(State.CA)
-				.setInputType(InputType.ADDRESS_STRING);
-				
-				switch(input) {
+				address.setStreetNum(object.getString("street_number")).setStreetName(object.getString("street_name"))
+						.setCity(object.getString("city")).setState(State.CA).setInputType(InputType.ADDRESS_STRING);
+
+				switch (input) {
 				case 1:
 					address.setResponseType(GeoResponseType.COORDINATE);
 					break;
@@ -230,19 +229,20 @@ public class Address {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 			return address.build();
 		}
 	}
 
+	// this is the origin input type from front end
 	public enum InputType {
-		ADDRESS_STRING, 
-		PLACE_ID, 
-		COORDINATE
+		ADDRESS_STRING, PLACE_ID, COORDINATE
 	}
 
+	// front end - InputType -> (string) --> geocodingapi - GeoResponseType ->
+	// coordinate
+	// this is the required input type in logistic
 	public enum GeoResponseType {
-		PLACE_ID, 
-		COORDINATE
+		PLACE_ID, COORDINATE, ADDRESS_STRING
 	}
 }
