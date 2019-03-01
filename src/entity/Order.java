@@ -18,7 +18,16 @@ public class Order {
 	private double routePrice;
 	private String routePath;
 	private boolean complete;
+	private boolean isRecommended;
 	
+	public Timestamp getEndTime() {
+		return endTime;
+	}
+
+	public boolean isRecommended() {
+		return isRecommended;
+	}
+
 	public String getUserId() {
 		return userId;
 	}
@@ -84,7 +93,7 @@ public class Order {
 		this.routePrice  = builder.routePrice;
 		this.routePath  = builder.routePath;
 		this.complete = builder.complete;
-	
+		this.isRecommended = builder.isRecommended;
 	}
 		
 	@Override
@@ -103,7 +112,8 @@ public class Order {
 					  + ", Distance: " + this.getRouteDistance() 
 					  + ", RoutePrice: " + this.getRoutePrice()    
 					  + ", RoutePath: " + this.getRoutePath() 
-					  + ", Complete: " + this.isComplete() 		
+					  + ", Complete: " + this.isComplete() 	
+					  + ", Recomended: " + this.isRecommended()
 					  + "}";
 		return entire;
 	}
@@ -124,6 +134,7 @@ public class Order {
 		private double routePrice;
 		private String routePath;
 		private boolean complete;
+		private boolean isRecommended;
 
 		public OrderBuilder userId(String userId) {
 			this.userId = userId;
@@ -189,6 +200,11 @@ public class Order {
 			return this;
 		}
 		
+		public OrderBuilder isRecommended(boolean isRecommended) {
+			this.isRecommended = isRecommended;
+			return this;
+		}
+		
 		public Order build() {
 			return new Order(this);
 		}
@@ -209,6 +225,7 @@ public class Order {
 							 .routePrice(18.415068798218403)
 							 .routePath("cmtgE`{fjUvNtbFb`I}eL")
 							 .complete(false)
+							 .isRecommended(false)
 							 .build();
 
 		System.out.println(ord.toString());
