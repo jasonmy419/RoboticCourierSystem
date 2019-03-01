@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {API_ROOT, MAP_API_KEY} from "../constants";
 import {Col, Steps} from 'antd';
 import {Map} from "./Map";
+import {Lottery} from "./Lottery"
 
 const Step = Steps.Step;
 export class ConfirmationPage extends Component {
@@ -52,6 +53,7 @@ export class ConfirmationPage extends Component {
                     <Step title="Delivering" description={this.description2} />
                     <Step title="Arrived" description={this.description3} />
                 </Steps>
+                {this.props.coupon ? <Lottery handleCouponDraw = {this.props.handleCouponDraw}/> : null}
                 <Map
                     googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${MAP_API_KEY}&libraries=geometry,drawing,places`}
                     loadingElement={<div style={{ height: `100%` }} />}

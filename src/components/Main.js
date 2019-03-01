@@ -14,7 +14,11 @@ import {UserProfile} from "./UserProfile";
 export class Main extends React.Component {
     state={
         orderID: "",
-        response: []
+        response: [],
+        coupon: true
+    }
+    handleCouponDraw = () =>{
+        this.setState({coupon: false});
     }
     handlerOrderID = (orderID) =>{
         this.setState({orderID: orderID});
@@ -41,7 +45,8 @@ export class Main extends React.Component {
         return this.props.isLoggedIn ? <Payment handlerOrderID = {this.handlerOrderID} {...props}/> : <Redirect to="/login"/>;
     }
     getConfirmation = () => {
-        return <ConfirmationPage response = {this.state.response} orderID = {this.state.orderID}/>
+        return <ConfirmationPage response = {this.state.response} orderID = {this.state.orderID} coupon = {this.state.coupon}
+                                 handleCouponDraw = {this.handleCouponDraw}/>
     }
 
     render() {
