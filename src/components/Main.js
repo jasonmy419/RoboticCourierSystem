@@ -14,7 +14,15 @@ import {UserProfile} from "./UserProfile";
 export class Main extends React.Component {
     state={
         orderID: "",
-        response: []
+        response: [],
+        isRouteChosen: false,
+        isPaymentSucceed: false,
+    }
+    handlerIsRouteChosen = (isRouteChosen) =>{
+        this.setState({isRouteChosen: isRouteChosen});
+    }
+    handlerIsPaymentSucceed = (isPaymentSucceed) =>{
+        this.setState({isPaymentSucceed: isPaymentSucceed});
     }
     handlerOrderID = (orderID) =>{
         this.setState({orderID: orderID});

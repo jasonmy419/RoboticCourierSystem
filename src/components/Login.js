@@ -36,6 +36,7 @@ class NormalLoginForm extends React.Component {
       }).then((json) => {
         if(json.status === "OK"){
           console.log("Login successfully")
+          console.log(json);
           this.props.handleSuccessfulLogin(json.user_id);
         } else {
           message.error('User not found or wrong password');

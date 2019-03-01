@@ -55,7 +55,7 @@ export class ConfirmationPage extends Component {
                 <Map
                     googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${MAP_API_KEY}&libraries=geometry,drawing,places`}
                     loadingElement={<div style={{ height: `100%` }} />}
-                    containerElement={<div style={{ height: `900px` }} />}
+                    containerElement={<div style={{ height: `600px` }} />}
                     mapElement={<div style={{ height: `100%` }} />}
                     response={this.props.response}
                 />
