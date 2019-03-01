@@ -98,7 +98,7 @@ public class RouteRecommend extends HttpServlet {
 			destination = new AddressBuilder().parseJson(input.getJSONObject("destination"), 1);
 			for (int i = 0; i < originArray.length / 2; i++) {
 				CalculateFlightDistance distanceAPI = new CalculateFlightDistance();
-				List<Route> retList = distanceAPI.calculateDistance(originArray[i], destination, waypoint, size);
+				List<Route> retList = distanceAPI.getRouteInfo(originArray[i], destination, waypoint, size);
 				buffer_routes.addAll(retList);
 			}
 			
@@ -106,7 +106,7 @@ public class RouteRecommend extends HttpServlet {
 			destination_place = new AddressBuilder().parseJson(input.getJSONObject("destination"), 2);
 			for (int i = originArray.length / 2; i < originArray.length; i++) {
 				DirectionsAPI directionsAPI = new DirectionsAPI();
-				List<Route> newList = directionsAPI.directions(originArray[i], destination_place, waypoint_place, size);
+				List<Route> newList = directionsAPI.getRouteInfo(originArray[i], destination_place, waypoint_place, size);
 				buffer_routes.addAll(newList);
 			}
 			
@@ -165,7 +165,6 @@ public class RouteRecommend extends HttpServlet {
 			fastestRoute.setDuration(routes.get(0).getDuration());
 			fastestRoute.setPolylineOverview(routes.get(0).getPolyline());
 			fastestRoute.setTravelMode(routes.get(0).getMode());
-			fastestRoute.setRoute(routes.get(0).getRoute());
 			fastestRoute.setPrice(routes.get(0).getPrice());
 			fastestRoute.setCourier(routes.get(0).getCourierID());
 			fastestRoute.setCourierRatio(routes.get(0).getCourierRatio());
@@ -196,7 +195,6 @@ public class RouteRecommend extends HttpServlet {
 			RouteBuilder cheapestRoute = new RouteBuilder();
 			cheapestRoute.setDistance(routes.get(0).getDistance());
 			cheapestRoute.setDuration(routes.get(0).getDuration());
-			cheapestRoute.setRoute(routes.get(0).getRoute());
 			cheapestRoute.setTravelMode(routes.get(0).getMode());
 			cheapestRoute.setPolylineOverview(routes.get(0).getPolyline());
 			cheapestRoute.setPrice(routes.get(0).getPrice());
@@ -227,7 +225,6 @@ public class RouteRecommend extends HttpServlet {
 				RouteBuilder recommendRoute = new RouteBuilder();
 				recommendRoute.setDistance(routes.get(i).getDistance());
 				recommendRoute.setDuration(routes.get(i).getDuration());
-				recommendRoute.setRoute(routes.get(i).getRoute());
 				recommendRoute.setTravelMode(routes.get(i).getMode());
 				recommendRoute.setPolylineOverview(routes.get(i).getPolyline());
 				recommendRoute.setPrice(routes.get(i).getPrice());
@@ -273,7 +270,7 @@ public class RouteRecommend extends HttpServlet {
 		else if (route.getMode() == TravelMode.WALKING) {
 			Address station_place = new AddressBuilder().parseJson(station, 2);
 			DirectionsAPI directionsAPI = new DirectionsAPI();
-			duration = directionsAPI.returnDuration(destination_place, station_place);
+			duration = directionsAPI.getReturnDuration(destination_place, station_place);
 		}
 		return duration;
 	}

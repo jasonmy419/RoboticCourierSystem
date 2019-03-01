@@ -1,9 +1,5 @@
 package entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -12,7 +8,6 @@ public class Route {
 	private int duration;
 	private int distance;
 	private TravelMode mode;
-	private List<Polyline> route;
 	private JSONObject polyline;
 	private double price;
 	private String courierID;
@@ -22,7 +17,6 @@ public class Route {
 		this.duration = builder.duration;
 		this.distance = builder.distance;
 		this.mode = builder.mode;
-		this.route = builder.route;
 		this.polyline = builder.polyline;
 		this.price = builder.price;
 		this.courierID = builder.courierID;
@@ -53,10 +47,6 @@ public class Route {
 		return this.mode;
 	}
 	
-	public List<Polyline> getRoute(){
-		return this.route;
-	}
-	
 	public JSONObject getPolyline() {
 		return this.polyline;
 	}
@@ -68,7 +58,6 @@ public class Route {
 			obj.put("duration", duration);
 			obj.put("distance", distance);
 			obj.put("mode", mode.name());
-			obj.put("route", this.toJSONArray());
 			obj.put("overview_polyline", polyline);
 			obj.put("price", price);
 			obj.put("courier", courierID);
@@ -79,26 +68,23 @@ public class Route {
 		return obj;
 	}
 	
-	private JSONArray toJSONArray() {
-		JSONArray array = new JSONArray();
-		
-		for(Polyline p: route) {
-			array.put(p.toJSONObject());
-		}
-		
-		return array;
-	}
-	
 	public static class RouteBuilder {
 		
 		private int duration;
 		private int distance;
 		private TravelMode mode;
-		private List<Polyline> route;
 		private JSONObject polyline;
 		private double price;
 		private String courierID;
 		private double ratio;
+		
+		public int getDistance() {
+			return this.distance;
+		}
+		
+		public int getDuration() {
+			return this.duration;
+		}
 		
 		public RouteBuilder setCourierRatio(double ratio) {
 			this.ratio = ratio;
@@ -127,15 +113,6 @@ public class Route {
 		
 		public RouteBuilder setTravelMode(TravelMode mode) {
 			this.mode = mode;
-			return this;
-		}
-		
-		public RouteBuilder setRoute(List<Polyline> list) {
-			List<Polyline> route = new ArrayList<>();
-			for(Polyline coor: list) {
-				route.add(coor);
-			}
-			this.route = route;
 			return this;
 		}
 		
