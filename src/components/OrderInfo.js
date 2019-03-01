@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Input, Button, Card, message, Radio, Spin, Select } from 'antd';
-import { API_ROOT, proxyurl, NUMBER, WORD } from "../constants";
+import {API_ROOT, proxyurl, NUMBER, WORD, USER_ID} from "../constants";
 import { RouteInfo } from "./RouteInfo";
 import NumberFormat from 'react-number-format';
 import robotic from "../assets/images/robotic.svg"
@@ -172,7 +172,7 @@ class OrderInfoForm extends React.Component {
                     'waypoint': this.state.pickUpAddr,
                     'destination': this.state.deliveryAddr,
                     'detail' : {...this.state.routes.filter((route) => route.price === this.state.price)[0]},
-                    'user_id' : "123",
+                    'user_id' : localStorage.getItem(USER_ID),
                     'courier_id' : "abc",
                 }
             ),
