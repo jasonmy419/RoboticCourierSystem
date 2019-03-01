@@ -45,8 +45,8 @@ class NormalLoginForm extends React.Component {
         console.log(err);
         message.error('Failed to access to the website');
       });
-    }
-    });
+     }
+     });
   }
 
   render() {

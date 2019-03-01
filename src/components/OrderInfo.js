@@ -88,7 +88,7 @@ class OrderInfoForm extends React.Component {
                         city: tmpDelivery[2],
                     },
                     size: values.itemSize,
-                    user_id: "123"
+                    user_id : localStorage.getItem(USER_ID),
                 }))
                 fetch(`${API_ROOT}/routeRecommend`, {
                     method: 'POST',
@@ -162,7 +162,8 @@ class OrderInfoForm extends React.Component {
             'waypoint': this.state.pickUpAddr,
             'destination': this.state.deliveryAddr,
             'detail' : {...this.state.routes.filter((route) => route.price === this.state.price)[0]},
-            'user_id' : "123",
+            'user_id' : localStorage.getItem(USER_ID),
+            'courier_id' : "abc",
         }));
         // send request
         fetch(`${API_ROOT}/orders`, {
@@ -178,6 +179,7 @@ class OrderInfoForm extends React.Component {
             ),
         }).then((response) => {
             if (response.ok) {
+                this.props.handlerIsRouteChosen(true);
                 return response.json();
             }
             throw new Error(response.statusText);

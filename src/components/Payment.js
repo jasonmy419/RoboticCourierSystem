@@ -48,6 +48,7 @@ class PaymentFrom extends React.Component {
                 }),
             }).then((response) => {
                 if (response.ok) {
+                    this.props.handlerIsPaymentSucceed(true);
                     return response.json();
                 }
                 throw new Error(response.statusText);
