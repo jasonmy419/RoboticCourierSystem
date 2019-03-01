@@ -231,6 +231,12 @@ class OrderInfoForm extends React.Component {
         return hour == 0 ? minute + ":" + second : hour + ":" + minute + ":" + second;
     }
 
+    checkRecommend = (flag, index) => {
+        if (flag && index < 2) {
+            return "and Recommended";
+        }
+    }
+
     render() {
         const { getFieldDecorator } = this.props.form;
 
@@ -327,7 +333,7 @@ class OrderInfoForm extends React.Component {
                                     return <Select.Option value={[this.getMode(route.mode), route.price.toString(), route.mode]} key={index}>
                                         {route.mode === "FLYING" ? (<img  className="image" src="https://cdn1.iconfinder.com/data/icons/business-e-commerce-logistics-solid-set-1/91/Business_E-commerce__Logistics_15-512.png" />)
                                             : (<img  className="image" src={robotic}/>)}
-                                        <span>{ recommendLabel[index]} {": delivery in "} {this.getDuration(route.duration)}</span>
+                                        <span>{ recommendLabel[index] } {this.checkRecommend(route.isRecommended, index)} {": delivery in "} {this.getDuration(route.duration)}</span>
                                     </Select.Option>}
                                     )}
 
