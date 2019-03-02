@@ -90,7 +90,7 @@ class OrderInfoForm extends React.Component {
                     },
                     size: values.itemSize,
                     userid : localStorage.getItem(USER_ID)
-                }))
+                }));
                 fetch(`${API_ROOT}/routeRecommend`, {
                     method: 'POST',
                     // body: JSON.stringify({
@@ -120,13 +120,14 @@ class OrderInfoForm extends React.Component {
                 })
                     .then((data) => {
                         console.log(data);
+                        console.log("length: ",data.length);
                         message.success('Sending Succeed!');
-                        if (data.length === 0) {
-                            message.error("Sorry, our robotics are out of stock right now.");
-                        } else {
+                        if (data.length > 0) {
                             this.setState({ routes : data ? data : [] });
                             this.setState({ isLoading : false });
                             console.log(this.state.routes);
+                        } else {
+                            message.error("Sorry, our robotics are out of stock right now.");
                         }
                         // this.props.handleResponse(data);
                         // this.props.history.push('/payment');
