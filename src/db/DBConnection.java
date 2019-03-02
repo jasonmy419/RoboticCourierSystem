@@ -22,6 +22,7 @@ import entity.User;
 public class DBConnection {
 
 	private Connection conn;
+	private final static int INIT_COUPON = 0;
 
 	public DBConnection() {
 
@@ -44,9 +45,9 @@ public class DBConnection {
 			}
 		}
 	}
-	
+
 	// Check the ratio of available couriers to total couriers in particular station
-	public double getCourierRatio (String station_id, String type) {
+	public double getCourierRatio(String station_id, String type) {
 		System.out.println("Type in db: " + type);
 		if (conn == null) {
 			return 0;
@@ -71,7 +72,8 @@ public class DBConnection {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		if (totalCount == 0) return 0;
+		if (totalCount == 0)
+			return 0;
 		return availableCount * 1.0 / totalCount;
 	}
 
@@ -200,9 +202,9 @@ public class DBConnection {
 		}
 		return stationList;
 	}
-	
+
 	// Get the latest coupon from user
-	public double getCoupon(String userId) {		
+	public double getCoupon(String userId) {
 		if (conn == null) {
 			System.err.println("DB connection failed from src/db/DBConnection -> getCoupon");
 			return -1;
@@ -217,22 +219,22 @@ public class DBConnection {
 				couponNum = rs.getInt("coupon");
 				System.out.println("HHH Coupon is " + couponNum);
 			}
-			
-		}  catch(Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("error from src/db/DBConnection -> setCoupon: " + e.getMessage());
 		}
 		System.out.println("Coupon is " + couponNum);
 		return couponNum * 1.0 / 100;
 	}
-	
+
 	public void setCoupon(String userId, int coupon) {
-		
+
 		if (conn == null) {
 			System.err.println("DB connection failed from src/db/DBConnection -> setCoupon");
 			return;
 		}
-		
+
 		try {
 			String sql = "UPDATE users SET coupon = ? WHERE user_id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
@@ -240,16 +242,16 @@ public class DBConnection {
 			stmt.setString(2, userId);
 			int rowsUpdated = stmt.executeUpdate();
 			if (rowsUpdated > 0) {
-				System.out.println("An existing user "+ userId +", was updated successfully!");
+				System.out.println("An existing user " + userId + ", was updated successfully!");
 			}
 			return;
-		}  catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("error from src/db/DBConnection -> setCoupon: " + e.getMessage());
 		}
-		
+
 	}
-	
+
 	public void setCourierTime(Timestamp courierTime, String courierId) {
 		if (conn == null) {
 			System.err.println("DB connection failed from src/db/DBConnection -> setCourierTime");
@@ -262,23 +264,23 @@ public class DBConnection {
 			stmt.setString(2, courierId);
 			int rowsUpdated = stmt.executeUpdate();
 			if (rowsUpdated > 0) {
-				System.out.println("An existing courier: "+ courierId +", was updated successfully!");
+				System.out.println("An existing courier: " + courierId + ", was updated successfully!");
 			}
 			return;
-			
-		} catch(Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("error from src/db/DBConnection -> setCourierTime: " + e.getMessage());
 		}
 	}
-	
+
 	public String setAddress(String streetNumber, String streetName, String city, String userId) {
-		
+
 		if (conn == null) {
 			System.err.println("DB connection failed from src/db/DBConnection -> setAddress");
 			return null;
 		}
-		
+
 		try {
 			String sql = "SELECT address_id FROM address WHERE user_id = ? AND street_num = ? AND street_name= ? "
 					+ "AND city = ?";
@@ -287,7 +289,7 @@ public class DBConnection {
 			stmt.setString(2, streetNumber);
 			stmt.setString(3, streetName);
 			stmt.setString(4, city);
-			
+
 			ResultSet rs = stmt.executeQuery();
 			String addressId = null;
 			JSONArray arr = new JSONArray();
@@ -298,10 +300,10 @@ public class DBConnection {
 				arr.put(obj);
 				System.out.println(obj);
 			}
-			
+
 			if (addressId != null) {
 				return addressId;
-			}  else {
+			} else {
 				sql = "INSERT IGNORE INTO address VALUES(?, ?, ?, ?, ?, ?)";
 				stmt = conn.prepareStatement(sql);
 				addressId = UUID.randomUUID().toString();
@@ -315,11 +317,11 @@ public class DBConnection {
 				return addressId;
 			}
 
-		}  catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("error from src/db/DBConnection -> setAddress: " + e.getMessage());
 		}
-		
+
 		return null;
 	}
 
@@ -385,7 +387,7 @@ public class DBConnection {
 				stmt.setString(3, orderId);
 				stmt.executeUpdate();
 			}
-			
+
 			return orderId;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -414,8 +416,8 @@ public class DBConnection {
 			int zipcode = -1;
 			// JSONObject obj = new JSONObject();
 			while (rs.next()) {
-				cardAddress =  rs.getString("address_line1");
-				zipcode =  rs.getInt("zipcode");
+				cardAddress = rs.getString("address_line1");
+				zipcode = rs.getInt("zipcode");
 			}
 
 			if (cardAddress == null || cardAddress.length() == 0 && zipcode == -1) {
@@ -536,43 +538,15 @@ public class DBConnection {
 	}
 
 	public boolean signup(User user, Address addr) {
-		if (conn == null) {
+		if(user == null || addr == null) {
 			return false;
 		}
-		try {
-			// Save user
-			boolean userSaved = false;
-			String sql = "INSERT INTO users (user_id, password, first_name, last_name, address_id, zipcode) VALUES (?,?,?,?,?,?)";
-			PreparedStatement statement = conn.prepareStatement(sql);
-			statement.setString(1, user.getUserId());
-			statement.setString(2, user.getPasword());
-			statement.setString(3, user.getFirstName());
-			statement.setString(4, user.getLastName());
-			statement.setString(5, user.getAddress());
-			statement.setString(6, user.getZipCode());
-			int rs = statement.executeUpdate();
-			if (rs == 1) {
-				userSaved = true;
-			}
-			
-			// Save addr
-			boolean addrSaved = false;
-			sql = "INSERT INTO address (address_id, street_num, street_name, city, state) VALUES (?,?,?,?,?)";
-			statement = conn.prepareStatement(sql);
-			statement.setString(1, addr.getAddressId());
-			statement.setString(2, addr.getStreetNum());
-			statement.setString(3, addr.getStreetName());
-			statement.setString(4, addr.getCity());
-			statement.setString(5, addr.getState().toString());
-			rs = statement.executeUpdate();
-			if (rs == 1) {
-				addrSaved = true;
-			}
-			return userSaved && addrSaved;
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-			return false;
+		
+		if(createUser(user) && createAddress(addr, user)) {
+			return true;
 		}
+		
+		return false;
 	}
 
 	public String getFullname(String userId) {
@@ -619,6 +593,65 @@ public class DBConnection {
 
 		return false;
 
+	}
+
+	private boolean createUser(User user) {
+		if (conn == null) {
+			return false;
+		}
+		
+		String sql = "INSERT IGNORE INTO users (user_id, password, first_name, last_name, address_id, zipcode, coupon) VALUES (?,?,?,?,?,?,?)";
+		PreparedStatement statement;
+
+		try {
+			
+			statement = conn.prepareStatement(sql);
+			statement.setString(1, user.getUserId());
+			statement.setString(2, user.getPasword());
+			statement.setString(3, user.getFirstName());
+			statement.setString(4, user.getLastName());
+			statement.setString(5, user.getAddress());
+			statement.setString(6, user.getZipCode());
+			statement.setInt(7, INIT_COUPON);
+			int rs = statement.executeUpdate();
+			System.out.println("insert users result: " + rs);
+			if (rs == 1) {
+				return true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println("createUser: " + e.getMessage());
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	private boolean createAddress(Address addr, User user) {
+		if (conn == null) {
+			return false;
+		}
+		
+		String sql = "INSERT IGNORE INTO address (address_id, user_id, street_num, street_name, city, state) VALUES (?,?,?,?,?,?)";
+		PreparedStatement statement;
+
+		try {
+			
+			statement = conn.prepareStatement(sql);
+			statement.setString(1, addr.getAddressId());
+			statement.setString(2, user.getUserId());
+			statement.setString(3, addr.getStreetNum());
+			statement.setString(4, addr.getStreetName());
+			statement.setString(5, addr.getCity());
+			statement.setString(6, addr.getState().name());
+			int rs = statement.executeUpdate();
+			System.out.println("insert address result: " + rs);
+			if (rs == 1) {
+				return true;
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return false;
 	}
 
 }
