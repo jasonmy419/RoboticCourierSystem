@@ -23,7 +23,7 @@ class App extends Component {
     console.log("app constructor ran");
     super(props);
     this.state = {
-      isLoggedIn: false,
+      isLoggedIn: Boolean(localStorage.getItem(USER_ID))? true : false
     }
   }
 
