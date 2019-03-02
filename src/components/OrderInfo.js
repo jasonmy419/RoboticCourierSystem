@@ -121,9 +121,13 @@ class OrderInfoForm extends React.Component {
                     .then((data) => {
                         console.log(data);
                         message.success('Sending Succeed!');
-                        this.setState({ routes : data ? data : [] });
-                        this.setState({ isLoading : false });
-                        console.log(this.state.routes);
+                        if (data.length === 0) {
+                            message.error("Sorry, our robotics are out of stock right now.");
+                        } else {
+                            this.setState({ routes : data ? data : [] });
+                            this.setState({ isLoading : false });
+                            console.log(this.state.routes);
+                        }
                         // this.props.handleResponse(data);
                         // this.props.history.push('/payment');
                     })
