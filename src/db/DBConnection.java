@@ -228,11 +228,11 @@ public class DBConnection {
 		return couponNum * 1.0 / 100;
 	}
 
-	public String setCoupon(String userId, int coupon) {
+	public void setCoupon(String userId, int coupon) {
 
 		if (conn == null) {
 			System.err.println("DB connection failed from src/db/DBConnection -> setCoupon");
-			return "DBConnection error";
+			return;
 		}
 
 		try {
@@ -244,12 +244,12 @@ public class DBConnection {
 			if (rowsUpdated > 0) {
 				System.out.println("An existing user " + userId + ", was updated successfully!");
 			}
-			return "success";
+			return;
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("error from src/db/DBConnection -> setCoupon: " + e.getMessage());
 		}
-		return "failed";
+
 	}
 
 	public void setCourierTime(Timestamp courierTime, String courierId) {
