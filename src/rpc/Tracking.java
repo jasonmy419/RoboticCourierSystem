@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import db.DBConnection;
@@ -30,21 +32,17 @@ public class Tracking extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-//		response.getWriter().append("Served at: ").append(request.getContextPath());
-		String orderID = request.getParameter("orderID");
-		DBConnection conn = new DBConnection();
+
+		response.setContentType("application/json");
+		JSONObject obj = new JSONObject();
 		try {
-			String s = conn.getStatus(orderID);
-//			System.out.println(s);
-			JSONObject obj = new JSONObject();
-			obj.append("Result", s);
-			RpcHelper.writeJsonObject(response, obj);
-		} catch (Exception e) {
+			obj.put("response","please send request from POST");
+		} catch(JSONException e) {
+			System.out.println("Error in rpc/Tracking/GET -> "+e.getMessage());
 			e.printStackTrace();
-		} finally {
-			conn.close();
 		}
+		RpcHelper.writeJsonObject(response, obj);
+
 	}
 
 	/**
@@ -52,7 +50,21 @@ public class Tracking extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		
+		DBConnection conn = new DBConnection();
+		try {
+			JSONObject input = RpcHelper.readJSONObject(request);
+			String orderId = input.getString("order_id");
+			String s = conn.getStatus(orderId);
+			JSONObject obj = new JSONObject();
+			obj.put("Delivery", s);
+			RpcHelper.writeJsonObject(response, obj);
+		} catch (Exception e) {
+			System.out.println("Error in rpc/Tracking/POST -> "+e.getMessage());
+			e.printStackTrace();
+		} finally {
+			conn.close();
+		}
 	}
 
 }
