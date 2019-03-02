@@ -57,14 +57,19 @@ class PaymentFrom extends React.Component {
                 console.log(data.confirmation_number);
                 const {confirmation_number} = data;
                 console.log(confirmation_number);
-                message.success('Congratulations, you have successfully checked out!');
-                // this.props.handleSuccessfulLogin(data);
-                this.props.history.push("/confirmation");
-                this.props.handlerOrderID(confirmation_number);
+                if(confirmation_number){
+                    message.success('Congratulations, you have successfully checked out!');
+                    // this.props.handleSuccessfulLogin(data);
+                    this.props.history.push("/confirmation");
+                    this.props.handlerOrderID(confirmation_number);
+                }else{
+                    message.error('Check out failed, try again');
+                }
+
                 //localStorage.setItem(ORDER_NUM, data)
             }).catch((e) => {;
                 console.log(e);
-                message.error('Check Failed.');
+                message.error('Check out failed, try again');
             });
 
         }

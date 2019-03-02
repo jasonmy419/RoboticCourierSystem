@@ -7,8 +7,6 @@ import { Link } from 'react-router-dom';
 import { List, Avatar, Icon } from 'antd';
 export class UserProfile extends React.Component{
 
-
-
     componentDidMount() {
         console.log(localStorage.getItem(USER_ID));
         fetch(`${API_ROOT}/profile`, {
