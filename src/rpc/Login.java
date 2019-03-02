@@ -64,7 +64,7 @@ public class Login extends HttpServlet {
 				obj.put("status", "Session expired");
 			}
 
-			RpcHelper.writeJsonObject(response, obj);
+			RpcHelper.writeJsonObjectWithCookie(response, obj);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -100,8 +100,8 @@ public class Login extends HttpServlet {
 				response.setStatus(401);
 				obj.put("status", "Wrong username or password");
 			}
+			RpcHelper.writeJsonObjectWithCookie(response, obj);
 
-			RpcHelper.writeJsonObject(response, obj);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

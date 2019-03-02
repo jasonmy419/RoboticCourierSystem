@@ -55,7 +55,7 @@ public class Logout extends HttpServlet {
 			try {
 				JSONObject obj = new JSONObject();
 				obj.put("status", "OK");
-				RpcHelper.writeJsonObject(response, obj);
+				RpcHelper.writeJsonObjectWithCookie(response, obj);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -63,7 +63,7 @@ public class Logout extends HttpServlet {
 			try {
 				JSONObject obj = new JSONObject();
 				obj.put("status", "Invalid operation");
-				RpcHelper.writeJsonObject(response, obj);
+				RpcHelper.writeJsonObjectWithCookie(response, obj);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
