@@ -130,6 +130,8 @@ public class DBTableCreation {
 			statement.executeUpdate(sql);
 			sql = "INSERT INTO couriers VALUES('111', 'Robot', '11', CURRENT_TIMESTAMP)";
 			statement.executeUpdate(sql);
+			sql = "INSERT INTO couriers VALUES('711', 'Robot', '11', CURRENT_TIMESTAMP)";
+			statement.executeUpdate(sql);
 			sql = "INSERT INTO couriers VALUES('222', 'Air', '11', CURRENT_TIMESTAMP)";
 			statement.executeUpdate(sql);
 			sql = "INSERT INTO couriers VALUES('211', 'Robot', '22', CURRENT_TIMESTAMP)";
