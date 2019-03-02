@@ -74,28 +74,29 @@ class App extends Component {
   handleLogout = () => {
     localStorage.removeItem(USER_ID);
     this.setState({isLoggedIn: false});
-    // fetch(`${API_ROOT}/logout`, {
-    //   method: 'POST',
-    // }).then((response) => {
-    //   if(response){
-    //     return response.text();
-    //   }
-    //   throw new Error(response.statusText);
-    // }).then((data) => {
-    //   console.log(data);
-    //   return JSON.parse(data);
-    // }).then((json) => {
-    //   console.log("logout", json);
-    //   if(json.status === "OK"){
-    //     console.log("Logout successfully")
-    //     localStorage.removeItem(USER_ID);
-    //     this.setState({isLoggedIn: false});
-    //   } else {
-    //     console.log("invalid operation");
-    //   }
-    // }).catch((err) => {
-    //   console.log(err);
-    // });
+    fetch(`${API_ROOT}/logout`, {
+      method: 'POST',
+      credentials: "include",
+    }).then((response) => {
+      if(response){
+        return response.text();
+      }
+      throw new Error(response.statusText);
+    }).then((data) => {
+      console.log(data);
+      return JSON.parse(data);
+    }).then((json) => {
+      console.log("logout", json);
+      if(json.status === "OK"){
+        console.log("Logout successfully")
+        localStorage.removeItem(USER_ID);
+        this.setState({isLoggedIn: false});
+      } else {
+        console.log("invalid operation");
+      }
+    }).catch((err) => {
+      console.log(err);
+    });
   }
 
   render() {
