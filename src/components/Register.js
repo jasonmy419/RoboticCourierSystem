@@ -23,7 +23,8 @@ class RegistrationForm extends React.Component {
           method: 'POST',
           body: JSON.stringify({
             user_id: values.username,
-            password: md5(values.username + md5(values.password)),
+            password: values.password,
+            //password: md5(values.username + md5(values.password)),
             first_name: values.firstname,
             last_name: values.lastname,
             street_num: values.streetnumber,
@@ -216,6 +217,8 @@ class RegistrationForm extends React.Component {
                     >
                       <Select.Option value="CA">CA</Select.Option>
                       <Select.Option value="NV">NV</Select.Option>
+                      <Select.Option value="WA">NV</Select.Option>
+                      <Select.Option value="OR">NV</Select.Option>
                     </Select>
                 )}
               </Col>

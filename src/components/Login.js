@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import md5 from "md5"
 
 class NormalLoginForm extends React.Component {
+
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -17,13 +18,14 @@ class NormalLoginForm extends React.Component {
       //   resolve(response);
       // });
 
-
       //send request, uncomment for final use
       fetch(`${API_ROOT}/login`, {
         method: 'POST',
+        credentials: 'include',
         body: JSON.stringify({
           user_id: values.username,
-          password: md5(values.username + md5(values.password))
+          password: values.password,
+          //password: md5(values.username + md5(values.password))
         })
       }).then((response) => {
         if(response){

@@ -20,11 +20,16 @@ import md5 from "md5"
 
 class App extends Component {
   constructor(props){
-    console.log("app constructor ran")
+    console.log("app constructor ran");
     super(props);
     this.state = {
-      isLoggedIn: Boolean(localStorage.getItem(USER_ID))? true : false,
+      isLoggedIn: false,
     }
+  }
+
+  componentWillMount() {
+    console.log("componentWillMount ran");
+    this.validateSession();
   }
 
   validateSession = () => {
@@ -37,7 +42,7 @@ class App extends Component {
     // });
 
     //send request, uncomment for final use
-    const promise = fetch(`${API_ROOT}/login`, {
+    fetch(`${API_ROOT}/login`, {
       method: "GET",
       credentials: "include",
     }).then((response) => {
@@ -45,9 +50,7 @@ class App extends Component {
         return response.text();
       }
       throw new Error(response.statusText);
-    });
-
-    promise.then((data) => {
+    }).then((data) => {
       console.log(data);
       return JSON.parse(data);
     }).then((json) => {
@@ -72,29 +75,30 @@ class App extends Component {
   }
 
   handleLogout = () => {
-    localStorage.removeItem(USER_ID);
-    this.setState({isLoggedIn: false});
-    // fetch(`${API_ROOT}/logout`, {
-    //   method: 'POST',
-    // }).then((response) => {
-    //   if(response){
-    //     return response.text();
-    //   }
-    //   throw new Error(response.statusText);
-    // }).then((data) => {
-    //   console.log(data);
-    //   return JSON.parse(data);
-    // }).then((json) => {
-    //   if(json.status === "OK"){
-    //     console.log("Logout successfully")
-    //     localStorage.removeItem(USER_ID);
-    //     this.setState({isLoggedIn: false});
-    //   } else {
-    //     console.log("invalid operation");
-    //   }
-    // }).catch((err) => {
-    //   console.log(err);
-    // });
+    // localStorage.removeItem(USER_ID);
+    // this.setState({isLoggedIn: false});
+    fetch(`${API_ROOT}/logout`, {
+      method: 'POST',
+      credentials: 'include',
+    }).then((response) => {
+      if(response){
+        return response.text();
+      }
+      throw new Error(response.statusText);
+    }).then((data) => {
+      console.log(data);
+      return JSON.parse(data);
+    }).then((json) => {
+      if(json.status === "OK"){
+        console.log("Logout successfully")
+        localStorage.removeItem(USER_ID);
+        this.setState({isLoggedIn: false});
+      } else {
+        console.log("invalid operation");
+      }
+    }).catch((err) => {
+      console.log(err);
+    });
   }
 
   render() {
