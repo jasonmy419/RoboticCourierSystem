@@ -128,75 +128,106 @@ public class DBTableCreation {
 
 			// Hardcode the couriers in SD
 			statement.executeUpdate(sql);
-			sql = "INSERT INTO couriers VALUES('111', 'Robot', '11', CURRENT_TIMESTAMP)";
-			statement.executeUpdate(sql);
-			sql = "INSERT INTO couriers VALUES('711', 'Robot', '11', CURRENT_TIMESTAMP)";
-			statement.executeUpdate(sql);
-			sql = "INSERT INTO couriers VALUES('222', 'Air', '11', CURRENT_TIMESTAMP)";
-			statement.executeUpdate(sql);
-			sql = "INSERT INTO couriers VALUES('211', 'Robot', '22', CURRENT_TIMESTAMP)";
-			statement.executeUpdate(sql);
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			Timestamp current_time = new Timestamp((new Date()).getTime());
+			
+			sql = "INSERT INTO couriers VALUES('111', 'Robot', '11', ?)";
+			stmt = conn.prepareStatement(sql);
+			stmt.setTimestamp(1, current_time);
+			stmt.executeUpdate();
 
-			sql = "INSERT INTO couriers VALUES('315', 'Air', '33', CURRENT_TIMESTAMP)";
-			statement.executeUpdate(sql);
-			sql = "INSERT INTO couriers VALUES('323', 'Robot', '33', CURRENT_TIMESTAMP)";
-			statement.executeUpdate(sql);
+			sql = "INSERT INTO couriers VALUES('112', 'Robot', '11', ?)";
+			stmt = conn.prepareStatement(sql);
+			stmt.setTimestamp(1, current_time);
+			stmt.executeUpdate();
+			
+			sql = "INSERT INTO couriers VALUES('121', 'Air', '11', ?)";
+			stmt = conn.prepareStatement(sql);
+			stmt.setTimestamp(1, current_time);
+			stmt.executeUpdate();
+			
+			sql = "INSERT INTO couriers VALUES('211', 'Robot', '22', ?)";
+			stmt = conn.prepareStatement(sql);
+			stmt.setTimestamp(1, current_time);
+			stmt.executeUpdate();
+
+			sql = "INSERT INTO couriers VALUES('325', 'Air', '33', ?)";
+			stmt = conn.prepareStatement(sql);
+			stmt.setTimestamp(1, current_time);
+			stmt.executeUpdate();
+			
+			sql = "INSERT INTO couriers VALUES('313', 'Robot', '33', ?)";
+			stmt = conn.prepareStatement(sql);
+			stmt.setTimestamp(1, current_time);
+			stmt.executeUpdate();
 			
 			// insert a future timestamp
 			Timestamp s = new Timestamp((new Date()).getTime() + 3000000);
-			sql = "INSERT INTO couriers VALUES('321', 'Robot', '33', ?)";
-			PreparedStatement stmt = conn.prepareStatement(sql);
+			sql = "INSERT INTO couriers VALUES('311', 'Robot', '33', ?)";
+			stmt = conn.prepareStatement(sql);
 			stmt.setTimestamp(1, s);
 			stmt.executeUpdate();
 
-			sql = "INSERT INTO couriers VALUES('311', 'Air', '33', ?)";
+			sql = "INSERT INTO couriers VALUES('321', 'Air', '33', ?)";
 			stmt = conn.prepareStatement(sql);
 			stmt.setTimestamp(1, s);
 			stmt.executeUpdate();
 			
-			sql = "INSERT INTO couriers VALUES('313', 'Air', '33', ?)";
+			sql = "INSERT INTO couriers VALUES('323', 'Air', '33', ?)";
 			stmt = conn.prepareStatement(sql);
 			stmt.setTimestamp(1, s);
 			stmt.executeUpdate();
 			
-			sql = "INSERT INTO couriers VALUES('314', 'Air', '33', ?)";
+			sql = "INSERT INTO couriers VALUES('324', 'Air', '33', ?)";
 			stmt = conn.prepareStatement(sql);
 			stmt.setTimestamp(1, s);
 			stmt.executeUpdate();
 			
-			sql = "INSERT INTO couriers VALUES('322', 'Robot', '33', ?)";
+			sql = "INSERT INTO couriers VALUES('312', 'Robot', '33', ?)";
 			stmt = conn.prepareStatement(sql);
 			stmt.setTimestamp(1, s);
 			stmt.executeUpdate();
 
 			// Hardcode the couriers in SF
-			sql = "INSERT INTO couriers VALUES('444', 'Robot', '44', CURRENT_TIMESTAMP)";
-			statement.executeUpdate(sql);
-			sql = "INSERT INTO couriers VALUES('555', 'Air', '44', CURRENT_TIMESTAMP)";
-			statement.executeUpdate(sql);
-			sql = "INSERT INTO couriers VALUES('511', 'Robot', '55', CURRENT_TIMESTAMP)";
-			statement.executeUpdate(sql);
+			sql = "INSERT INTO couriers VALUES('411', 'Robot', '44', ?)";
+			stmt = conn.prepareStatement(sql);
+			stmt.setTimestamp(1, current_time);
+			stmt.executeUpdate();
+			
+			sql = "INSERT INTO couriers VALUES('412', 'Robot', '44', ?)";
+			stmt = conn.prepareStatement(sql);
+			stmt.setTimestamp(1, current_time);
+			stmt.executeUpdate();
+			
+			sql = "INSERT INTO couriers VALUES('421', 'Air', '44', ?)";
+			stmt = conn.prepareStatement(sql);
+			stmt.setTimestamp(1, current_time);
+			stmt.executeUpdate();
+			
+			sql = "INSERT INTO couriers VALUES('511', 'Robot', '55', ?)";
+			stmt = conn.prepareStatement(sql);
+			stmt.setTimestamp(1, current_time);
+			stmt.executeUpdate();
 
 			// insert a future timestamp
-			s = new Timestamp((new Date()).getTime() + 3000000);
-			sql = "INSERT INTO couriers VALUES('621', 'Robot', '66', ?)";
+			s = new Timestamp((new Date()).getTime() + 4000000);
+			sql = "INSERT INTO couriers VALUES('415', 'Robot', '44', ?)";
+			stmt = conn.prepareStatement(sql);
+			stmt.setTimestamp(1, s);
+			stmt.executeUpdate();
+			
+			sql = "INSERT INTO couriers VALUES('611', 'Robot', '66', ?)";
 			stmt = conn.prepareStatement(sql);
 			stmt.setTimestamp(1, s);
 			stmt.executeUpdate();
 
-			sql = "INSERT INTO couriers VALUES('611', 'Air', '66', ?)";
+			sql = "INSERT INTO couriers VALUES('621', 'Air', '66', ?)";
 			stmt = conn.prepareStatement(sql);
 			stmt.setTimestamp(1, s);
 			stmt.executeUpdate();
 			
 
-			//			sql = "CREATE TABLE items ("
-			//					+ "item_id VARCHAR(255) NOT NULL,"
-			//					+ "weight FLOAT,"
-			//					// FIXME
-			////					+ "PRIMARY KEY (item_id)"
-			//					+ ")";
-			//			statement.executeUpdate(sql);
+
 
 			sql = "CREATE TABLE	orders (" 
 					+"order_id VARCHAR(255) NOT NULL,"
