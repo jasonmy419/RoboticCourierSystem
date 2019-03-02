@@ -14,7 +14,7 @@ import db.DBConnection;
 /**
  * Servlet implementation class History
  */
-@WebServlet("/History")
+@WebServlet("/history")
 public class History extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

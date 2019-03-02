@@ -15,7 +15,7 @@ import db.DBConnection;
 /**
  * Servlet implementation class Profile
  */
-@WebServlet("/Profile")
+@WebServlet("/profile")
 public class Profile extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

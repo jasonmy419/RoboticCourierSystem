@@ -77,6 +77,8 @@ public class DBTableCreation {
 
 			sql = "INSERT INTO users VALUE('0xDEADBEEF', 'admin', 'EMANON', 'ENIGMA', '0x7FFF', 60616, 5)";
 			statement.executeUpdate(sql);
+			sql = "INSERT INTO users VALUE('admin', '6a3cbac6fbb879aa9a03a6c552483b37', 'admin', 'admin', '0x7FFF', 60616, 3)";
+			statement.executeUpdate(sql);
 			
 			sql = "INSERT INTO address VALUES('11', '167','32', 'angle st', 'LA', 'CA')";
 			statement.executeUpdate(sql);
