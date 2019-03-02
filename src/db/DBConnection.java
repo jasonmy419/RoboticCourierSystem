@@ -492,22 +492,31 @@ public class DBConnection {
 
 	public String getStatus(String orderID) {
 		if (conn == null) {
+			System.err.println("DB connection failed from src/db/DBConnection -> getStatus");
 			return null;
 		}
-		String status = "";
+		Timestamp cur = new Timestamp((new Date()).getTime());
+		Timestamp status = null;
 		try {
-			String sql = "SELECT status FROM orders WHERE order_id = ?";
+			String sql = "SELECT end_time FROM orders WHERE order_id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, orderID);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
-				status = rs.getString("status");
+				status = rs.getTimestamp("end_time");
 			}
+			
+			if (status.getTime() <= cur.getTime()) {
+				return "DELIVERED";
+			}
+			System.out.println("curTime: " + cur.getTime());
+			System.out.println("DTime: " + status.getTime());
+			System.out.println(status.getTime() <= cur.getTime());
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return status;
+		return "IN TRANSIT";
 	}
 
 	public JSONArray getStationAddress() {
