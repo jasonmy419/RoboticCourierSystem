@@ -20,14 +20,10 @@ export class Lottery extends Component {
             user_id: localStorage.getItem(USER_ID),
             coupon: random,
         }))
-
-
-
         fetch(`${API_ROOT}/coupon`, {
             method: 'POST',
             body: JSON.stringify({
                 user_id: localStorage.getItem(USER_ID),
-
                 coupon: random
             })
         }).then((response) => {
@@ -41,7 +37,7 @@ export class Lottery extends Component {
         }).then((json) => {
             if(json.status === "OK") {
                 console.log(json);
-            }}}
+            }})}
 
 
     render() {

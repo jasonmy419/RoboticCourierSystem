@@ -3,10 +3,12 @@ import {
     Form, Input, Select, Button, DatePicker, message, Card
 } from 'antd';
 import {API_ROOT, ORDER_NUM, USER_ID} from '../constants';
-import { Link } from 'react-router-dom';
 import { List, Avatar, Icon } from 'antd';
 export class UserProfile extends React.Component{
+    state = {
+        userInfo: [
 
+        ] }
     componentDidMount() {
         console.log(localStorage.getItem(USER_ID));
         fetch(`${API_ROOT}/profile`, {
@@ -15,10 +17,7 @@ export class UserProfile extends React.Component{
             //     username: values.pickingUpAddress,
             //     password: values.deliveryAddress,
             // }),
-            body: JSON.stringify({
-                user_id: localStorage.getItem(USER_ID)
-            }
-            ),
+            user_id: localStorage.getItem(USER_ID)
         }).then((response) => {
             if (response.ok) {
                 return response.json();
@@ -47,9 +46,7 @@ export class UserProfile extends React.Component{
         }
         return(
             <div className="user-info">
-                <Avatar size="small" icon="user"/>
-                <p>{`${userInfo.user_id}`}</p>
-                <p>{`${userInfo.first_name} ${userInfo.last_name}`}</p>
+                <h2>{`Welcome back, ${userInfo.first_name} `}</h2>
             </div>
         );
     }
