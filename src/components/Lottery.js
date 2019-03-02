@@ -20,11 +20,15 @@ export class Lottery extends Component {
             user_id: localStorage.getItem(USER_ID),
             coupon: random,
         }))
+
+
+
         fetch(`${API_ROOT}/coupon`, {
             method: 'POST',
             body: JSON.stringify({
                 user_id: localStorage.getItem(USER_ID),
-                coupon: random,
+
+                coupon: random
             })
         }).then((response) => {
             if(response){
@@ -35,15 +39,9 @@ export class Lottery extends Component {
             console.log(data);
             return JSON.parse(data);
         }).then((json) => {
-            if(json.status === "OK"){
+            if(json.status === "OK") {
                 console.log(json);
-                this.props.handleSuccessfulLogin(json.user_id);
-            }
-        }).catch((err) => {
-            console.log(err);
-        });
-
-    }
+            }}}
 
 
     render() {
