@@ -8,11 +8,15 @@ export class Home extends React.Component{
 
         ] }
 
-handleResponse = (responseValue) => {
+    handleResponse = (responseValue) => {
         this.setState({response: responseValue});
         console.log(this.state.response);
         this.props.handlerResponse(responseValue);
     }
+    componentDidMount() {
+        this.props.handlerIsRouteChosen(false);
+    }
+
 
     render(){
         return(
@@ -22,7 +26,7 @@ handleResponse = (responseValue) => {
                     <Map
                         googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${MAP_API_KEY}&libraries=geometry,drawing,places`}
                         loadingElement={<div style={{ height: `100%` }} />}
-                        containerElement={<div style={{ height: `900px` }} />}
+                        containerElement={<div style={{ height: `800px` }} />}
                         mapElement={<div style={{ height: `100%` }} />}
                         response={this.state.response}
                         // posts={this.state.posts}
@@ -30,7 +34,7 @@ handleResponse = (responseValue) => {
                     />
                 </Col>
                 <Col span={10}>
-                    <OrderInfo handleResponse={this.handleResponse} history={this.props.history}/>
+                    <OrderInfo handleResponse={this.handleResponse} history={this.props.history} handlerIsRouteChosen = {this.props.handlerIsRouteChosen}/>
                 </Col>
             </div>
         )

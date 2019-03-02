@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Input, Button, Card, message, Radio, Spin, Select } from 'antd';
-import { API_ROOT, proxyurl, NUMBER, WORD } from "../constants";
+import {API_ROOT, proxyurl, NUMBER, WORD, USER_ID} from "../constants";
 import { RouteInfo } from "./RouteInfo";
 import NumberFormat from 'react-number-format';
 import robotic from "../assets/images/robotic.svg"
@@ -12,6 +12,7 @@ class OrderInfoForm extends React.Component {
         deliveryAddr: [],
         routes: [],
         price: 0.00,
+        duration: '',
         chosenRoute: '',
         beforeRoute: true,
         isLoading: true,
@@ -88,7 +89,7 @@ class OrderInfoForm extends React.Component {
                         city: tmpDelivery[2],
                     },
                     size: values.itemSize,
-                    user_id: "123"
+                    userid : localStorage.getItem(USER_ID)
                 }))
                 fetch(`${API_ROOT}/routeRecommend`, {
                     method: 'POST',
@@ -108,7 +109,7 @@ class OrderInfoForm extends React.Component {
                             city: tmpDelivery[2],
                         },
                             size: values.itemSize,
-                            user_id: "123"
+                            userid : localStorage.getItem(USER_ID)
                         }
                     ),
                 }).then((response) => {
@@ -120,9 +121,13 @@ class OrderInfoForm extends React.Component {
                     .then((data) => {
                         console.log(data);
                         message.success('Sending Succeed!');
-                        this.setState({ routes : data ? data : [] });
-                        this.setState({ isLoading : false });
-                        console.log(this.state.routes);
+                        if (data.length === 0) {
+                            message.error("Sorry, our robotics are out of stock right now.");
+                        } else {
+                            this.setState({ routes : data ? data : [] });
+                            this.setState({ isLoading : false });
+                            console.log(this.state.routes);
+                        }
                         // this.props.handleResponse(data);
                         // this.props.history.push('/payment');
                     })
@@ -158,13 +163,13 @@ class OrderInfoForm extends React.Component {
     }
 
     onPlaceOrder = () => {
-        // console.log(JSON.stringify({
-        //     'waypoint': this.state.pickUpAddr,
-        //     'destination': this.state.deliveryAddr,
-        //     'detail' : {...this.state.routes.filter((route) => route.price === this.state.price)[0]},
-        //     'user_id' : "123",
-        //     'courier_id' : "abc",
-        // }));
+        console.log("postInfo", JSON.stringify({
+            'waypoint': this.state.pickUpAddr,
+            'destination': this.state.deliveryAddr,
+            'detail' : {...this.state.routes.filter((route) => route.price === this.state.price)[0]},
+            'user_id' : localStorage.getItem(USER_ID),
+            'courier_id' : "abc",
+        }));
         // send request
         fetch(`${API_ROOT}/orders`, {
             method: 'POST',
@@ -173,12 +178,13 @@ class OrderInfoForm extends React.Component {
                     'waypoint': this.state.pickUpAddr,
                     'destination': this.state.deliveryAddr,
                     'detail' : {...this.state.routes.filter((route) => route.price === this.state.price)[0]},
-                    'user_id' : "123",
+                    'user_id' : localStorage.getItem(USER_ID),
                     'courier_id' : "abc",
                 }
             ),
         }).then((response) => {
             if (response.ok) {
+                this.props.handlerIsRouteChosen(true);
                 return response.json();
             }
             throw new Error(response.statusText);
@@ -188,7 +194,6 @@ class OrderInfoForm extends React.Component {
                 this.props.history.push('/payment');
             })
             .catch((e) => {
-
                 console.log(e);
                 message.error('Sending Failed.');
             });
@@ -203,33 +208,38 @@ class OrderInfoForm extends React.Component {
 
     onSelectRoute1 = (value) => {
         console.log(`selected ${value}`);
-        this.setState({price : value[0]});
-        this.setState({chosenRoute : value[0]});
+        this.setState({ price : value[1]});
+        this.setState({ duration : value[3]});
+        this.setState({ chosenRoute : value[1]});
         this.setState({ isSelectedRoute : true });
-        console.log(`selected... ${value[1]}`);
-        if (value[1] === "FLYING") {
+        console.log(`selected... ${value[0]}`);
+        if (value[2] === "FLYING") {
             this.setState({ isFlying : true });
         } else {
             this.setState({ isFlying : false });
         }
-        this.props.handleResponse(this.state.routes.filter((route) => route.price === value[0]));
+        this.props.handleResponse(this.state.routes.filter((route) => route.price === value[1]));
     }
 
-    // setMode = (value) => {
-    //     if (!this.state.beforeRoute) {
-    //         if (value === "FLYING" && !this.state.isFlying) {
-    //             this.setState({ isFlying : true });
-    //         } else if (value === "WALKING" && this.state.isFlying) {
-    //             this.setState({ isFlying : false });
-    //         }
-    //     }
-    // }
+    getMode = (value) => {
+        if (value === "FLYING") {
+            return "Send by UAV";
+        } else {
+            return "Send by Robotic";
+        }
+    }
 
     getDuration = (time) => {
         const hour = parseInt(time / 3600);
         const minute = parseInt((time % 3600) / 60);
         const second = (time % 60);
         return hour == 0 ? minute + ":" + second : hour + ":" + minute + ":" + second;
+    }
+
+    checkRecommend = (flag, index) => {
+        if (flag && index < 2) {
+            return "and Recommended";
+        }
     }
 
     render() {
@@ -323,23 +333,31 @@ class OrderInfoForm extends React.Component {
                             <Select onChange={this.onSelectRoute1}
                                     placeholder="Select a route">
                                 {this.state.routes.map((route, index) =>
-                                    <Select.Option value={[route.price, route.mode]} key={index}>
-                                        {recommendLabel[index]} {": delivery in "} {this.getDuration(route.duration)}
-                                    </Select.Option>)}
+                                {
+                                    // debugger;
+                                    return <Select.Option value={[this.getMode(route.mode), route.price, route.mode, this.getDuration(route.duration)]} key={index}>
+                                        {route.mode === "FLYING" ? (<img  className="image" src="https://cdn1.iconfinder.com/data/icons/business-e-commerce-logistics-solid-set-1/91/Business_E-commerce__Logistics_15-512.png" />)
+                                            : (<img  className="image" src={robotic}/>)}
+                                        <span>  { recommendLabel[index] } {this.checkRecommend(route.isRecommended, index)}</span>
+                                    </Select.Option>}
+                                    )}
+
                             </Select>
                         )}
                     </Form.Item>)}
                     {this.state.isSelectedRoute ? (
                         <div>
-                            <Form.Item>
-                                {this.state.isFlying ? (<img  className="image" src="https://cdn1.iconfinder.com/data/icons/business-e-commerce-logistics-solid-set-1/91/Business_E-commerce__Logistics_15-512.png" />)
-                                : (<img  className="image" src={robotic}/>)}
+                            <Form.Item
+                                {...formItemLayout}
+                                label="Delivery in: "
+                            >
+                                <span>{this.state.duration}.s</span>
                             </Form.Item>
                             <Form.Item
                                 {...formItemLayout}
                                 label="Price: "
                             >
-                                <NumberFormat value={this.state.price} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} />
+                                <NumberFormat value={this.state.price} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} className="price"/>
                             </Form.Item>
                             <Form.Item {...tailFormItemLayout}>
                                 <Button type="primary" onClick={this.onPlaceOrder}>

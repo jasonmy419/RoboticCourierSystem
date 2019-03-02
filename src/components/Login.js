@@ -21,7 +21,7 @@ class NormalLoginForm extends React.Component {
       //send request, uncomment for final use
       fetch(`${API_ROOT}/login`, {
         method: 'POST',
-        credentials: 'include',
+        credentials: "include",
         body: JSON.stringify({
           user_id: values.username,
           password: values.password,
@@ -38,6 +38,7 @@ class NormalLoginForm extends React.Component {
       }).then((json) => {
         if(json.status === "OK"){
           console.log("Login successfully")
+          console.log(json);
           this.props.handleSuccessfulLogin(json.user_id);
         } else {
           message.error('User not found or wrong password');
@@ -46,8 +47,8 @@ class NormalLoginForm extends React.Component {
         console.log(err);
         message.error('Failed to access to the website');
       });
-    }
-    });
+     }
+     });
   }
 
   render() {

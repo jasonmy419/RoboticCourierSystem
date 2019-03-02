@@ -1,0 +1,11 @@
+.lottery-main{
+    margin-bottom: 40px;
+}
+
+.lottery-button{
+    display: flex;
+}
+
+.lottery-instruction{
+    margin-right: 80px;
+}

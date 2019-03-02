@@ -89,6 +89,7 @@ class App extends Component {
       console.log(data);
       return JSON.parse(data);
     }).then((json) => {
+      console.log("logout", json);
       if(json.status === "OK"){
         console.log("Logout successfully")
         localStorage.removeItem(USER_ID);
