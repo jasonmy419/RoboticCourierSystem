@@ -158,7 +158,7 @@ class OrderInfoForm extends React.Component {
     }
 
     onPlaceOrder = () => {
-        console.log(JSON.stringify({
+        console.log("postInfo", JSON.stringify({
             'waypoint': this.state.pickUpAddr,
             'destination': this.state.deliveryAddr,
             'detail' : {...this.state.routes.filter((route) => route.price === this.state.price)[0]},
