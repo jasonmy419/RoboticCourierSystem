@@ -628,13 +628,11 @@ public class DBConnection {
 		}
 		JSONArray array = new JSONArray();
 		try {
-			String sql = "SELECT order_id, object_id, route_path, end_address_id, complete FROM orders WHERE user_id = ?";
+			String sql = "SELECT order_id, end_address_id, complete FROM orders WHERE user_id = ?";
 			PreparedStatement statement = conn.prepareStatement(sql);
 			ResultSet rs = statement.executeQuery();
 			while (rs.next()) {
 				JSONObject obj = new JSONObject();
-				obj.put("order_id", rs.getString("order_id"));
-				obj.put("object_id", rs.getString("object_id"));
 				obj.put("route_path", rs.getString("route_path"));
 				obj.put("end_address_id", rs.getString("end_address_id"));
 				obj.put("complete", rs.getString("complete"));
