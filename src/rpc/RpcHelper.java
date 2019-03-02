@@ -26,16 +26,6 @@ public class RpcHelper {
 		// Writes a JSONObject to http response.
 		public static void writeJsonObject(HttpServletResponse response, JSONObject obj) throws IOException {
 			response.setContentType("application/json");
-			response.addHeader("Access-Control-Allow-Origin", "*");
-			PrintWriter out = response.getWriter();
-			out.print(obj);
-			out.close();
-
-		}
-		
-		// Writes a JSONObject to http response.
-		public static void writeJsonObjectWithCookie(HttpServletResponse response, JSONObject obj) throws IOException {
-			response.setContentType("application/json");
 			response.addHeader("Access-Control-Allow-Origin", "http://localhost:3000");
 			response.addHeader("Access-Control-Allow-Credentials", "true");
 			PrintWriter out = response.getWriter();
@@ -43,6 +33,7 @@ public class RpcHelper {
 			out.close();
 
 		}
+		
 		
 
 		public static JSONObject readJSONObject(HttpServletRequest request) {

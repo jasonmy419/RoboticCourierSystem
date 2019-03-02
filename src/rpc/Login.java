@@ -96,13 +96,12 @@ public class Login extends HttpServlet {
 				sessionId.setMaxAge(3600 * 24);
 				response.addCookie(sessionId);
 				obj.put("status", "OK").put("user_id", userId).put("name", connection.getFullname(userId));
-				RpcHelper.writeJsonObjectWithCookie(response, obj);
 			} else {
 				response.setStatus(401);
 				obj.put("status", "Wrong username or password");
-				RpcHelper.writeJsonObject(response, obj);
 			}
 
+			RpcHelper.writeJsonObject(response, obj);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
