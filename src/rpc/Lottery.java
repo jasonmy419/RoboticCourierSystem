@@ -45,8 +45,8 @@ public class Lottery extends HttpServlet {
 			String userId = input.getString("user_id");
 			int coupon = input.getInt("coupon");
 			
-			conn.setCoupon(userId, coupon);
-			RpcHelper.writeJsonObject(response, new JSONObject().put("lottery:", "success"));
+			String status = conn.setCoupon(userId, coupon);
+			RpcHelper.writeJsonObject(response, new JSONObject().put("lottery:", status));
 		}  catch (Exception e) {
 			System.out.println("error from /rpc/Lottery/Post -> " + e.getMessage());
 	   		e.printStackTrace();
