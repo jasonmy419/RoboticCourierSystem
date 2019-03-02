@@ -21,6 +21,7 @@ class NormalLoginForm extends React.Component {
       //send request, uncomment for final use
       fetch(`${API_ROOT}/login`, {
         method: 'POST',
+        //credentials: "include",
         body: JSON.stringify({
           user_id: values.username,
           password: md5(values.username + md5(values.password))

@@ -17,3 +17,8 @@
 .image {
     width: 20px;
 }
+
+.price {
+    font-size: 20px;
+    color: red;
+}

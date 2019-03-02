@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    Form, Input, Select, Button, DatePicker, message
+    Form, Input, Select, Button, DatePicker, message, Row, Col
 } from 'antd';
 import {API_ROOT, ORDER_NUM, USER_ID} from '../constants';
 import { Link } from 'react-router-dom';
@@ -57,14 +57,19 @@ class PaymentFrom extends React.Component {
                 console.log(data.confirmation_number);
                 const {confirmation_number} = data;
                 console.log(confirmation_number);
-                message.success('Congratulations, you have successfully checked out!');
-                // this.props.handleSuccessfulLogin(data);
-                this.props.history.push("/confirmation");
-                this.props.handlerOrderID(confirmation_number);
+                if(confirmation_number){
+                    message.success('Congratulations, you have successfully checked out!');
+                    // this.props.handleSuccessfulLogin(data);
+                    this.props.history.push("/confirmation");
+                    this.props.handlerOrderID(confirmation_number);
+                }else{
+                    message.error('Check out failed, try again');
+                }
+
                 //localStorage.setItem(ORDER_NUM, data)
             }).catch((e) => {;
                 console.log(e);
-                message.error('Check Failed.');
+                message.error('Check out failed, try again');
             });
 
         }
@@ -93,6 +98,17 @@ class PaymentFrom extends React.Component {
             },
         };
 
+        const formItemLayouttwo = {
+            labelCol: {
+                xs: { span: 24, offset: 8 },
+                sm: { span: 8 },
+            },
+            wrapperCol: {
+                xs: { span: 24},
+                sm: { span: 8 },
+            },
+        };
+
         const prefixSelector = getFieldDecorator('prefix', {
             initialValue: '1',
         })(
@@ -110,9 +126,10 @@ class PaymentFrom extends React.Component {
             <Form onSubmit={this.handleSubmit} className="payment">
                 <h2>Billing Information</h2>
                 {/*<p>USER INFORMANTIOM</p>*/}
-
+                <Row gutter={8}>
+                    <Col span={12}>
                 <Form.Item
-                    {...formItemLayout}
+                    {...formItemLayouttwo}
                     label="Last_Name"
                 >
                     {getFieldDecorator('last_name', {
@@ -123,6 +140,8 @@ class PaymentFrom extends React.Component {
                         <Input type="last_name" onBlur={this.handleConfirmBlur}/>
                     )}
                 </Form.Item>
+                     </Col>
+                    <Col span={12}>
                 <Form.Item
                     {...formItemLayout}
                     label="First_Name"
@@ -135,6 +154,9 @@ class PaymentFrom extends React.Component {
                         <Input type="first_name" onBlur={this.handleConfirmBlur} />
                     )}
                 </Form.Item>
+                    </Col>
+                </Row>
+
                 <Form.Item
                     {...formItemLayout}
                     label="E-mail"
@@ -185,6 +207,22 @@ class PaymentFrom extends React.Component {
                     )}
                 </Form.Item>
 
+                <Row gutter={8}>
+                    <Col span={12}>
+                <Form.Item
+                    {...formItemLayouttwo}
+                    label="State"
+                >
+                    {getFieldDecorator('state', {
+                        rules: [{
+                            required: true, message: 'Please input your state!',
+                        }],
+                    })(
+                        <Input type="state" />
+                    )}
+                </Form.Item>
+                        </Col>
+                    <Col span={12}>
                 <Form.Item
                     {...formItemLayout}
                     label="City"
@@ -197,33 +235,8 @@ class PaymentFrom extends React.Component {
                         <Input type="state" />
                     )}
                 </Form.Item>
-
-                <Form.Item
-                    {...formItemLayout}
-                    label="State"
-                >
-                    {getFieldDecorator('state', {
-                        rules: [{
-                            required: true, message: 'Please input your state!',
-                        }],
-                    })(
-                        <Input type="state" />
-                    )}
-                </Form.Item>
-
-                <Form.Item
-                    {...formItemLayout}
-                    label="Zipcode"
-                >
-                    {getFieldDecorator('zipcode', {
-                        rules: [{
-                            required: true, message: 'Please input your zipcode!',
-                        }],
-                    })(
-                        <Input type="zipcode" />
-                    )}
-                </Form.Item>
-
+                        </Col>
+                    </Row>
 
 
                 <Form.Item
@@ -238,9 +251,10 @@ class PaymentFrom extends React.Component {
                         <Input type="cardnumber" />
                     )}
                 </Form.Item>
-
+                <Row gutter={8}>
+                    <Col span={12}>
                 <Form.Item
-                    {...formItemLayout}
+                    {...formItemLayouttwo}
                     label="CVV"
                 >
                     {getFieldDecorator('cvv', {
@@ -251,8 +265,24 @@ class PaymentFrom extends React.Component {
                         <Input type="cvv" />
                     )}
                 </Form.Item>
-
+                        </Col>
+                    <Col span={12}>
                 <Form.Item
+                    {...formItemLayout}
+                    label="Zipcode"
+                >
+                    {getFieldDecorator('zipcode', {
+                        rules: [{
+                            required: true, message: 'Please input your zipcode!',
+                        }],
+                    })(
+                        <Input type="zipcode" />
+                    )}
+                </Form.Item>
+                        </Col>
+                    </Row>
+
+                <Form.Item className="date-picker"
                     {...formItemLayout}
                     label="Expiration Date"
                 >
@@ -267,7 +297,7 @@ class PaymentFrom extends React.Component {
                         sm: { span: 16, offset: 8 },
                     }}
                 >
-                    <Button type="primary" htmlType="submit">pay now</Button>
+                    <Button  type="primary" htmlType="submit" className="payment-button">pay now</Button>
                 </Form.Item>
             </Form>
         );

@@ -1,5 +1,11 @@
 .payment {
-  width: 500px;
-  margin-left: 500px;
+  width: 550px;
+  margin-left: auto;
   margin-right: auto;
+}
+.date-picker {
+  width: 100%;
+}
+.payment-button {
+  width: 50%;
 }

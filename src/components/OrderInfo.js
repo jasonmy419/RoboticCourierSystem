@@ -12,6 +12,7 @@ class OrderInfoForm extends React.Component {
         deliveryAddr: [],
         routes: [],
         price: 0.00,
+        duration: '',
         chosenRoute: '',
         beforeRoute: true,
         isLoading: true,
@@ -189,7 +190,6 @@ class OrderInfoForm extends React.Component {
                 this.props.history.push('/payment');
             })
             .catch((e) => {
-
                 console.log(e);
                 message.error('Sending Failed.');
             });
@@ -204,8 +204,9 @@ class OrderInfoForm extends React.Component {
 
     onSelectRoute1 = (value) => {
         console.log(`selected ${value}`);
-        this.setState({price : value[1]});
-        this.setState({chosenRoute : value[1]});
+        this.setState({ price : value[1]});
+        this.setState({ duration : value[3]});
+        this.setState({ chosenRoute : value[1]});
         this.setState({ isSelectedRoute : true });
         console.log(`selected... ${value[0]}`);
         if (value[2] === "FLYING") {
@@ -330,10 +331,10 @@ class OrderInfoForm extends React.Component {
                                 {this.state.routes.map((route, index) =>
                                 {
                                     // debugger;
-                                    return <Select.Option value={[this.getMode(route.mode), route.price, route.mode]} key={index}>
+                                    return <Select.Option value={[this.getMode(route.mode), route.price, route.mode, this.getDuration(route.duration)]} key={index}>
                                         {route.mode === "FLYING" ? (<img  className="image" src="https://cdn1.iconfinder.com/data/icons/business-e-commerce-logistics-solid-set-1/91/Business_E-commerce__Logistics_15-512.png" />)
                                             : (<img  className="image" src={robotic}/>)}
-                                        <span>{ recommendLabel[index] } {this.checkRecommend(route.isRecommended, index)} {": delivery in "} {this.getDuration(route.duration)}</span>
+                                        <span>  { recommendLabel[index] } {this.checkRecommend(route.isRecommended, index)}</span>
                                     </Select.Option>}
                                     )}
 
@@ -342,15 +343,17 @@ class OrderInfoForm extends React.Component {
                     </Form.Item>)}
                     {this.state.isSelectedRoute ? (
                         <div>
-                            {/*<Form.Item>*/}
-                                {/*{this.state.isFlying ? (<img  className="image" src="https://cdn1.iconfinder.com/data/icons/business-e-commerce-logistics-solid-set-1/91/Business_E-commerce__Logistics_15-512.png" />)*/}
-                                {/*: (<img  className="image" src={robotic}/>)}*/}
-                            {/*</Form.Item>*/}
+                            <Form.Item
+                                {...formItemLayout}
+                                label="Delivery in: "
+                            >
+                                <span>{this.state.duration}.s</span>
+                            </Form.Item>
                             <Form.Item
                                 {...formItemLayout}
                                 label="Price: "
                             >
-                                <NumberFormat value={this.state.price} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} />
+                                <NumberFormat value={this.state.price} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} className="price"/>
                             </Form.Item>
                             <Form.Item {...tailFormItemLayout}>
                                 <Button type="primary" onClick={this.onPlaceOrder}>

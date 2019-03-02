@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import {API_ROOT} from "../constants";
+import {API_ROOT, USER_ID} from "../constants";
 import {Button, message} from 'antd';
+import md5 from "md5";
 
 export class Lottery extends Component {
 
@@ -11,11 +12,32 @@ export class Lottery extends Component {
 
     draw_lottery = () => {
 
-        let random =Math.floor(Math.random() * (50 - 5)) + 5;
+        let random = Math.floor(Math.random() * (50 - 5)) + 5;
         this.setState({discount: random});
         message.success(`${random}% of discount will add to your next order!`);
         this.props.handleCouponDraw();
-    }
+        console.log("coupon", JSON.stringify({
+            user_id: localStorage.getItem(USER_ID),
+            coupon: random,
+        }))
+        fetch(`${API_ROOT}/coupon`, {
+            method: 'POST',
+            body: JSON.stringify({
+                user_id: localStorage.getItem(USER_ID),
+                coupon: random
+            })
+        }).then((response) => {
+            if(response){
+                return response.text();
+            }
+            throw new Error(response.statusText);
+        }).then((data) => {
+            console.log(data);
+            return JSON.parse(data);
+        }).then((json) => {
+            if(json.status === "OK") {
+                console.log(json);
+            }})}
 
 
     render() {
