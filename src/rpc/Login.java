@@ -38,21 +38,23 @@ public class Login extends HttpServlet {
 		// TODO Auto-generated method stub
 		DBConnection connection = new DBConnection();
 		try {
-			// Test cookies
+			/* Test cookies
 			Cookie[] cookies = request.getCookies();
 			if (cookies == null) {
 				System.out.println("no cookies");
 			} else {
 				for (int i = 0; i < cookies.length; i++) {
-					System.out.println(cookies[i].getName());
+					System.out.println(cookies[i].getName() + " " + cookies[i].getValue());
 				}
 			}
 			System.out.println("Session from cookies ? " + request.isRequestedSessionIdFromCookie());
+			*/
+			
 			
 			
 			
 			HttpSession session = request.getSession(false);
-
+			
 			JSONObject obj = new JSONObject();
 			if (session != null) {
 				String userId = session.getAttribute("user_id").toString();
@@ -94,12 +96,13 @@ public class Login extends HttpServlet {
 				sessionId.setMaxAge(3600 * 24);
 				response.addCookie(sessionId);
 				obj.put("status", "OK").put("user_id", userId).put("name", connection.getFullname(userId));
+				RpcHelper.writeJsonObjectWithCookie(response, obj);
 			} else {
 				response.setStatus(401);
 				obj.put("status", "Wrong username or password");
+				RpcHelper.writeJsonObject(response, obj);
 			}
 
-			RpcHelper.writeJsonObject(response, obj);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
