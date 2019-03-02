@@ -277,7 +277,7 @@ class PaymentFrom extends React.Component {
                         </Col>
                     </Row>
 
-                <Form.Item
+                <Form.Item className="date-picker"
                     {...formItemLayout}
                     label="Expiration Date"
                 >
@@ -292,7 +292,7 @@ class PaymentFrom extends React.Component {
                         sm: { span: 16, offset: 8 },
                     }}
                 >
-                    <Button type="primary" htmlType="submit">pay now</Button>
+                    <Button  type="primary" htmlType="submit" className="payment-button">pay now</Button>
                 </Form.Item>
             </Form>
         );
