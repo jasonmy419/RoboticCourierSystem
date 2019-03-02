@@ -268,13 +268,13 @@ public class DBTableCreation {
 					+"state VARCHAR(255) NOT NULL,"
 					+"month INT NOT NULL,"
 					+"year INT NOT NULL,"
-					+"cvv INT NOT NULL"
+					+"cvv VARCHAR(255) NOT NULL"
 					+")";
 
 			statement.executeUpdate(sql);
 
-			sql = "INSERT INTO payment VALUES('2233', 'wu', 'sicheng','xxxx-xxxx-xxxx-xxxx',"
-					+ " '3001 S. Michigan Ave', '', 'Chicago', 60616, 'IL', 04, 2018, 907)";
+			sql = "INSERT INTO payment VALUES('0xDEADBEEF', 'EMANON', 'ENIGMA','xxxx-xxxx-xxxx-xxxx',"
+					+ " '3001 S. Michigan Ave', '', 'Chicago', 60616, 'IL', 04, 2018, '907')";
 			statement.executeUpdate(sql);
 
 			conn.close();

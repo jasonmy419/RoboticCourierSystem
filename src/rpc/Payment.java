@@ -58,7 +58,11 @@ public class Payment extends HttpServlet {
 		try {
 				JSONObject input = RpcHelper.readJSONObject(request);
 				
-				conn.setPaymentInfo(input);
+				String setInfo = conn.setPaymentInfo(input);
+				
+				if (setInfo != null) {
+					RpcHelper.writeJsonObject(response, new JSONObject().put("payment status:", setInfo));
+				}
 				
 				String userId = input.getString("user_id");
 				boolean flag = conn.getPaymentInfo(userId);
@@ -67,7 +71,7 @@ public class Payment extends HttpServlet {
 			        String str = conn.findOrderNumber(userId);
 					RpcHelper.writeJsonObject(response, new JSONObject().put("confirmation_number", str));
 				}  else {
-					RpcHelper.writeJsonObject(response, new JSONObject().put("payment status", "failed"));
+					RpcHelper.writeJsonObject(response, new JSONObject().put("payment status: ", "Cannot Find Payment"));
 				}
 				
 		} catch(Exception e) {
