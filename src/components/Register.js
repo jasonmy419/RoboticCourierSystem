@@ -217,8 +217,8 @@ class RegistrationForm extends React.Component {
                     >
                       <Select.Option value="CA">CA</Select.Option>
                       <Select.Option value="NV">NV</Select.Option>
-                      <Select.Option value="WA">NV</Select.Option>
-                      <Select.Option value="OR">NV</Select.Option>
+                      <Select.Option value="WA">WA</Select.Option>
+                      <Select.Option value="OR">OR</Select.Option>
                     </Select>
                 )}
               </Col>
