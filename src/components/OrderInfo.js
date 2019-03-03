@@ -215,7 +215,10 @@ class OrderInfoForm extends React.Component {
         this.setState({ duration : value[3]});
         this.setState({ chosenRoute : value[1]});
         this.setState({ isSelectedRoute : true });
-        console.log(`selected... ${value[0]}`);
+
+        this.props.handlerCoupon(value[5]);
+        console.log(`isRecomm... ${value[5]}`);
+
         if (value[2] === "FLYING") {
             this.setState({ isFlying : true });
         } else {
@@ -338,7 +341,7 @@ class OrderInfoForm extends React.Component {
                                 {this.state.routes.map((route, index) =>
                                 {
                                     // debugger;
-                                    return <Select.Option value={[this.getMode(route.mode), route.price, route.mode, this.getDuration(route.duration), route.oldPrice]} key={index}>
+                                    return <Select.Option value={[this.getMode(route.mode), route.price, route.mode, this.getDuration(route.duration), route.oldPrice, route.isRecommended]} key={index}>
                                         {route.mode === "FLYING" ? (<img  className="image" src="https://cdn1.iconfinder.com/data/icons/business-e-commerce-logistics-solid-set-1/91/Business_E-commerce__Logistics_15-512.png" />)
                                             : (<img  className="image" src={robotic}/>)}
                                         <span>  { recommendLabel[index] } {this.checkRecommend(route.isRecommended, index)}</span>
