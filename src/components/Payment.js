@@ -122,29 +122,31 @@ class PaymentFrom extends React.Component {
         };
 
         return (
+            <div>
+                <h2 style={{ width: '108%' }}>Billing Information</h2>
+            <Form onSubmit={this.handleSubmit} className="payment"  >
 
-            <Form onSubmit={this.handleSubmit} className="payment">
-                <h2>Billing Information</h2>
-                {/*<p>USER INFORMANTIOM</p>*/}
-                <Row gutter={8}>
+                <Row gutter={12}>
                     <Col span={12}>
                 <Form.Item
+
                     {...formItemLayouttwo}
-                    label="Last_Name"
+                    label="Last Name"
+
                 >
                     {getFieldDecorator('last_name', {
                         rules: [{
                             required: true, message: 'Please input your last_name!',
                         }],
                     })(
-                        <Input type="last_name" onBlur={this.handleConfirmBlur}/>
+                        <Input autoFocus={true} type="last_name" onBlur={this.handleConfirmBlur}/>
                     )}
                 </Form.Item>
                      </Col>
                     <Col span={12}>
                 <Form.Item
                     {...formItemLayout}
-                    label="First_Name"
+                    label="First Name"
                 >
                     {getFieldDecorator('first_name', {
                         rules: [{
@@ -287,7 +289,7 @@ class PaymentFrom extends React.Component {
                     label="Expiration Date"
                 >
                     {getFieldDecorator('expiration date', config)(
-                        <DatePicker />
+                        <DatePicker size="large" style={{ width: `100%` }} />
                     )}
                 </Form.Item>
 
@@ -300,6 +302,7 @@ class PaymentFrom extends React.Component {
                     <Button  type="primary" htmlType="submit" className="payment-button">pay now</Button>
                 </Form.Item>
             </Form>
+            </div>
         );
     }
 }

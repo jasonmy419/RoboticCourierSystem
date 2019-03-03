@@ -121,13 +121,14 @@ class OrderInfoForm extends React.Component {
                     .then((data) => {
                         console.log(data);
                         console.log("length: ",data.length);
-                        message.success('Sending Succeed!');
+                        // message.success('Sending Succeed!');
                         if (data.length > 0) {
                             this.setState({ routes : data ? data : [] });
                             this.setState({ isLoading : false });
                             console.log(this.state.routes);
                         } else {
                             message.error("Sorry, our robotics are out of stock right now.");
+                            this.setState({ beforeRoute : true });
                         }
                         // this.props.handleResponse(data);
                         // this.props.history.push('/payment');
@@ -169,7 +170,6 @@ class OrderInfoForm extends React.Component {
             'destination': this.state.deliveryAddr,
             'detail' : {...this.state.routes.filter((route) => route.price === this.state.price)[0]},
             'user_id' : localStorage.getItem(USER_ID),
-            'courier_id' : "abc",
         }));
         // send request
         fetch(`${API_ROOT}/orders`, {
@@ -180,7 +180,6 @@ class OrderInfoForm extends React.Component {
                     'destination': this.state.deliveryAddr,
                     'detail' : {...this.state.routes.filter((route) => route.price === this.state.price)[0]},
                     'user_id' : localStorage.getItem(USER_ID),
-                    'courier_id' : "abc",
                 }
             ),
         }).then((response) => {
@@ -234,7 +233,7 @@ class OrderInfoForm extends React.Component {
         const hour = parseInt(time / 3600);
         const minute = parseInt((time % 3600) / 60);
         const second = (time % 60);
-        return hour == 0 ? minute + ":" + second : hour + ":" + minute + ":" + second;
+        return hour == 0 ? minute + "m " + second + "s" : hour + "h " + minute + "m " + second + "s";
     }
 
     checkRecommend = (flag, index) => {
@@ -352,7 +351,7 @@ class OrderInfoForm extends React.Component {
                                 {...formItemLayout}
                                 label="Delivery in: "
                             >
-                                <span>{this.state.duration}.s</span>
+                                <span>{this.state.duration}</span>
                             </Form.Item>
                             <Form.Item
                                 {...formItemLayout}
