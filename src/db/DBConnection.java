@@ -453,7 +453,7 @@ public class DBConnection {
 				zipcode = rs.getInt("zipcode");
 			}
 
-			if (cardAddress == null || cardAddress.length() == 0 && zipcode == -1) {
+			if (cardAddress == null && zipcode == -1) {
 				sql = "INSERT IGNORE INTO payment VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 				PreparedStatement ps = conn.prepareStatement(sql);
 				ps.setString(1, userId);
@@ -488,7 +488,7 @@ public class DBConnection {
 					System.out.println("An existing user was updated successfully!");
 				}
 				return null;
-			} else {
+			} else if (cardAddress.equals(input.getString("address_line1")) && zipcode == input.getInt("zipcode")) {
 				return null;
 			}
 
