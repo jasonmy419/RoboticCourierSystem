@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import {API_ROOT, MAP_API_KEY} from "../constants";
-import {Col, Steps} from 'antd';
+import {API_ROOT, MAP_API_KEY, USER_ID} from "../constants";
+import {Col, message, Steps} from 'antd';
 import {Map} from "./Map";
 import {Lottery} from "./Lottery"
 
@@ -13,19 +13,26 @@ export class ConfirmationPage extends Component {
 
     componentWillMount() {
         console.log('mount');
-        // fetch(`${API_ROOT}/tracking?orderID=${this.props.orderID}`, {
-        //     method: 'GET'
-        // }).then((response) => {
-        //     if(response){
-        //         return response.text();
-        //     }
-        //     throw new Error(response.statusText);
-        // }).then((data) => {
-        //     setState()
-        // }).catch((err) => {
-        //     console.log(err);
-        //     message.error('Registration Fail');
-        // });
+        fetch(`${API_ROOT}/tracking`, {
+            method: 'POST',
+            body: JSON.stringify({
+                order_id: this.props.orderID
+            })
+        }).then((response) => {
+            if(response){
+                return response.text();
+            }
+            throw new Error(response.statusText);
+        }).then((data) => {
+            console.log(data);
+            return JSON.parse(data);
+        }).then((json) => {
+            console.log(json["Delivery"]);
+
+        }).catch((err) => {
+            console.log(err);
+            message.error('Error getting order status');
+        });
     }
 
     description0 = "Your order have been placed, wait for the next available robot";

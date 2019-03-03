@@ -36,7 +36,13 @@ export class Lottery extends Component {
                     console.log(json);
                     message.success(`${this.state.discount}% of discount will add to your next order!`);
                     this.props.handleCouponDraw();
-                }})
+                } else {
+                    message.error('Error posting coupon');
+                }
+            }).catch((err) => {
+                console.log(err);
+                message.error('Error posting coupon');
+            });
 
         }
         // console.log("coupon", JSON.stringify({
