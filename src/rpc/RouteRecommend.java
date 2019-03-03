@@ -195,7 +195,7 @@ public class RouteRecommend extends HttpServlet {
 			fastRoute.put("way_point", waypointInfo);
 			fastRoute.put("destination_point", destPointInfo);
 			fastRoute.put("station_point", fast_station);
-			fastRoute.put("old_price", fast_oldPrice);
+			fastRoute.put("oldPrice", fast_oldPrice);
 			
 			int fast_duration = calculateReturnTime(routes.get(0), fast_station, destination, destination_place);
 			fastRoute.put("courier_return_time", fast_duration);
@@ -232,7 +232,7 @@ public class RouteRecommend extends HttpServlet {
 			cheapRoute.put("way_point", waypointInfo);
 			cheapRoute.put("destination_point", destPointInfo);
 			cheapRoute.put("station_point", cheap_station);
-			cheapRoute.put("old_price", cheap_oldPrice);
+			cheapRoute.put("oldPrice", cheap_oldPrice);
 			
 			int cheap_duration = calculateReturnTime(routes.get(0), cheap_station, destination, destination_place);
 			cheapRoute.put("courier_return_time", cheap_duration);
@@ -267,7 +267,7 @@ public class RouteRecommend extends HttpServlet {
 				recommend_route.put("way_point", waypointInfo);
 				recommend_route.put("destination_point", destPointInfo);
 				recommend_route.put("station_point", recommend_station);
-				recommend_route.put("old_price", recommend_oldPrice);
+				recommend_route.put("oldPrice", recommend_oldPrice);
 				
 				int recommend_duration = calculateReturnTime(routes.get(i), recommend_station, destination, destination_place);
 				recommend_route.put("courier_return_time", recommend_duration);
