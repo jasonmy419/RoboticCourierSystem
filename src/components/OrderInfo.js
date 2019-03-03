@@ -128,6 +128,7 @@ class OrderInfoForm extends React.Component {
                             console.log(this.state.routes);
                         } else {
                             message.error("Sorry, our robotics are out of stock right now.");
+                            this.setState({ beforeRoute : true });
                         }
                         // this.props.handleResponse(data);
                         // this.props.history.push('/payment');
