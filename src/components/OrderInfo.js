@@ -121,7 +121,7 @@ class OrderInfoForm extends React.Component {
                     .then((data) => {
                         console.log(data);
                         console.log("length: ",data.length);
-                        message.success('Sending Succeed!');
+                        // message.success('Sending Succeed!');
                         if (data.length > 0) {
                             this.setState({ routes : data ? data : [] });
                             this.setState({ isLoading : false });
@@ -169,7 +169,6 @@ class OrderInfoForm extends React.Component {
             'destination': this.state.deliveryAddr,
             'detail' : {...this.state.routes.filter((route) => route.price === this.state.price)[0]},
             'user_id' : localStorage.getItem(USER_ID),
-            'courier_id' : "abc",
         }));
         // send request
         fetch(`${API_ROOT}/orders`, {
@@ -180,7 +179,6 @@ class OrderInfoForm extends React.Component {
                     'destination': this.state.deliveryAddr,
                     'detail' : {...this.state.routes.filter((route) => route.price === this.state.price)[0]},
                     'user_id' : localStorage.getItem(USER_ID),
-                    'courier_id' : "abc",
                 }
             ),
         }).then((response) => {
