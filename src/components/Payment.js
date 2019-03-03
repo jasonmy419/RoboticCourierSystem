@@ -3,7 +3,7 @@ import {
     Form, Input, Select, Button, DatePicker, message, Row, Col
 } from 'antd';
 import {API_ROOT, ORDER_NUM, USER_ID} from '../constants';
-import { Link } from 'react-router-dom';
+import moment from 'moment';
 
 
 const { Option } = Select;
@@ -42,53 +42,67 @@ class PaymentFrom extends React.Component {
                 year: values.year,
                 cvv: values.cvv,
             }));
-
-            // send request
-            fetch(`${API_ROOT}/checkout`, {
-                method: 'POST',
-                body: JSON.stringify({
-                    user_id:localStorage.getItem(USER_ID),
-                    // user_id: localStorage.getItem(USER_ID),
-                    last_name: values.last_name,
-                    first_name: values.first_name,
-                    card_number: values.cardnumber,
-                    address_line1: values.address1,
-                    address_line2: values.address2,
-                    city: values.city,
-                    zipcode: values.zipcode,
-                    state: values.state,
-                    month: values.month,
-                    year: values.year,
-                    cvv: values.cvv,
-                }),
-            }).then((response) => {
-                if (response.ok) {
-                    this.props.handlerIsPaymentSucceed(true);
-                    return response.json();
+            const isValid = () =>{
+                if(values.zipcode.length != 5){
+                    message.error("Invalid zipcode");
+                    return false;
+                }else if(values.cardnumber.length != 16){
+                    message.error("Invalid card number");
+                    return false;
+                }else if(values.cvv.length != 3){
+                    message.error("Invalid cvv");
+                    return false;
                 }
-                throw new Error(response.statusText);
-            }).then((data) => {
-                console.log(data);
-                console.log(data.confirmation_number);
-                const {confirmation_number} = data;
-                console.log(confirmation_number);
-                if(confirmation_number){
-                    message.success('Congratulations, you have successfully checked out!');
-                    // this.props.handleSuccessfulLogin(data);
-                    this.props.history.push("/confirmation");
-                    this.props.handlerOrderID(confirmation_number);
-                }else{
+                return true;
+            }
+            if(isValid()){
+                fetch(`${API_ROOT}/checkout`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        user_id:localStorage.getItem(USER_ID),
+                        // user_id: localStorage.getItem(USER_ID),
+                        last_name: values.last_name,
+                        first_name: values.first_name,
+                        card_number: values.cardnumber,
+                        address_line1: values.address1,
+                        address_line2: values.address2,
+                        city: values.city,
+                        zipcode: values.zipcode,
+                        state: values.state,
+                        month: values.month,
+                        year: values.year,
+                        cvv: values.cvv,
+                    }),
+                }).then((response) => {
+                    if (response.ok) {
+                        this.props.handlerIsPaymentSucceed(true);
+                        return response.json();
+                    }
+                    throw new Error(response.statusText);
+                }).then((data) => {
+                    console.log(data);
+                    console.log(data.confirmation_number);
+                    const {confirmation_number} = data;
+                    console.log(confirmation_number);
+                    if(confirmation_number){
+                        message.success('Congratulations, you have successfully checked out!');
+                        // this.props.handleSuccessfulLogin(data);
+                        this.props.history.push("/confirmation");
+                        this.props.handlerOrderID(confirmation_number);
+                    }else{
+                        message.error('Check out failed, try again');
+                    }
+
+                    //localStorage.setItem(ORDER_NUM, data)
+                }).catch((e) => {;
+                    console.log(e);
                     message.error('Check out failed, try again');
-                }
-
-                //localStorage.setItem(ORDER_NUM, data)
-            }).catch((e) => {;
-                console.log(e);
-                message.error('Check out failed, try again');
-            });
+                });
+            }
 
         }
         });
+
     }
 
     handleConfirmBlur = (e) => {
@@ -97,6 +111,11 @@ class PaymentFrom extends React.Component {
     }
 
 
+    disabledDate = (date) =>{
+        const {currDate} = new Date().getDate();
+        console.log(currDate);
+        return (date.diff(currDate, 'days') < -2);
+    }
 
     render() {
         const { getFieldDecorator } = this.props.form;
@@ -137,6 +156,7 @@ class PaymentFrom extends React.Component {
         };
 
         return (
+
             <div>
                 <h2 style={{ width: '108%' }}>Billing Information</h2>
             <Form onSubmit={this.handleSubmit} className="payment"  >
@@ -304,7 +324,7 @@ class PaymentFrom extends React.Component {
                     label="Expiration Date"
                 >
                     {getFieldDecorator('expiration date', config)(
-                        <DatePicker size="large" style={{ width: `100%` }} />
+                        <DatePicker size="large" style={{ width: `100%` }} disabledDate={current => current < moment().startOf('day')}/>
                     )}
                 </Form.Item>
 

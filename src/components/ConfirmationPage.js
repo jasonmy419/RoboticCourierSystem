@@ -17,7 +17,6 @@ export class ConfirmationPage extends Component {
         }));
         fetch(`${API_ROOT}/tracking`, {
             method: 'POST',
-            mode: 'no-cors',
             body: JSON.stringify({
                 order_id: this.props.orderID
             })
