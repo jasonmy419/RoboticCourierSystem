@@ -644,9 +644,11 @@ public class DBConnection {
 			PreparedStatement statement = conn.prepareStatement(sql);
 			statement.setString(1, userId);
 			ResultSet rs = statement.executeQuery();
-			obj.put("first_name", rs.getString("first_name"));
-			obj.put("last_name", rs.getString("last_name"));
-			obj.put("coupon", rs.getInt("coupon"));
+			while (rs.next()) {
+				obj.put("first_name", rs.getString("first_name"));
+				obj.put("last_name", rs.getString("last_name"));
+				obj.put("coupon", rs.getInt("coupon"));
+			}
 		} catch (SQLException | JSONException e) {
 			e.printStackTrace();
 		}
@@ -657,11 +659,10 @@ public class DBConnection {
 		if (conn == null) {
 			return null;
 		}
+		System.out.println("DDDDD " + userId);
 		JSONArray array = new JSONArray();
 		try {
-			String sql = "SELECT order_id, start_address_id, end_address_id, " 
-					+ "route_path, type, complete, end_time" 
-					+ "FROM orders WHERE user_id = ?";
+			String sql = "SELECT * FROM orders WHERE user_id = ?";
 			PreparedStatement statement = conn.prepareStatement(sql);
 			statement.setString(1, userId);
 			ResultSet rs = statement.executeQuery();
@@ -672,7 +673,7 @@ public class DBConnection {
 				obj.put("end_address_id", rs.getString("end_address_id"));
 				obj.put("route_path", rs.getString("route_path"));
 				obj.put("type", rs.getString("type"));
-				obj.put("complete", rs.getString("complete"));
+				obj.put("complete", rs.getBoolean("complete"));
 				obj.put("end_time", rs.getTimestamp("end_time"));
 				array.put(obj);
 			}
