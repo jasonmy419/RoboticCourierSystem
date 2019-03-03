@@ -20,6 +20,7 @@ export class UserProfile extends React.Component{
             user_id: localStorage.getItem(USER_ID)
         }).then((response) => {
             if (response.ok) {
+                console.log("success", response)
                 return response.json();
             }
             throw new Error(response.statusText);
@@ -39,14 +40,14 @@ export class UserProfile extends React.Component{
     }
 
     render() {
-        const userInfo = {
-            user_id:"T1nypeanut",
-            first_name: "Yu",
-            last_name:"MA",
-        }
+        // const userInfo = {
+        //     user_id:"T1nypeanut",
+        //     first_name: "Yu",
+        //     last_name:"MA",
+        // }
         return(
             <div className="user-info">
-                <h2>{`Welcome back, ${userInfo.first_name} `}</h2>
+                <h2>{`Welcome back, ${this.state.userInfo.first_name} `}</h2>
             </div>
         );
     }
