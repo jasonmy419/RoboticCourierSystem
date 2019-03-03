@@ -234,7 +234,7 @@ class OrderInfoForm extends React.Component {
         const hour = parseInt(time / 3600);
         const minute = parseInt((time % 3600) / 60);
         const second = (time % 60);
-        return hour == 0 ? minute + ":" + second : hour + ":" + minute + ":" + second;
+        return hour == 0 ? minute + "m " + second + "s" : hour + "h " + minute + "m " + second + "s";
     }
 
     checkRecommend = (flag, index) => {
@@ -352,7 +352,7 @@ class OrderInfoForm extends React.Component {
                                 {...formItemLayout}
                                 label="Delivery in: "
                             >
-                                <span>{this.state.duration}.s</span>
+                                <span>{this.state.duration}</span>
                             </Form.Item>
                             <Form.Item
                                 {...formItemLayout}
