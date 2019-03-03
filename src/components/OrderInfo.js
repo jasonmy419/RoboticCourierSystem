@@ -12,6 +12,7 @@ class OrderInfoForm extends React.Component {
         deliveryAddr: [],
         routes: [],
         price: 0.00,
+        oldPrice: 0.00,
         duration: '',
         chosenRoute: '',
         beforeRoute: true,
@@ -134,9 +135,9 @@ class OrderInfoForm extends React.Component {
                         // this.props.history.push('/payment');
                     })
                     .catch((e) => {
-
                         console.log(e);
                         message.error('Sending Failed.');
+                        this.setState({ beforeRoute : true });
                     });
             }
         });
@@ -209,6 +210,8 @@ class OrderInfoForm extends React.Component {
     onSelectRoute1 = (value) => {
         console.log(`selected ${value}`);
         this.setState({ price : value[1]});
+        this.setState({ oldPrice : value[4]});
+        console.log(`oldPrice... ${value[4]}`);
         this.setState({ duration : value[3]});
         this.setState({ chosenRoute : value[1]});
         this.setState({ isSelectedRoute : true });
@@ -335,7 +338,7 @@ class OrderInfoForm extends React.Component {
                                 {this.state.routes.map((route, index) =>
                                 {
                                     // debugger;
-                                    return <Select.Option value={[this.getMode(route.mode), route.price, route.mode, this.getDuration(route.duration)]} key={index}>
+                                    return <Select.Option value={[this.getMode(route.mode), route.price, route.mode, this.getDuration(route.duration), route.oldPrice]} key={index}>
                                         {route.mode === "FLYING" ? (<img  className="image" src="https://cdn1.iconfinder.com/data/icons/business-e-commerce-logistics-solid-set-1/91/Business_E-commerce__Logistics_15-512.png" />)
                                             : (<img  className="image" src={robotic}/>)}
                                         <span>  { recommendLabel[index] } {this.checkRecommend(route.isRecommended, index)}</span>
@@ -357,7 +360,16 @@ class OrderInfoForm extends React.Component {
                                 {...formItemLayout}
                                 label="Price: "
                             >
-                                <NumberFormat value={this.state.price} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} className="price"/>
+                                { this.state.price === this.state.oldPrice ? (
+                                        <NumberFormat value={this.state.price} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} className="price"/>
+                                    ) : (
+                                        <div>
+                                            <span className="oldPrice">$ {this.state.oldPrice}</span>
+                                            <NumberFormat value={this.state.price} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} className="newPrice"/>
+                                        </div>
+                                    )
+                                }
+
                             </Form.Item>
                             <Form.Item {...tailFormItemLayout}>
                                 <Button type="primary" onClick={this.onPlaceOrder}>

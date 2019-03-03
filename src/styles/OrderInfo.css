@@ -22,3 +22,15 @@
     font-size: 20px;
     color:  #7289da;
 }
+
+.newPrice {
+    font-size: 20px;
+    color:  red;
+}
+
+.oldPrice {
+    font-size: 17px;
+    color:  gray;
+    text-decoration: line-through;
+    padding-right: 10px;
+}
