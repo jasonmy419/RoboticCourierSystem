@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -36,6 +35,7 @@ public class RpcHelper {
 	public static void writeJsonObjectWithCookie(HttpServletResponse response, JSONObject obj) throws IOException {
 		response.setContentType("application/json");
 		response.addHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+		response.addHeader("Access-Control-Allow-Origin", "http://findyuma.com.s3-website-us-west-1.amazonaws.com");
 		response.addHeader("Access-Control-Allow-Credentials", "true");
 		PrintWriter out = response.getWriter();
 		out.print(obj);
