@@ -40,7 +40,6 @@ export class UserProfile extends React.Component{
 
 
 
-
     render() {
         // const userInfo = {
         //     user_id:"T1nypeanut",
@@ -49,7 +48,9 @@ export class UserProfile extends React.Component{
         // }
         return(
             <div className="user-info">
-                <h2>{`Welcome back, ${this.state.userInfo.first_name} `}</h2>
+                {
+                    this.state.userInfo == null ? <h2>{`Welcome back, ${this.state.userInfo.first_name} `}</h2> : null
+                }
             </div>
         );
     }

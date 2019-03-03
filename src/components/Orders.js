@@ -50,10 +50,10 @@ export class Orders extends React.Component{
 
     render() {
         return(
-            <div>
-            <UserProfile/>
-            <div className="OrderList">
 
+
+            <div className="OrderList">
+                <UserProfile/>
                 <div>
                     <h2 className="history_title">Order History</h2>
                 </div>
@@ -94,7 +94,7 @@ export class Orders extends React.Component{
                     )}
                 />
             </div>
-            </div>
+
         );
     }
 }

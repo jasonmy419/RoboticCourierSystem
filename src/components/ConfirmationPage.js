@@ -8,41 +8,43 @@ const Step = Steps.Step;
 export class ConfirmationPage extends Component {
 
     state = {
-        step:1
+        step:0
     };
 
-    componentWillMount() {
-        console.log('mount',JSON.stringify({
-            order_id: this.props.orderID
-        }));
-        fetch(`${API_ROOT}/tracking`, {
-            method: 'POST',
-            body: JSON.stringify({
-                order_id: this.props.orderID
-            })
-        }).then((response) => {
-            if(response){
-                return response.text();
-            }
-            throw new Error(response.statusText);
-        }).then((data) => {
-            console.log(data);
-            return JSON.parse(data);
-        }).then((json) => {
-            console.log(json["Delivery"]);
-            //TODO set step based on response
-
-            // if (json["Delivery"] === "IN TRANSIT") {
-            //     this.setState({step:1})
-            // } else {
-            //     this.setState({step:2})
-            // }
-
-        }).catch((err) => {
-            console.log(err);
-            message.error('Error getting order status');
-        });
-    }
+    // componentWillMount() {
+    //     console.log('mount',JSON.stringify({
+    //         order_id: this.props.orderID
+    //     }));
+    //     fetch(`${API_ROOT}/tracking`, {
+    //         method: 'POST',
+    //         mode: 'no-cors',
+    //         body: JSON.stringify({
+    //             order_id: this.props.orderID
+    //         })
+    //     }).then((response) => {
+    //         console.log(response);
+    //         if(response){
+    //             return response.text();
+    //         }
+    //         throw new Error(response.statusText);
+    //     }).then((data) => {
+    //         console.log(data);
+    //         return JSON.parse(data);
+    //     }).then((json) => {
+    //         console.log(json["Delivery"]);
+    //         //TODO set step based on response
+    //
+    //         // if (json["Delivery"] === "IN TRANSIT") {
+    //         //     this.setState({step:1})
+    //         // } else {
+    //         //     this.setState({step:2})
+    //         // }
+    //
+    //     }).catch((err) => {
+    //         console.log(err);
+    //         message.error('Error getting order status');
+    //     });
+    // }
 
     description0 = "Your order have been placed, our robot will soon pick up your item";
     description1 = "We are delivering your order";
