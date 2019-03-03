@@ -44,6 +44,10 @@ public class Logout extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		// Test
+		System.out.println("Session from cookies ? " + request.isRequestedSessionIdFromCookie());
+
 
 		HttpSession session = request.getSession(false);
 		if (session != null) { 
@@ -51,7 +55,7 @@ public class Logout extends HttpServlet {
 			try {
 				JSONObject obj = new JSONObject();
 				obj.put("status", "OK");
-				RpcHelper.writeJsonObject(response, obj);
+				RpcHelper.writeJsonObjectWithCookie(response, obj);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -59,7 +63,7 @@ public class Logout extends HttpServlet {
 			try {
 				JSONObject obj = new JSONObject();
 				obj.put("status", "Invalid operation");
-				RpcHelper.writeJsonObject(response, obj);
+				RpcHelper.writeJsonObjectWithCookie(response, obj);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}

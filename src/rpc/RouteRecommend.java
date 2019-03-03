@@ -129,9 +129,10 @@ public class RouteRecommend extends HttpServlet {
 			}
 			// Show error warning when no routes recommended!
 			if (routes.size() == 0) {
-				JSONObject errorWarning = new JSONObject();
-				errorWarning.put("Error: ", "No routes recommended!");
-				RpcHelper.writeJsonObject(response, errorWarning);
+//				JSONObject errorWarning = new JSONObject();
+//				errorWarning.put("Error: ", "No routes recommended!");
+				JSONArray returnArr = new JSONArray();
+				RpcHelper.writeJsonArray(response, returnArr);
 				return;
 			}
 			System.out.println("The size of routes is "+ routes.size());

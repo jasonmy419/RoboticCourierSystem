@@ -228,11 +228,11 @@ public class DBConnection {
 		return couponNum * 1.0 / 100;
 	}
 
-	public void setCoupon(String userId, int coupon) {
+	public String setCoupon(String userId, int coupon) {
 
 		if (conn == null) {
 			System.err.println("DB connection failed from src/db/DBConnection -> setCoupon");
-			return;
+			return "DBConnection Error";
 		}
 
 		try {
@@ -244,12 +244,12 @@ public class DBConnection {
 			if (rowsUpdated > 0) {
 				System.out.println("An existing user " + userId + ", was updated successfully!");
 			}
-			return;
+			return "success";
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("error from src/db/DBConnection -> setCoupon: " + e.getMessage());
 		}
-
+		return "failed";
 	}
 
 	public void setCourierTime(Timestamp courierTime, String courierId) {
@@ -397,19 +397,48 @@ public class DBConnection {
 
 	}
 
-	public void setPaymentInfo(JSONObject input) {
+	public String setPaymentInfo(JSONObject input) {
 
 		if (conn == null) {
 			System.err.println("DB connection failed from src/db/DBConnection -> setPaymentInfo");
-			return;
+			return "DB Connection Failed";
 		}
 
 		try {
+			String userId = input.getString("user_id");
+			String cardNumber = input.getString("card_number");
+			String cvv = input.getString("cvv");
+			
+			if (cardNumber.length() == 16) {
+				for (int i = 0; i < cardNumber.length(); i++) {
+					
+					if (cardNumber.charAt(i) >= '0' && cardNumber.charAt(i) <= '9') {
+						continue;
+					}  else {
+						return "Wrong Card Number";
+					}
+				}
+			}  else {
+				return "Wrong Card Number Digits";
+			}
+			
+			if (cvv.length() == 3) {
+				for (int i = 0; i < cvv.length(); i++) {
+					
+					if (cvv.charAt(i) >= '0' && cvv.charAt(i) <= '9') {
+						continue;
+					}  else {
+						return "Wrong CVV Number";
+					}
+				}
+			} else {
+				return "Wrong CVV Number Digits";
+			}
 
 			String sql = "SELECT address_line1, zipcode FROM payment WHERE user_id = ? AND card_number = ? ";
 			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setString(1, input.getString("user_id"));
-			stmt.setString(2, input.getString("card_number"));
+			stmt.setString(1, userId);
+			stmt.setString(2, cardNumber);
 			ResultSet rs = stmt.executeQuery();
 
 			String cardAddress = null;
@@ -423,10 +452,10 @@ public class DBConnection {
 			if (cardAddress == null || cardAddress.length() == 0 && zipcode == -1) {
 				sql = "INSERT IGNORE INTO payment VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 				PreparedStatement ps = conn.prepareStatement(sql);
-				ps.setString(1, input.getString("user_id"));
+				ps.setString(1, userId);
 				ps.setString(2, input.getString("last_name"));
 				ps.setString(3, input.getString("first_name"));
-				ps.setString(4, input.getString("card_number"));
+				ps.setString(4, cardNumber);
 				ps.setString(5, input.getString("address_line1"));
 				ps.setString(6, input.getString("address_line2"));
 				ps.setString(7, input.getString("city"));
@@ -434,10 +463,11 @@ public class DBConnection {
 				ps.setString(9, input.getString("state"));
 				ps.setInt(10, input.getInt("month"));
 				ps.setInt(11, input.getInt("year"));
-				ps.setInt(12, input.getInt("cvv"));
+				ps.setString(12, cvv);
 				ps.execute();
 
-				return;
+				return null;
+				
 			} else if (!cardAddress.equals(input.getString("address_line1")) || zipcode != input.getInt("zipcode")) {
 
 				sql = "UPDATE payment SET address_line1 = ?, zipcode = ?, address_line2 = ? , city = ?, state = ? WHERE user_id = ? AND card_number = ?";
@@ -447,21 +477,22 @@ public class DBConnection {
 				ps.setString(3, input.getString("address_line2"));
 				ps.setString(4, input.getString("city"));
 				ps.setString(5, input.getString("state"));
-				ps.setString(6, input.getString("user_id"));
-				ps.setString(7, input.getString("card_number"));
+				ps.setString(6, userId);
+				ps.setString(7, cardNumber);
 				int rowsUpdated = ps.executeUpdate();
 				if (rowsUpdated > 0) {
 					System.out.println("An existing user was updated successfully!");
 				}
-				return;
+				return null;
 			} else {
-				return;
+				return null;
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("error from src/db/DBConnection -> setPaymentInfo: " + e.getMessage());
 		}
+		return "Error";
 	}
 
 	public boolean getPaymentInfo(String userId) {
@@ -473,14 +504,13 @@ public class DBConnection {
 		JSONArray array = new JSONArray();
 		try {
 			JSONObject obj = new JSONObject();
-			String sql = "SELECT * FROM payment WHERE user_id = ?";
+			String sql = "SELECT card_number FROM payment WHERE user_id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, userId);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				obj.put("card_number", rs.getString("card_number"));
-				obj.put("user_id", rs.getString("user_id"));
-				System.out.println(obj);
+				obj.put("user_id", userId);
 				array.put(obj);
 			}
 
