@@ -11,13 +11,12 @@ export class UserProfile extends React.Component{
         ] }
     componentDidMount() {
         console.log(localStorage.getItem(USER_ID));
-        fetch(`${API_ROOT}/profile`, {
+        fetch(`${API_ROOT}/profile?user_id=${ localStorage.getItem(USER_ID)}`, {
             method: 'GET',
             // body: JSON.stringify({
             //     username: values.pickingUpAddress,
             //     password: values.deliveryAddress,
             // }),
-            user_id: localStorage.getItem(USER_ID)
         }).then((response) => {
             if (response.ok) {
                 console.log("success", response)
