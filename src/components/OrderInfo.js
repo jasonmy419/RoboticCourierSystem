@@ -57,7 +57,7 @@ class OrderInfoForm extends React.Component {
     }
 
     handleSubmit = (e) => {
-        this.setState({ beforeRoute : false });
+
         this.props.handleResponse([]);
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
@@ -73,6 +73,7 @@ class OrderInfoForm extends React.Component {
                     message.error('Delivery address is invalid!');
                     return;
                 }
+                this.setState({ beforeRoute : false });
                     this.setState({
                         pickUpAddr : tmpPickingUp,
                         deliveryAddr : tmpDelivery
