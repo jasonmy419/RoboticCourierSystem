@@ -21,27 +21,28 @@ class PaymentFrom extends React.Component {
 
         e.preventDefault();
         this.props.form.validateFields((err, fieldsValue) => {if (!err) {
-            // console.log('payment json', JSON.stringify({
-            //     user_id:localStorage.getItem(USER_ID),
-            //     // user_id: localStorage.getItem(USER_ID),
-            //     last_name: values.last_name,
-            //     first_name: values.first_name,
-            //     card_number: values.cardnumber,
-            //     address_line1: values.address1,
-            //     address_line2: values.address2,
-            //     city: values.city,
-            //     zipcode: values.zipcode,
-            //     state: values.state,
-            //     month: values.month,
-            //     year: values.year,
-            //     cvv: values.cvv,
-            // }));
 
             const values = {
                 ...fieldsValue,
                 year: fieldsValue ['expiration date'].format('YYYY'),
                 month: fieldsValue ['expiration date'].format('MM')
             };
+            console.log('payment json', JSON.stringify({
+                user_id:localStorage.getItem(USER_ID),
+                // user_id: localStorage.getItem(USER_ID),
+                last_name: values.last_name,
+                first_name: values.first_name,
+                card_number: values.cardnumber,
+                address_line1: values.address1,
+                address_line2: values.address2,
+                city: values.city,
+                zipcode: values.zipcode,
+                state: values.state,
+                month: values.month,
+                year: values.year,
+                cvv: values.cvv,
+            }));
+
             // send request
             fetch(`${API_ROOT}/checkout`, {
                 method: 'POST',
