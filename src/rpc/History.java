@@ -23,7 +23,6 @@ public class History extends HttpServlet {
      */
     public History() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -46,8 +45,15 @@ public class History extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		String userId = request.getParameter("user_id");
+		DBConnection conn = new DBConnection();
+		try {
+			JSONArray orders = conn.getUserOrders(userId);
+			RpcHelper.writeJsonArray(response, orders);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			conn.close();
+		}
 	}
-
 }

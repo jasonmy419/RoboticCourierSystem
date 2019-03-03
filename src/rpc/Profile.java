@@ -24,7 +24,6 @@ public class Profile extends HttpServlet {
      */
     public Profile() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -47,8 +46,16 @@ public class Profile extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		String userId = request.getParameter("user_id");
+		DBConnection conn = new DBConnection();
+		try {
+			JSONObject obj = conn.getUserProfile(userId);
+			RpcHelper.writeJsonObject(response, obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			conn.close();
+		}
 	}
 
 }
