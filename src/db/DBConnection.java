@@ -539,11 +539,10 @@ public class DBConnection {
 			}
 			
 			if (status.getTime() <= cur.getTime()) {
-				return "DELIVERED";
+				StringBuilder sb = new StringBuilder();
+				sb.append(status.getTime());
+				return sb.toString();
 			}
-			System.out.println("curTime: " + cur.getTime());
-			System.out.println("DTime: " + status.getTime());
-			System.out.println(status.getTime() <= cur.getTime());
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -666,14 +665,13 @@ public class DBConnection {
 			PreparedStatement statement = conn.prepareStatement(sql);
 			statement.setString(1, userId);
 			ResultSet rs = statement.executeQuery();
+
 			JSONObject obj = new JSONObject();
 			while (rs.next()) {
 				obj.put("order_id", rs.getString("order_id"));
-				obj.put("start_address_id", rs.getString("start_address_id"));
-				obj.put("end_address_id", rs.getString("end_address_id"));
-				obj.put("route_path", rs.getString("route_path"));
+				obj.put("start_address", getAddressByAddressId(rs.getString("start_address_id")));
+				obj.put("end_address", getAddressByAddressId(rs.getString("end_address_id")));
 				obj.put("type", rs.getString("type"));
-				obj.put("complete", rs.getBoolean("complete"));
 				obj.put("end_time", rs.getTimestamp("end_time"));
 				array.put(obj);
 			}
@@ -682,6 +680,38 @@ public class DBConnection {
 		}
 		return array;
 	}
+
+	public String getAddressByAddressId (String addressId) {
+		if (conn == null) {
+			System.out.println("DBConnection Error from getAddressByAddressId");
+			return null;
+		}
+
+		try {
+			String sql = "SELECT * FROM address WHERE address_id = ?";
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, addressId);
+			ResultSet rs = statement.executeQuery();
+			StringBuilder sb = new StringBuilder();
+
+			while (rs.next()) {
+				sb.append(rs.getString("street_num")).append(' ')
+				.append(rs.getString("street_name")).append(' ')
+				.append(rs.getString("city")).append(' ')
+				.append(rs.getString("state")).append(' ');
+			}
+
+			return sb.toString();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Error from getAddressByAddressId" + e.getMessage());
+		}
+	
+		return null;
+	}
+
+
 
 	private boolean createUser(User user) {
 		if (conn == null) {
