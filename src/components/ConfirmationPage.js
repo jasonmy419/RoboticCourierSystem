@@ -12,9 +12,12 @@ export class ConfirmationPage extends Component {
     };
 
     componentWillMount() {
-        console.log('mount');
+        console.log('mount',JSON.stringify({
+            order_id: this.props.orderID
+        }));
         fetch(`${API_ROOT}/tracking`, {
             method: 'POST',
+            mode: 'no-cors',
             body: JSON.stringify({
                 order_id: this.props.orderID
             })

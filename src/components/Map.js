@@ -90,7 +90,7 @@ class NormalAroundMap extends React.Component {
         } : null;
         const decodedPath = this.props.response.length > 0 ? new window.google.maps.geometry.encoding.decodePath(
              this.props.response[0].overview_polyline.points
-            ):null;
+            ):undefined;
         return (
             <GoogleMap
                 ref={this.getMapRef}
@@ -100,7 +100,7 @@ class NormalAroundMap extends React.Component {
             >
                 {
                     <Polyline
-                    path={decodedPath}
+                        path={decodedPath}
                     geodesic={true}
                     options={{
                         strokeColor: "#42b9f4",

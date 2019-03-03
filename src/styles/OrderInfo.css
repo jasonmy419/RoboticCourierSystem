@@ -25,12 +25,11 @@
 
 .newPrice {
     font-size: 20px;
-    color:  red;
+    color: #f75959;
 }
 
 .oldPrice {
     font-size: 17px;
-    color:  gray;
     text-decoration: line-through;
     padding-right: 10px;
 }
