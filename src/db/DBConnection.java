@@ -365,27 +365,31 @@ public class DBConnection {
 			return null;
 		}
 		try {
-			String sql = "SELECT order_id FROM orders WHERE user_id = ? AND COMPLETE = FALSE";
+			String sql = "SELECT order_id, end_time FROM orders WHERE user_id = ? AND COMPLETE = FALSE";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, UserId);
 			ResultSet rs = stmt.executeQuery();
 			String orderId = null;
+			Timestamp st = null;
 			JSONArray arr = new JSONArray();
 			JSONObject obj = new JSONObject();
 			while (rs.next()) {
 				orderId = rs.getString("order_id");
+				st = rs.getTimestamp("end_time");
 				obj.put("unfinished_order", orderId);
 				arr.put(obj);
-				System.out.println(obj);
+				System.out.println("end_time"+st.toString());
 			}
 
 			if (orderId != null) {
-				sql = "UPDATE orders SET complete = ? WHERE user_id = ? AND order_id = ?";
+				sql = "UPDATE orders SET complete = ?, end_time = ? WHERE user_id = ? AND order_id = ?";
 				stmt = conn.prepareStatement(sql);
 				stmt.setBoolean(1, true);
-				stmt.setString(2, UserId);
-				stmt.setString(3, orderId);
+				stmt.setTimestamp(2, st);
+				stmt.setString(3, UserId);
+				stmt.setString(4, orderId);
 				stmt.executeUpdate();
+				System.out.println(st.toString());
 			}
 
 			return orderId;
@@ -658,7 +662,7 @@ public class DBConnection {
 		if (conn == null) {
 			return null;
 		}
-		System.out.println("DDDDD " + userId);
+		
 		JSONArray array = new JSONArray();
 		try {
 			String sql = "SELECT * FROM orders WHERE user_id = ?";
@@ -666,13 +670,13 @@ public class DBConnection {
 			statement.setString(1, userId);
 			ResultSet rs = statement.executeQuery();
 
-			JSONObject obj = new JSONObject();
 			while (rs.next()) {
+				JSONObject obj = new JSONObject();
 				obj.put("order_id", rs.getString("order_id"));
 				obj.put("start_address", getAddressByAddressId(rs.getString("start_address_id")));
 				obj.put("end_address", getAddressByAddressId(rs.getString("end_address_id")));
 				obj.put("type", rs.getString("type"));
-				obj.put("end_time", rs.getTimestamp("end_time"));
+				obj.put("end_time", getStatus(rs.getString("order_id")));
 				array.put(obj);
 			}
 		} catch (SQLException | JSONException e) {
