@@ -2,7 +2,7 @@ import React from 'react';
 import {
     Form, Input, Select, Button, DatePicker, message
 } from 'antd';
-import { API_ROOT, ORDER_NUM } from '../constants';
+import {API_ROOT, ORDER_NUM, USER_ID, PARCEL_ICON} from '../constants';
 import { Link } from 'react-router-dom';
 import { List, Avatar, Icon } from 'antd';
 import {UserProfile} from "./UserProfile";
@@ -10,17 +10,44 @@ import {UserProfile} from "./UserProfile";
 const listData = [];
 for (let i = 0; i < 23; i++) {
     listData.push({
+        type: "R",
         href: 'http://ant.design',
         title: `Order Number: ${i+1}`,
-        avatar: 'https://cdn0.iconfinder.com/data/icons/octicons/1024/package-512.png',
         description: 'Your order was delivered on 2019, Feb 14th, 12:00pm',
         fromAddr: 'Union Square,  San Francisco, CA',
         toAddr: 'Palace Of Fine Arts,  San Francisco, CA',
-        content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
     });
 }
 
+
 export class Orders extends React.Component{
+
+    // state={
+    //     listData:[]
+    // }
+
+    // componentWillMount(){
+    //     //console.log(listData);
+    //
+    //     fetch(`${API_ROOT}/history?user_id=${localStorage.getItem(USER_ID)}`, {
+    //         method: 'GET',
+    //     }).then((response) => {
+    //         if(response){
+    //             return response.text();
+    //         }
+    //         throw new Error(response.statusText);
+    //     }).then((data) => {
+    //         console.log(data);
+    //         this.setState({listData: data})
+    //         return JSON.parse(data);
+    //     }).then((json) => {
+    //
+    //     }).catch((err) => {
+    //         console.log(err);
+    //         message.error('Error getting history');
+    //     });
+    // }
+
     render() {
         return(
             <div>
@@ -45,10 +72,12 @@ export class Orders extends React.Component{
                         <List.Item
                             key={item.title}
                             //actions={[<IconText type="star-o" text="156" />, <IconText type="like-o" text="156" />, <IconText type="message" text="2" />]}
-                            extra={<img width={170} alt="ship method" src="https://cdn1.iconfinder.com/data/icons/business-e-commerce-logistics-solid-set-1/91/Business_E-commerce__Logistics_15-512.png" />}
+                            extra={<img width={170} alt="ship method"
+                                        src={item.type === "D" ? "https://cdn1.iconfinder.com/data/icons/business-e-commerce-logistics-solid-set-1/91/Business_E-commerce__Logistics_15-512.png"
+                                        : "https://cdn1.iconfinder.com/data/icons/robots-solid-2/48/59-512.png"} />}
                         >
                             <List.Item.Meta
-                                avatar={<Avatar shape="square" src={item.avatar} />}
+                                avatar={<Avatar shape="square" src={PARCEL_ICON} />}
                                 title={<a href={item.href}>{item.title}</a>}
                                 description={item.description}
                             />

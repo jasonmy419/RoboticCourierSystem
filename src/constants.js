@@ -11,3 +11,4 @@ export const PRICE = /[0-9]+.[0-9]{2}/;
 export const MAP_API_KEY ="AIzaSyB43agit7BDYyF6z6CdRuupfdeUMshOmbg";
 //export const API_ROOT = 'https://around-75015.appspot.com/api/v1';
 export const USER_ID = 'USER_ID';
+export const PARCEL_ICON = "https://cdn0.iconfinder.com/data/icons/octicons/1024/package-512.png"
