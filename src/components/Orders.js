@@ -7,46 +7,46 @@ import { Link } from 'react-router-dom';
 import { List, Avatar, Icon } from 'antd';
 import {UserProfile} from "./UserProfile";
 
-const listData = [];
-for (let i = 0; i < 23; i++) {
-    listData.push({
-        type: "R",
-        href: 'http://ant.design',
-        title: `Order Number: ${i+1}`,
-        description: 'Your order was delivered on 2019, Feb 14th, 12:00pm',
-        fromAddr: 'Union Square,  San Francisco, CA',
-        toAddr: 'Palace Of Fine Arts,  San Francisco, CA',
-    });
-}
+// const listData = [];
+// for (let i = 0; i < 23; i++) {
+//     listData.push({
+//         type: "R",
+//         href: 'http://ant.design',
+//         title: `Order Number: ${i+1}`,
+//         description: 'Your order was delivered on 2019, Feb 14th, 12:00pm',
+//         fromAddr: 'Union Square,  San Francisco, CA',
+//         toAddr: 'Palace Of Fine Arts,  San Francisco, CA',
+//     });
+// }
 
 
 export class Orders extends React.Component{
 
-    // state={
-    //     listData:[]
-    // }
+    state={
+        listData:[]
+    }
 
-    // componentWillMount(){
-    //     //console.log(listData);
-    //
-    //     fetch(`${API_ROOT}/history?user_id=${localStorage.getItem(USER_ID)}`, {
-    //         method: 'GET',
-    //     }).then((response) => {
-    //         if(response){
-    //             return response.text();
-    //         }
-    //         throw new Error(response.statusText);
-    //     }).then((data) => {
-    //         console.log(data);
-    //         this.setState({listData: data})
-    //         return JSON.parse(data);
-    //     }).then((json) => {
-    //
-    //     }).catch((err) => {
-    //         console.log(err);
-    //         message.error('Error getting history');
-    //     });
-    // }
+    componentWillMount(){
+        //console.log(listData);
+
+        fetch(`${API_ROOT}/history?user_id=${localStorage.getItem(USER_ID)}`, {
+            method: 'GET',
+        }).then((response) => {
+            if(response){
+                return response.text();
+            }
+            throw new Error(response.statusText);
+        }).then((data) => {
+            console.log(data);
+            return JSON.parse(data);
+        }).then((json) => {
+            console.log(json);
+            this.setState({listData: json})
+        }).catch((err) => {
+            console.log(err);
+            message.error('Error getting history');
+        });
+    }
 
     render() {
         return(
@@ -66,7 +66,7 @@ export class Orders extends React.Component{
                         },
                         pageSize: 3,
                     }}
-                    dataSource={listData}
+                    dataSource={this.state.listData}
                     //footer={<div><b>ant design</b> footer part</div>}
                     renderItem={item => (
                         <List.Item
@@ -78,16 +78,17 @@ export class Orders extends React.Component{
                         >
                             <List.Item.Meta
                                 avatar={<Avatar shape="square" src={PARCEL_ICON} />}
-                                title={<a href={item.href}>{item.title}</a>}
-                                description={item.description}
+                                title={<a href={item.href}>{`Order Number: ${item.order_id}`}</a>}
+                                description={item.end_time === "IN TRANSIT" ? "We are delivering your order" :
+                                    `Your order was delivered on ${item.end_time}`}
                             />
                             <div className="addr-entry">
                                 <div className="addr-entry-left">From:</div>
-                                <div className="addr-entry-right">{item.fromAddr}</div>
+                                <div className="addr-entry-right">{item.start_address}</div>
                             </div>
                             <div className="addr-entry">
                                 <div className="addr-entry-left">To:</div>
-                                <div className="addr-entry-right">{item.toAddr}</div>
+                                <div className="addr-entry-right">{item.end_address}</div>
                             </div>
                         </List.Item>
                     )}
