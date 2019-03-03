@@ -461,7 +461,7 @@ public class DBConnection {
 				ps.setString(3, input.getString("first_name"));
 				ps.setString(4, cardNumber);
 				ps.setString(5, input.getString("address_line1"));
-				ps.setString(6, input.getString("address_line2"));
+				ps.setString(6, null);
 				ps.setString(7, input.getString("city"));
 				ps.setInt(8, input.getInt("zipcode"));
 				ps.setString(9, input.getString("state"));
