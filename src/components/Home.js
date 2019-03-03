@@ -34,7 +34,7 @@ export class Home extends React.Component{
                     />
                 </Col>
                 <Col span={10}>
-                    <OrderInfo handleResponse={this.handleResponse} history={this.props.history} handlerIsRouteChosen = {this.props.handlerIsRouteChosen}/>
+                    <OrderInfo handleResponse={this.handleResponse} history={this.props.history} handlerIsRouteChosen = {this.props.handlerIsRouteChosen} handlerCoupon = {this.props.handlerCoupon}/>
                 </Col>
             </div>
         )

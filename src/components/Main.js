@@ -15,7 +15,7 @@ export class Main extends React.Component {
     state={
         orderID: "",
         response: [],
-        coupon: true,
+        hasCoupon: false,
         isRouteChosen: false,
         isPaymentSucceed: false,
     }
@@ -34,6 +34,9 @@ export class Main extends React.Component {
     handlerResponse = (response) =>{
         this.setState({response: response});
     }
+    handlerCoupon = (hasCoupon) =>{
+        this.setState({hasCoupon: hasCoupon});
+    }
     getExactpath = () => {
         return this.props.isLoggedIn ? <Redirect to="/home"/> : <Redirect to="/login"/>;
     }
@@ -41,7 +44,7 @@ export class Main extends React.Component {
         return this.props.isLoggedIn ? <Redirect to="/home"/> : <Login handleSuccessfulLogin={this.props.handleSuccessfulLogin}/>;
     }
     getHome = (props) => {
-        return this.props.isLoggedIn ? <Home {...props} handlerResponse = {this.handlerResponse} handlerIsRouteChosen = {this.handlerIsRouteChosen} /> : <Redirect to="/login"/>;
+        return this.props.isLoggedIn ? <Home {...props} handlerResponse = {this.handlerResponse} handlerIsRouteChosen = {this.handlerIsRouteChosen} handlerCoupon = {this.handlerCoupon}/> : <Redirect to="/login"/>;
     }
     getOrders = () => {
         return this.props.isLoggedIn ? <Orders/> : <Redirect to="/login"/>;
@@ -62,7 +65,7 @@ export class Main extends React.Component {
     getConfirmation = (props) => {
         if(this.props.isLoggedIn){
             if(this.state.isPaymentSucceed){
-                return (<ConfirmationPage response = {this.state.response} orderID = {this.state.orderID} coupon = {this.state.coupon} handlerIsPaymentSucceed = {this.handlerIsPaymentSucceed} handlerIsRouteChosen = {this.handlerIsRouteChosen}
+                return (<ConfirmationPage response = {this.state.response} orderID = {this.state.orderID} coupon = {this.state.hasCoupon} handlerIsPaymentSucceed = {this.handlerIsPaymentSucceed} handlerIsRouteChosen = {this.handlerIsRouteChosen}
                                           handleCouponDraw = {this.handleCouponDraw}/>);
             }else{
                 return (<Redirect to="/home"/>);

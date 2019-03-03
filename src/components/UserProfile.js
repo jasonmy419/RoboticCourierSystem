@@ -9,7 +9,7 @@ export class UserProfile extends React.Component{
         userInfo: [
 
         ] }
-    componentDidMount() {
+    componentWillMount() {
         console.log(localStorage.getItem(USER_ID));
         fetch(`${API_ROOT}/profile?user_id=${ localStorage.getItem(USER_ID)}`, {
             method: 'GET',
@@ -37,6 +37,9 @@ export class UserProfile extends React.Component{
                 message.error('Getting User Information Failed.');
             });
     }
+
+
+
 
     render() {
         // const userInfo = {
