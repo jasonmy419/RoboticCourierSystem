@@ -28,6 +28,13 @@ export class ConfirmationPage extends Component {
             return JSON.parse(data);
         }).then((json) => {
             console.log(json["Delivery"]);
+            //TODO set step based on response
+
+            // if (json["Delivery"] === "IN TRANSIT") {
+            //     this.setState({step:1})
+            // } else {
+            //     this.setState({step:2})
+            // }
 
         }).catch((err) => {
             console.log(err);
@@ -35,10 +42,9 @@ export class ConfirmationPage extends Component {
         });
     }
 
-    description0 = "Your order have been placed, wait for the next available robot";
-    description1 = "We have sent our nearest robot to pick up the item";
-    description2 = "Your item has been picked up, delivering to destination";
-    description3 = "Your item has arrived the destination";
+    description0 = "Your order have been placed, our robot will soon pick up your item";
+    description1 = "We are delivering your order";
+    description2 = "Your item has arrived the destination";
     componentWillUnmount() {
         this.props.handlerIsRouteChosen(false);
         this.props.handlerIsPaymentSucceed(false);
@@ -60,9 +66,8 @@ export class ConfirmationPage extends Component {
 
                 <Steps current={this.state.step} className="steps">
                     <Step title="Order Received" description={this.description0} />
-                    <Step title="Picking up" description={this.description1} />
-                    <Step title="Delivering" description={this.description2} />
-                    <Step title="Arrived" description={this.description3} />
+                    <Step title="Delivering" description={this.description1} />
+                    <Step title="Arrived" description={this.description2} />
                 </Steps>
                 {this.props.coupon ? <Lottery handleCouponDraw = {this.props.handleCouponDraw}/> : null}
                 <Map
