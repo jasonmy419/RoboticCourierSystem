@@ -57,5 +57,4 @@ public class Profile extends HttpServlet {
 			conn.close();
 		}
 	}
-
 }

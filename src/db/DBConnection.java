@@ -665,7 +665,6 @@ public class DBConnection {
 			PreparedStatement statement = conn.prepareStatement(sql);
 			statement.setString(1, userId);
 			ResultSet rs = statement.executeQuery();
-
 			JSONObject obj = new JSONObject();
 			while (rs.next()) {
 				obj.put("order_id", rs.getString("order_id"));
