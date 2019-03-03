@@ -20,7 +20,7 @@ export class Main extends React.Component {
         isPaymentSucceed: false,
     }
     handleCouponDraw = () =>{
-        this.setState({coupon: false});
+        this.setState({hasCoupon: false});
     }
     handlerIsRouteChosen = (isRouteChosen) =>{
         this.setState({isRouteChosen: isRouteChosen});
